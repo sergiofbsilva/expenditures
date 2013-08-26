@@ -37,11 +37,12 @@ import module.workflow.domain.WorkflowProcess;
 
 import org.apache.commons.collections.Predicate;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.ist.bennu.core.domain.util.Address;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
+import pt.ist.bennu.core.security.Authenticate;
+import pt.ist.bennu.core.util.legacy.Address;
+import pt.ist.bennu.search.IndexableField;
 import pt.ist.expenditureTrackingSystem.domain.DashBoard;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.Options;
@@ -59,7 +60,6 @@ import pt.ist.expenditureTrackingSystem.domain.dto.CreatePersonBean;
 import pt.ist.expenditureTrackingSystem.domain.processes.GenericProcess;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.dml.runtime.RelationAdapter;
-import pt.ist.fenixframework.plugins.luceneIndexing.IndexableField;
 
 /**
  * 
@@ -102,7 +102,7 @@ public class Person extends Person_Base /* implements Indexable, Searchable */{
 
         @Override
         public void afterAdd(final User user, final MyOrg myOrg) {
-            if (user.getMyOrg() != null) {
+            if (user.getBennu() != null) {
                 final String username = user.getUsername();
                 Person person = Person.findByUsername(username);
                 if (person == null) {
@@ -115,7 +115,8 @@ public class Person extends Person_Base /* implements Indexable, Searchable */{
     }
 
     static {
-        User.getRelationMyOrgUser().addListener(new UserMyOrgListener());
+        //TODO: relation listener
+//        User.getRelationMyOrgUser().addListener(new UserMyOrgListener());
     }
 
     protected Person() {
@@ -273,7 +274,7 @@ public class Person extends Person_Base /* implements Indexable, Searchable */{
     }
 
     public static Person getLoggedPerson() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return getPerson(user);
     }
 

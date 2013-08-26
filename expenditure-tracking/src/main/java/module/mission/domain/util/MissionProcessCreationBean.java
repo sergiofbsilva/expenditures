@@ -36,8 +36,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.fenixframework.Atomic;
 
 /**
@@ -121,7 +121,7 @@ public class MissionProcessCreationBean implements Serializable {
     }
 
     public String getCurrentUserName() {
-        final User currentUser = UserView.getCurrentUser();
+        final User currentUser = Authenticate.getUser();
         return currentUser == null ? "" : currentUser.getPerson().getFirstAndLastName();
     }
 

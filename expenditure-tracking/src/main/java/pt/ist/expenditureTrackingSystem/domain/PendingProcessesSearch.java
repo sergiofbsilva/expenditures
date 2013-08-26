@@ -26,7 +26,7 @@ package pt.ist.expenditureTrackingSystem.domain;
 
 import java.util.ResourceBundle;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 
@@ -54,12 +54,12 @@ public class PendingProcessesSearch extends PendingProcessesSearch_Base {
 
     @Override
     public void setPerson(Person person) {
-        throw new DomainException("message.exceptiong.notAllowedToSetPerson");
+        throw new ExpenditureTrackingDomainException("message.exceptiong.notAllowedToSetPerson");
     }
 
     @Override
     public void setSearchName(String searchName) {
-        throw new DomainException("message.exceptiong.notAllowedToSetName");
+        throw new ExpenditureTrackingDomainException("message.exceptiong.notAllowedToSetName");
     }
 
     @Override

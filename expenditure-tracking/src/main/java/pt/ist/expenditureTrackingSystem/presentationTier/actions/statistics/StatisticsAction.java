@@ -56,6 +56,7 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.util.Money;
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionProcessStateType;
@@ -410,7 +411,7 @@ public class StatisticsAction extends ContextBaseAction {
         spreadsheet.setHeader("CPV");
         spreadsheet.setHeader("CPV desc.");
         spreadsheet.setHeader("Montante");
-        for (final CPVReference reference : getMyOrg().getCPVReferencesSet()) {
+        for (final CPVReference reference : MyOrg.getInstance().getCPVReferencesSet()) {
             final Money money = reference.getTotalAmountAllocated(year);
             if (!money.isZero()) {
                 final Row row = spreadsheet.addRow();

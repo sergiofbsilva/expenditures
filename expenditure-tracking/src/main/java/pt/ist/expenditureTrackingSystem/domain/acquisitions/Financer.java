@@ -31,9 +31,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.AccountingUnit;
 import pt.ist.expenditureTrackingSystem.domain.organization.CostCenter;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
@@ -58,10 +58,10 @@ public class Financer extends Financer_Base {
     public Financer(final RequestWithPayment acquisitionRequest, final CostCenter costCenter) {
         this();
         if (acquisitionRequest == null || costCenter == null) {
-            throw new DomainException("error.financer.wrong.initial.arguments");
+            throw new ExpenditureTrackingDomainException("error.financer.wrong.initial.arguments");
         }
         if (acquisitionRequest.hasPayingUnit(costCenter)) {
-            throw new DomainException("error.financer.acquisition.request.already.has.paying.unit");
+            throw new ExpenditureTrackingDomainException("error.financer.acquisition.request.already.has.paying.unit");
         }
 
         setFundedRequest(acquisitionRequest);
@@ -86,8 +86,8 @@ public class Financer extends Financer_Base {
 
     private boolean checkIfCanDelete() {
         if (hasAnyUnitItems()) {
-            throw new DomainException("acquisitionProcess.message.exception.cannotRemovePayingUnit.alreadyAssignedToItems",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "acquisitionProcess.message.exception.cannotRemovePayingUnit.alreadyAssignedToItems");
         }
         return true;
     }
@@ -187,7 +187,7 @@ public class Financer extends Financer_Base {
 
     public void addEffectiveFundAllocationId(String effectiveFundAllocationId) {
         if (StringUtils.isEmpty(effectiveFundAllocationId)) {
-            // throw new DomainException("acquisitionProcess.message.exception.effectiveFundAllocationCannotBeNull");
+            // throw new ExpenditureTrackingDomainException("acquisitionProcess.message.exception.effectiveFundAllocationCannotBeNull");
             return;
         }
         Strings strings = getEffectiveFundAllocationId();
@@ -206,7 +206,7 @@ public class Financer extends Financer_Base {
     public void addPaymentDiaryNumber(String paymentReference) {
         if (StringUtils.isEmpty(paymentReference)) {
             return;
-            // throw new DomainException("acquisitionProcess.message.exception.paymentReferenceCannotBeNull");
+            // throw new ExpenditureTrackingDomainException("acquisitionProcess.message.exception.paymentReferenceCannotBeNull");
         }
         Strings strings = getPaymentDiaryNumber();
         if (strings == null) {
@@ -221,7 +221,7 @@ public class Financer extends Financer_Base {
     public void addTransactionNumber(String transactionNumber) {
         if (StringUtils.isEmpty(transactionNumber)) {
             return;
-            // throw new DomainException("acquisitionProcess.message.exception.paymentReferenceCannotBeNull");
+            // throw new ExpenditureTrackingDomainException("acquisitionProcess.message.exception.paymentReferenceCannotBeNull");
         }
         Strings strings = getTransactionNumber();
         if (strings == null) {

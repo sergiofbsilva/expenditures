@@ -26,7 +26,7 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions;
 
 import module.workflow.domain.ProcessDocumentMetaDataResolver;
 import module.workflow.domain.ProcessFile;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.processes.GenericProcess;
 
 @ClassNameBundle(bundle = "resources/AcquisitionResources")

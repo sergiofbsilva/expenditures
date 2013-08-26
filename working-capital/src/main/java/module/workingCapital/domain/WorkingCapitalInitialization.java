@@ -32,14 +32,14 @@ import java.util.Set;
 
 import module.organization.domain.Accountability;
 import module.organization.domain.Person;
+import module.workingCapital.domain.exception.WorkingCapitalDomainException;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
 import pt.ist.expenditureTrackingSystem.domain.organization.AccountingUnit;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
@@ -70,9 +70,9 @@ public class WorkingCapitalInitialization extends WorkingCapitalInitialization_B
     public WorkingCapitalInitialization() {
         super();
         setWorkingCapitalSystem(WorkingCapitalSystem.getInstanceForCurrentHost());
-        final Person person = UserView.getCurrentUser().getPerson();
+        final Person person = Authenticate.getUser().getPerson();
         if (person == null) {
-            throw new DomainException("message.working.capital.requestor.cannot.be.null");
+            throw new WorkingCapitalDomainException("message.working.capital.requestor.cannot.be.null");
         }
         setRequestor(person);
         setRequestCreation(new DateTime());
@@ -82,19 +82,19 @@ public class WorkingCapitalInitialization extends WorkingCapitalInitialization_B
             final Money requestedAnualValue, final String fiscalId, final String internationalBankAccountNumber) {
         this();
         if (hasAnotherOpenWorkingCapital(unit)) {
-            throw new DomainException("message.open.working.capital.exists.for.unit");
+            throw new WorkingCapitalDomainException("message.open.working.capital.exists.for.unit");
         }
         if (isRequestorOfAnotherOpenWorkingCapitalFromPreviousYears()) {
-            throw new DomainException("message.requestor.of.open.working.capital.from.previous.years");
+            throw new WorkingCapitalDomainException("message.requestor.of.open.working.capital.from.previous.years");
         }
         if (isMovementResponsibleOfAnotherOpenWorkingCapitalFromPreviousYears(person)) {
-            throw new DomainException(BundleUtil.getFormattedStringFromResourceBundle("resources/WorkingCapitalResources",
+            throw new WorkingCapitalDomainException(BundleUtil.getString("resources/WorkingCapitalResources",
                     "message.movement.responsible.of.open.working.capital.from.previous.years", person.getName()));
         }
         pt.ist.expenditureTrackingSystem.domain.organization.Person responsible =
                 getDirectUnitResponsibleOfAnotherOpenWorkingCapitalFromPreviousYears(unit);
         if (responsible != null) {
-            throw new DomainException(BundleUtil.getFormattedStringFromResourceBundle("resources/WorkingCapitalResources",
+            throw new WorkingCapitalDomainException(BundleUtil.getString("resources/WorkingCapitalResources",
                     "message.unit.responsible.of.open.working.capital.from.previous.years", responsible.getName()));
         }
 
@@ -126,7 +126,7 @@ public class WorkingCapitalInitialization extends WorkingCapitalInitialization_B
     }
 
     private boolean isRequestorOfAnotherOpenWorkingCapitalFromPreviousYears() {
-        for (WorkingCapitalInitialization initialization : UserView.getCurrentUser().getPerson()
+        for (WorkingCapitalInitialization initialization : Authenticate.getUser().getPerson()
                 .getRequestedWorkingCapitalInitializationsSet()) {
             if (initialization == this) {
                 continue;
@@ -234,7 +234,7 @@ public class WorkingCapitalInitialization extends WorkingCapitalInitialization_B
         final Money valueForAuthorization = Money.ZERO;
         final Authorization authorization = workingCapital.findUnitResponsible(person, valueForAuthorization);
         if (authorization == null) {
-            throw new DomainException("person.cannot.approve.expense", person.getName());
+            throw new WorkingCapitalDomainException("person.cannot.approve.expense", person.getName());
         }
         setAprovalByUnitResponsible(new DateTime());
         setResponsibleForUnitApproval(authorization);
@@ -251,7 +251,7 @@ public class WorkingCapitalInitialization extends WorkingCapitalInitialization_B
         setMaxAuthorizedAnualValue(maxAuthorizedAnualValue);
 
         if (!isAccountingResponsible(user)) {
-            throw new DomainException("person.cannot.verify.expense", user.getPerson().getName());
+            throw new WorkingCapitalDomainException("person.cannot.verify.expense", user.getPerson().getName());
         }
         setVerificationByAccounting(new DateTime());
         setResponsibleForAccountingVerification(user.getPerson());
@@ -279,7 +279,7 @@ public class WorkingCapitalInitialization extends WorkingCapitalInitialization_B
         final WorkingCapitalSystem workingCapitalSystem = WorkingCapitalSystem.getInstanceForCurrentHost();
         final Accountability accountability = workingCapitalSystem.getManagementAccountability(user);
         if (accountability == null) {
-            throw new DomainException("person.cannot.authorize.expense", user.getPerson().getName());
+            throw new WorkingCapitalDomainException("person.cannot.authorize.expense", user.getPerson().getName());
         }
         setAuthorizationByUnitResponsible(new DateTime());
         setResponsibleForUnitAuthorization(accountability);

@@ -32,7 +32,8 @@ import module.workingCapital.domain.WorkingCapitalProcess;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.LegacyUtil;
 
 /**
  * 
@@ -44,12 +45,12 @@ public class ExceptionalCapitalRestitutionActivity extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "activity." + getClass().getSimpleName());
+        return BundleUtil.getString(getUsedBundle(), "activity." + getClass().getSimpleName());
     }
 
     @Override
     public boolean isActive(final WorkingCapitalProcess missionProcess, final User user) {
-        return user.hasRoleType(RoleType.MANAGER);
+        return LegacyUtil.hasRoleType(user, RoleType.MANAGER);
     }
 
     @Override

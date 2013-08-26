@@ -31,13 +31,13 @@ import java.util.List;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import module.workflow.domain.WorkflowProcess;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionItemClassification;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionProcessStateType;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionRequest;
 import pt.ist.expenditureTrackingSystem.domain.dto.CreateAcquisitionProcessBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
@@ -73,7 +73,7 @@ public class StandardProcedureProcess extends StandardProcedureProcess_Base {
     public static StandardProcedureProcess createNewAcquisitionProcess(
             final CreateAcquisitionProcessBean createAcquisitionProcessBean) {
         if (!isCreateNewProcessAvailable()) {
-            throw new DomainException("acquisitionProcess.message.exception.invalidStateToRun.create");
+            throw new ExpenditureTrackingDomainException("acquisitionProcess.message.exception.invalidStateToRun.create");
         }
         StandardProcedureProcess process =
                 new StandardProcedureProcess(createAcquisitionProcessBean.getSuppliers(),
@@ -137,7 +137,7 @@ public class StandardProcedureProcess extends StandardProcedureProcess_Base {
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/AcquisitionResources", "label.StandardProcedureProcess");
+        return BundleUtil.getString("resources/AcquisitionResources", "label.StandardProcedureProcess");
     }
 
     @Override

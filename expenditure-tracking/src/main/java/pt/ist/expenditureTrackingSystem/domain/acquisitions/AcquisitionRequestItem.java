@@ -30,9 +30,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import module.workflow.domain.ProcessFile;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.domain.util.Address;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.core.util.legacy.Address;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
 
@@ -108,15 +108,15 @@ public class AcquisitionRequestItem extends AcquisitionRequestItem_Base {
         }
 
         if (!checkAcquisitionRequestValueLimit(acquisitionRequest, totalValue)) {
-            throw new DomainException("acquisitionRequestItem.message.exception.totalValueExceed",
-                    DomainException.getResourceFor("resources/AcquisitionResources"), acquisitionRequest.getAcquisitionProcess()
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "acquisitionRequestItem.message.exception.totalValueExceed", acquisitionRequest.getAcquisitionProcess()
                             .getAcquisitionRequestValueLimit().toFormatString());
         }
 
         if (!acquisitionRequest.getAcquisitionProcess().getShouldSkipSupplierFundAllocation()
                 && !checkSupplierFundAllocation(acquisitionRequest, totalValue)) {
-            throw new DomainException("acquisitionRequestItem.message.exception.fundAllocationNotAllowed",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "acquisitionRequestItem.message.exception.fundAllocationNotAllowed");
         }
     }
 

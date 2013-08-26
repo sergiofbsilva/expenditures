@@ -32,7 +32,7 @@ import module.workingCapital.domain.WorkingCapitalProcess;
 import module.workingCapital.domain.WorkingCapitalRequest;
 import module.workingCapital.domain.WorkingCapitalSystem;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 
 /**
  * 
@@ -45,7 +45,7 @@ public class UnAuthorizeActivity extends WorkflowActivity<WorkingCapitalProcess,
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "activity."
+        return BundleUtil.getString("resources/WorkingCapitalResources", "activity."
                 + getClass().getSimpleName());
     }
 

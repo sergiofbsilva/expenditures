@@ -55,7 +55,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.SavedSearch;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionItemClassification;
@@ -493,7 +493,7 @@ public class SearchPaymentProcessesAction extends BaseAction {
 
     private static String getResourceMessage(String bundle, String key) {
         try {
-            return replaceAllXMLTags(BundleUtil.getFormattedStringFromResourceBundle(bundle, key), " ");
+            return replaceAllXMLTags(BundleUtil.getString(bundle, key), " ");
         } catch (MissingResourceException ex) {
             return key;
         }

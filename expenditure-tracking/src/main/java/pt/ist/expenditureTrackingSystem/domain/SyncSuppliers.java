@@ -27,6 +27,8 @@ package pt.ist.expenditureTrackingSystem.domain;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import pt.ist.bennu.scheduler.CronTask;
+import pt.ist.bennu.scheduler.annotation.Task;
 import pt.ist.fenixframework.Atomic;
 
 /**
@@ -35,14 +37,15 @@ import pt.ist.fenixframework.Atomic;
  * @author Luis Cruz
  * 
  */
-public class SyncSuppliers extends SyncSuppliers_Base {
+@Task(englishTitle = "Sync Suppliers")
+public class SyncSuppliers extends CronTask {
 
     public SyncSuppliers() {
         super();
     }
 
     @Override
-    public void executeTask() {
+    public void runTask() {
         try {
             syncData();
         } catch (final Exception e) {

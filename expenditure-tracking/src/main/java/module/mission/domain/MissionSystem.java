@@ -44,11 +44,11 @@ import module.organization.domain.OrganizationalModel;
 import module.organization.domain.Party;
 import module.organization.domain.Unit;
 import module.workflow.domain.WorkflowQueue;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.fenixframework.Atomic;
 
@@ -186,7 +186,7 @@ public class MissionSystem extends MissionSystem_Base {
     }
 
     public boolean isCurrentUserVehicleAuthorizer() {
-        return getVehicleAuthorizers().contains(UserView.getCurrentUser());
+        return getVehicleAuthorizers().contains(Authenticate.getUser());
     }
 
     public Collection<VehiclItem> getVehicleItemsPendingAuthorization() {
@@ -235,7 +235,7 @@ public class MissionSystem extends MissionSystem_Base {
     }
 
     public static String getMessage(final String key, String... args) {
-        return BundleUtil.getFormattedStringFromResourceBundle(getBundle(), key, args);
+        return BundleUtil.getString(getBundle(), key, args);
     }
 
     public boolean isManagementCouncilMember(final User user) {

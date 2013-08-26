@@ -25,7 +25,7 @@
 package pt.ist.expenditureTrackingSystem.domain.organization;
 
 import pt.ist.bennu.core.domain.MyOrg;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
 import pt.ist.fenixframework.Atomic;
 
 /**

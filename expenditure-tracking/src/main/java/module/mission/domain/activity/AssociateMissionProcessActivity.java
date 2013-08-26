@@ -4,14 +4,14 @@ import module.mission.domain.MissionProcess;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.domain.ActivityLog;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.fenixframework.Atomic;
 
 public class AssociateMissionProcessActivity extends MissionProcessActivity<MissionProcess, AssociateMissionProcessActivityInfo> {
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "activity." + getClass().getSimpleName());
+        return BundleUtil.getString(getUsedBundle(), "activity." + getClass().getSimpleName());
     }
 
     @Override

@@ -39,10 +39,9 @@ import module.workflow.domain.WorkflowProcess;
 import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionItemClassification;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.CPVReference;
@@ -50,6 +49,7 @@ import pt.ist.expenditureTrackingSystem.domain.acquisitions.Invoice;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact.activities.DeleteAfterTheFactAcquisitionProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact.activities.EditAfterTheFactAcquisition;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact.activities.EditAfterTheFactProcessActivityInformation.AfterTheFactAcquisitionProcessBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
 import pt.ist.fenixframework.Atomic;
@@ -183,7 +183,7 @@ public class AfterTheFactAcquisitionProcess extends AfterTheFactAcquisitionProce
     public AfterTheFactInvoice getInvoice() {
         List<AfterTheFactInvoice> files = getFiles(AfterTheFactInvoice.class);
         if (files.size() > 1) {
-            throw new DomainException("error.should.only.have.one.invoice");
+            throw new ExpenditureTrackingDomainException("error.should.only.have.one.invoice");
         }
         return files.isEmpty() ? null : files.get(0);
     }
@@ -231,7 +231,7 @@ public class AfterTheFactAcquisitionProcess extends AfterTheFactAcquisitionProce
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/AcquisitionResources", "label.AfterTheFactAcquisitionProcess");
+        return BundleUtil.getString("resources/AcquisitionResources", "label.AfterTheFactAcquisitionProcess");
     }
 
     @Override

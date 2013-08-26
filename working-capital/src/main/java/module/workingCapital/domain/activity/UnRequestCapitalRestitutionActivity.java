@@ -30,7 +30,7 @@ import module.workingCapital.domain.WorkingCapital;
 import module.workingCapital.domain.WorkingCapitalInitialization;
 import module.workingCapital.domain.WorkingCapitalProcess;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class UnRequestCapitalRestitutionActivity extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "activity."
+        return BundleUtil.getString("resources/WorkingCapitalResources", "activity."
                 + getClass().getSimpleName());
     }
 

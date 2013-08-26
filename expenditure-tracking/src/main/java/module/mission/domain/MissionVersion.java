@@ -32,8 +32,8 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.VirtualHost;
+import pt.ist.bennu.core.security.Authenticate;
 
 /**
  * 
@@ -106,7 +106,7 @@ public class MissionVersion extends MissionVersion_Base {
     public void setChangesAfterArrival(final Boolean changesAfterArrival) {
         super.setChangesAfterArrival(changesAfterArrival);
         if (changesAfterArrival != null) {
-            setTerminator(UserView.getCurrentUser().getPerson());
+            setTerminator(Authenticate.getUser().getPerson());
             setSentForTermination(new DateTime());
         }
     }

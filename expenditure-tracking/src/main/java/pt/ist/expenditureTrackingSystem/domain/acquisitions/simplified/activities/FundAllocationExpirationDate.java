@@ -31,7 +31,7 @@ import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.expenditureTrackingSystem._development.ExternalIntegration;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RegularAcquisitionProcess;
@@ -48,8 +48,7 @@ public class FundAllocationExpirationDate extends
     public static class FundAllocationNotAllowedException extends DomainException {
 
         public FundAllocationNotAllowedException() {
-            super("acquisitionRequestItem.message.exception.fundAllocationNotAllowed", DomainException
-                    .getResourceFor("resources/AcquisitionResources"));
+            super("resources/AcquisitionResources", "acquisitionRequestItem.message.exception.fundAllocationNotAllowed");
         }
     }
 
@@ -91,7 +90,7 @@ public class FundAllocationExpirationDate extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "label." + getClass().getName());
+        return BundleUtil.getString(getUsedBundle(), "label." + getClass().getName());
     }
 
     @Override

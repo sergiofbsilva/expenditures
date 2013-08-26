@@ -34,20 +34,20 @@ import module.mission.domain.MissionSystem;
 import org.apache.commons.collections.ComparatorUtils;
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.domain.scheduler.ReadCustomTask;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.scheduler.custom.CustomTask;
 
 /**
  * 
  * @author João Neves
  * 
  */
-public class ListMissionsJune2011 extends ReadCustomTask {
+public class ListMissionsJune2011 extends CustomTask {
 
     @Override
-    public void doIt() {
+    public void runTask() {
         final DateTime limitDate = new DateTime(2011, 7, 1, 0, 0, 0, 0);
-        out.print("N Processo \t Data de Criacao \t"
+        taskLog("N Processo \t Data de Criacao \t"
                 + "Aprovacao do Processo \t Cabimentacao \t Autorizacao das Deslocacoes \t Autorizacao da Despesa \t Processamento pela DRH \t Arquivado \t"
                 + "Designacao \t Equiparacao Bolseiro? \t Projecto/Unidade Pagadora \t Valor \t Duracao (dias) \n");
 
@@ -60,58 +60,56 @@ public class ListMissionsJune2011 extends ReadCustomTask {
                 continue;
             }
 
-            out.print(process.getProcessNumber() + "\t");
-            out.print(process.getCreationDate().getYear() + "/" + process.getCreationDate().getMonthOfYear() + "/"
+            taskLog(process.getProcessNumber() + "\t");
+            taskLog(process.getCreationDate().getYear() + "/" + process.getCreationDate().getMonthOfYear() + "/"
                     + process.getCreationDate().getDayOfMonth() + "\t");
 
-            out.print(MissionState.APPROVAL.getStateProgress(process).getLocalizedName());
-            out.print("\t");
+            taskLog(MissionState.APPROVAL.getStateProgress(process).getLocalizedName());
+            taskLog("\t");
 
             if (MissionState.FUND_ALLOCATION.isRequired(process)) {
-                out.print(MissionState.FUND_ALLOCATION.getStateProgress(process).getLocalizedName());
+                taskLog(MissionState.FUND_ALLOCATION.getStateProgress(process).getLocalizedName());
             } else {
-                out.print("N/A");
+                taskLog("N/A");
             }
-            out.print("\t");
+            taskLog("\t");
 
-            out.print(MissionState.PARTICIPATION_AUTHORIZATION.getStateProgress(process).getLocalizedName());
-            out.print("\t");
+            taskLog(MissionState.PARTICIPATION_AUTHORIZATION.getStateProgress(process).getLocalizedName());
+            taskLog("\t");
 
             if (MissionState.EXPENSE_AUTHORIZATION.isRequired(process)) {
-                out.print(MissionState.EXPENSE_AUTHORIZATION.getStateProgress(process).getLocalizedName());
+                taskLog(MissionState.EXPENSE_AUTHORIZATION.getStateProgress(process).getLocalizedName());
             } else {
-                out.print("N/A");
+                taskLog("N/A");
             }
-            out.print("\t");
+            taskLog("\t");
 
-            out.print(MissionState.PERSONAL_INFORMATION_PROCESSING.getStateProgress(process).getLocalizedName());
-            out.print("\t");
+            taskLog(MissionState.PERSONAL_INFORMATION_PROCESSING.getStateProgress(process).getLocalizedName());
+            taskLog("\t");
 
-            out.print(MissionState.ARCHIVED.getStateProgress(process).getLocalizedName());
-            out.print("\t");
+            taskLog(MissionState.ARCHIVED.getStateProgress(process).getLocalizedName());
+            taskLog("\t");
 
-            out.print(BundleUtil.getStringFromResourceBundle("resources/MissionResources", "label."
-                    + mission.getClass().getName())
-                    + "\t");
-            out.print((mission.getGrantOwnerEquivalence() ? "Sim" : "Nao") + "\t");
+            taskLog(BundleUtil.getString("resources/MissionResources", "label." + mission.getClass().getName()) + "\t");
+            taskLog((mission.getGrantOwnerEquivalence() ? "Sim" : "Nao") + "\t");
 
             if (!mission.hasAnyFinancer()) {
-                out.print("N/A");
+                taskLog("N/A");
             } else {
                 boolean first = true;
                 for (MissionFinancer financer : mission.getFinancerSet()) {
                     if (first) {
                         first = false;
                     } else {
-                        out.print(" & ");
+                        taskLog(" & ");
                     }
-                    out.print(financer.getUnit().getPresentationName());
+                    taskLog(financer.getUnit().getPresentationName());
                 }
             }
-            out.print("\t");
+            taskLog("\t");
 
-            out.print(mission.getValue().getValue() + " Eur\t");
-            out.print(mission.getDurationInDays() + "\n");
+            taskLog(mission.getValue().getValue() + " Eur\t");
+            taskLog(mission.getDurationInDays() + "\n");
         }
     }
 }

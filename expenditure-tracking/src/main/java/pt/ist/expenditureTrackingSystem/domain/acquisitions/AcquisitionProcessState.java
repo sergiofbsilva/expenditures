@@ -24,8 +24,8 @@
  */
 package pt.ist.expenditureTrackingSystem.domain.acquisitions;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 
 /**
@@ -52,7 +52,7 @@ public class AcquisitionProcessState extends AcquisitionProcessState_Base {
     public AcquisitionProcessState(final AcquisitionProcess process, AcquisitionProcessStateType type) {
         this(process);
         if (type == null) {
-            throw new DomainException("error.wrong.ProcessState.arguments");
+            throw new ExpenditureTrackingDomainException("error.wrong.ProcessState.arguments");
         }
         setAcquisitionProcessStateType(type);
     }

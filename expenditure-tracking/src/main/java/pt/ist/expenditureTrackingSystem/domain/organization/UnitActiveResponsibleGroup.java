@@ -28,8 +28,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
 import pt.ist.fenixframework.Atomic;
@@ -52,7 +52,7 @@ public class UnitActiveResponsibleGroup extends UnitActiveResponsibleGroup_Base 
 
     @Override
     public String getName() {
-        return BundleUtil.getStringFromResourceBundle("resources/ExpenditureOrganizationResources", getNameLable());
+        return BundleUtil.getString("resources/ExpenditureOrganizationResources", getNameLable());
     }
 
     protected boolean isExpectedUnitType(final Unit unit) {

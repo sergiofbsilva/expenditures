@@ -90,19 +90,15 @@
 	
 			if(data['status'] == 'SOK') {
 	
-				<%
-					String message = BundleUtil.getStringFromResourceBundle("resources.AcquisitionResources","label.supplier.allocationInfo.notFormatted");
-				%>
+				<%String message = LegacyBundleUtil.getStringFromResourceBundle("resources.AcquisitionResources","label.supplier.allocationInfo.notFormatted");%>
 				
-				var text = "<%= message %>";
+				var text = "<%=message%>";
 				text = formatString(text,[data['softLimit'], data['supplierLimit']]);
 			
 				$("#createForm").before("<div id=\"limitInformation\"><p class=\"mbottom05\"><span>" + text + "</span><br/>");
 			} else {
 	
-				<%
-					String message2 = BundleUtil.getStringFromResourceBundle("resources.AcquisitionResources","label.attention.supplier.supplierOverLimit.notFormatted");
-				%>
+				<%String message2 = LegacyBundleUtil.getStringFromResourceBundle("resources.AcquisitionResources","label.attention.supplier.supplierOverLimit.notFormatted");%>
 			
 				var text = "<%= message2 %>";
 				text = formatString(text,[data['softLimit'],data['supplierLimit']]);

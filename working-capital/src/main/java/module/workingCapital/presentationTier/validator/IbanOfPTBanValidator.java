@@ -1,3 +1,5 @@
+package module.workingCapital.presentationTier.validator;
+
 /*
  * @(#)IbanOfPTBanValidator.java
  *
@@ -22,7 +24,6 @@
  *   along with the Working Capital Module. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package module.workingCapital.presentationTier.validator;
 
 import pt.ist.fenixWebFramework.renderers.validators.HtmlChainValidator;
 

@@ -24,10 +24,10 @@
  */
 package pt.ist.expenditureTrackingSystem.domain.announcement;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.announcements.AnnouncementProcess;
 import pt.ist.expenditureTrackingSystem.domain.announcements.AnnouncementProcessStateType;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 
 /**
@@ -65,7 +65,7 @@ public class AnnouncementProcessState extends AnnouncementProcessState_Base {
     private void checkArguments(AnnouncementProcess announcementProcess,
             AnnouncementProcessStateType announcementProcessStateType, Person person) {
         if (announcementProcessStateType == null) {
-            throw new DomainException("error.wrong.AnnouncementProcessState.arguments");
+            throw new ExpenditureTrackingDomainException("error.wrong.AnnouncementProcessState.arguments");
         }
         super.checkArguments(announcementProcess, person);
     }

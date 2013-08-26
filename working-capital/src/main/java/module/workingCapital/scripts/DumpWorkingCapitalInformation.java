@@ -1,5 +1,8 @@
 package module.workingCapital.scripts;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import module.workingCapital.domain.WorkingCapital;
 import module.workingCapital.domain.WorkingCapitalInitialization;
 import module.workingCapital.domain.WorkingCapitalProcess;
@@ -7,14 +10,14 @@ import module.workingCapital.domain.WorkingCapitalSystem;
 import module.workingCapital.domain.WorkingCapitalYear;
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.scheduler.WriteCustomTask;
+import pt.ist.bennu.scheduler.custom.CustomTask;
 import pt.utl.ist.fenix.tools.util.excel.Spreadsheet;
 import pt.utl.ist.fenix.tools.util.excel.Spreadsheet.Row;
 
-public class DumpWorkingCapitalInformation extends WriteCustomTask {
+public class DumpWorkingCapitalInformation extends CustomTask {
 
     @Override
-    protected void doService() {
+    public void runTask() {
         final Spreadsheet spreadsheet = new Spreadsheet("FundosManeio");
         spreadsheet.setHeader("Ano");
         spreadsheet.setHeader("Unidade");
@@ -47,7 +50,17 @@ public class DumpWorkingCapitalInformation extends WriteCustomTask {
             }
         }
 
-        storeFileOutput("FundosManeio", "FundosManeio.xls", spreadsheet);
+        outputXlsFile("FundosManeio.xls", spreadsheet);
+    }
+
+    private void outputXlsFile(String name, Spreadsheet sheet) {
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            sheet.exportToXLSSheet(outputStream);
+        } catch (IOException e) {
+            taskLog("Something when wrong when exporting sheet:%s\n", e.getMessage());
+        }
+        output(name, outputStream.toByteArray());
     }
 
 }

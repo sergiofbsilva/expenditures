@@ -24,8 +24,8 @@
  */
 package pt.ist.expenditureTrackingSystem.domain;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.search.SearchPaymentProcess;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.fenixframework.Atomic;
 
@@ -45,7 +45,7 @@ public class SavedSearch extends SavedSearch_Base {
     public SavedSearch(String name, Person person, SearchPaymentProcess searchBean) {
         this();
         if (person == null) {
-            throw new DomainException("message.exception.aPersonIsNeededToSaveTheSearch");
+            throw new ExpenditureTrackingDomainException("message.exception.aPersonIsNeededToSaveTheSearch");
         }
         setSearchName(name);
         setPerson(person);

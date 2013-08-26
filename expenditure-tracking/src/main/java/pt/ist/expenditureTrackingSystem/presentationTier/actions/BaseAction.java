@@ -32,9 +32,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForward;
 
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
+import pt.ist.bennu.io.domain.GenericFile;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.presentationTier.util.FileUploadBean;
-import pt.ist.fenixframework.plugins.fileSupport.domain.GenericFile;
 
 /**
  * 

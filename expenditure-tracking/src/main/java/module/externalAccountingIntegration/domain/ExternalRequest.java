@@ -28,9 +28,6 @@ import java.sql.SQLException;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.domain.MyOrg;
-import pt.ist.bennu.core.domain.scheduler.Task;
-import pt.ist.bennu.core.domain.scheduler.TaskConfiguration;
 import pt.ist.bennu.core.domain.util.Money;
 import pt.ist.dbUtils.ExternalDbQuery;
 
@@ -159,13 +156,18 @@ public abstract class ExternalRequest extends ExternalRequest_Base implements Ex
     }
 
     private void preemptTaskSync() {
-        final Package p = getClass().getPackage();
-        for (final TaskConfiguration configuration : MyOrg.getInstance().getTaskConfigurationsSet()) {
-            final Task task = configuration.getTask();
-            if (task.getClass().getPackage() == p) {
-                task.invokeNow();
-            }
-        }
+        /**
+         * TODO: I think this will search for a current task schedule and if the package name of that schedule
+         * matches this, invoke that task immediately.
+         */
+
+//        final Package p = getClass().getPackage();
+//        for (final TaskConfiguration configuration : MyOrg.getInstance().getTaskConfigurationsSet()) {
+//            final Task task = configuration.getTask();
+//            if (task.getClass().getPackage() == p) {
+//                task.invokeNow();
+//            }
+//        }
     }
 
     public void handle(final SQLException e) {

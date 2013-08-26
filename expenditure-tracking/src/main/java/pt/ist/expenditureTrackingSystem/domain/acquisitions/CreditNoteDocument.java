@@ -26,15 +26,13 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import module.workflow.domain.AbstractWFDocsGroup;
 import module.workflow.domain.ProcessDocumentMetaDataResolver;
 import module.workflow.domain.ProcessFile;
 import module.workflow.domain.ProcessFileValidationException;
 import module.workflow.domain.WFDocsDefaultWriteGroup;
 import module.workflow.domain.WorkflowProcess;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionProcess.AcquisitionProcessBasedMetadataResolver;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.SimplifiedProcedureProcess;
@@ -79,8 +77,7 @@ public class CreditNoteDocument extends CreditNoteDocument_Base {
         }
 
         @Override
-        public @Nonnull
-        Class<? extends AbstractWFDocsGroup> getWriteGroupClass() {
+        public Class<? extends AbstractWFDocsGroup> getWriteGroupClass() {
             // TODO confirm that the default is what we want
             return WFDocsDefaultWriteGroup.class;
         }

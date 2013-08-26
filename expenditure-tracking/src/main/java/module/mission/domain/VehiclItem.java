@@ -26,7 +26,7 @@ package module.mission.domain;
 
 import jvstm.cps.ConsistencyPredicate;
 import module.mission.domain.activity.ItemActivityInformation;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.fenixframework.Atomic;
 
 /**
@@ -79,7 +79,7 @@ public abstract class VehiclItem extends VehiclItem_Base {
             setDriver(mission.getParticipantes().iterator().next());
         } else {
             if (itemActivityInformation.getDriver() == null) {
-                throw new DomainException("A vehicle item must have a driver");
+                throw new ExpenditureTrackingDomainException("A vehicle item must have a driver");
             }
 
             super.setInfo(itemActivityInformation);

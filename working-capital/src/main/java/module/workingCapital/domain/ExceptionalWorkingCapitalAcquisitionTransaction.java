@@ -1,13 +1,12 @@
 package module.workingCapital.domain;
 
 import module.organization.domain.Accountability;
+import module.workingCapital.domain.exception.WorkingCapitalDomainException;
 
 import org.joda.time.DateTime;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
 
 public class ExceptionalWorkingCapitalAcquisitionTransaction extends ExceptionalWorkingCapitalAcquisitionTransaction_Base {
 
@@ -48,7 +47,8 @@ public class ExceptionalWorkingCapitalAcquisitionTransaction extends Exceptional
         final WorkingCapitalSystem workingCapitalSystem = WorkingCapitalSystem.getInstanceForCurrentHost();
         final Accountability accountability = workingCapitalSystem.getManagementAccountability(user);
         if (accountability == null) {
-            throw new DomainException("error.person.cannot.authorize.expense", user.getPerson().getName());
+            throw new WorkingCapitalDomainException((String) null, "error.person.cannot.authorize.expense", user.getPerson()
+                    .getName());
         }
         setApprovalByManagement(new DateTime());
         setManagementApprover(accountability);
@@ -58,7 +58,8 @@ public class ExceptionalWorkingCapitalAcquisitionTransaction extends Exceptional
         final WorkingCapitalSystem workingCapitalSystem = WorkingCapitalSystem.getInstanceForCurrentHost();
         final Accountability accountability = workingCapitalSystem.getManagementAccountability(user);
         if (accountability == null) {
-            throw new DomainException("error.person.cannot.authorize.expense", user.getPerson().getName());
+            throw new WorkingCapitalDomainException((String) null, "error.person.cannot.authorize.expense", user.getPerson()
+                    .getName());
         }
         final WorkingCapitalAcquisition workingCapitalAcquisition = getWorkingCapitalAcquisition();
         reject(user);
@@ -69,7 +70,7 @@ public class ExceptionalWorkingCapitalAcquisitionTransaction extends Exceptional
     @Override
     public void approve(final User user) {
         if (!isManagementApproved()) {
-            throw new DomainException("error.missing.management.aproval", user.getPerson().getName());
+            throw new WorkingCapitalDomainException((String) null, "error.missing.management.aproval", user.getPerson().getName());
         }
         super.approve(user);
 
@@ -109,8 +110,8 @@ public class ExceptionalWorkingCapitalAcquisitionTransaction extends Exceptional
     public void resetValue(final Money value) {
         Money limit = getWorkingCapitalSystem().getAcquisitionValueLimit();
         if ((limit != null) && (value.compareTo(limit) < 1)) {
-            throw new DomainException(BundleUtil.getStringFromResourceBundle(WORKING_CAPITAL_RESOURCES,
-                    "error.acquisition.exceptional.lower.limit.exceeded"));
+            throw new WorkingCapitalDomainException(WORKING_CAPITAL_RESOURCES,
+                    "error.acquisition.exceptional.lower.limit.exceeded");
         }
         super.resetUncheckedValue(value);
     }

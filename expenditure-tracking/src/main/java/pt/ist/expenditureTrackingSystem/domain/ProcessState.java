@@ -28,7 +28,7 @@ import java.util.Comparator;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.processes.GenericProcess;
 
@@ -55,7 +55,7 @@ public abstract class ProcessState extends ProcessState_Base {
 
     protected void checkArguments(GenericProcess process, Person person) {
         if (process == null || person == null) {
-            throw new DomainException("error.wrong.ProcessState.arguments");
+            throw new ExpenditureTrackingDomainException("error.wrong.ProcessState.arguments");
         }
     }
 

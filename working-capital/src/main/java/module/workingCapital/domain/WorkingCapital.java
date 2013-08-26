@@ -31,11 +31,11 @@ import java.util.TreeSet;
 
 import module.organization.domain.Person;
 import module.workflow.util.PresentableProcessState;
+import module.workingCapital.domain.exception.WorkingCapitalDomainException;
 
 import org.joda.time.DateTime;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
 import pt.ist.expenditureTrackingSystem.domain.organization.AccountingUnit;
@@ -79,12 +79,12 @@ public class WorkingCapital extends WorkingCapital_Base {
     public WorkingCapital(final WorkingCapitalYear workingCapitalYear, final Unit unit, final Person movementResponsible) {
         this();
         if (find(workingCapitalYear, unit) != null) {
-            throw new DomainException("message.working.capital.exists.for.year.and.unit");
+            throw new WorkingCapitalDomainException("message.working.capital.exists.for.year.and.unit");
         }
         setWorkingCapitalYear(workingCapitalYear);
         setUnit(unit);
         if (movementResponsible == null) {
-            throw new DomainException("message.working.capital.movementResponsible.cannot.be.null");
+            throw new WorkingCapitalDomainException("message.working.capital.movementResponsible.cannot.be.null");
         }
         setMovementResponsible(movementResponsible);
         new WorkingCapitalProcess(this);

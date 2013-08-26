@@ -25,6 +25,8 @@
 package pt.ist.expenditureTrackingSystem.domain;
 
 import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.scheduler.CronTask;
+import pt.ist.bennu.scheduler.annotation.Task;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.fenixframework.Atomic;
 
@@ -33,7 +35,8 @@ import pt.ist.fenixframework.Atomic;
  * @author Luis Cruz
  * 
  */
-public class SetRoleTypes extends SetRoleTypes_Base {
+@Task(englishTitle = "Set Role Types")
+public class SetRoleTypes extends CronTask {
 
     public SetRoleTypes() {
         super();
@@ -41,7 +44,7 @@ public class SetRoleTypes extends SetRoleTypes_Base {
 
     @Atomic
     @Override
-    public void executeTask() {
+    public void runTask() {
         for (final RoleType roleType : RoleType.values()) {
             final Role role = Role.getRole(roleType);
             if (role.hasSystemRole()) {

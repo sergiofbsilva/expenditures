@@ -35,13 +35,13 @@ import module.workflow.domain.WorkflowProcess;
 
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionItemClassification;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.CPVReference;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcessInvoice;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RequestWithPayment;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.UnitItem;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
@@ -71,7 +71,7 @@ public class RefundItem extends RefundItem_Base {
             AcquisitionItemClassification classification, String description) {
         super();
         if (description == null || reference == null || valueEstimation == null || valueEstimation.equals(Money.ZERO)) {
-            throw new DomainException("refundProcess.message.exception.refundItem.invalidArguments");
+            throw new ExpenditureTrackingDomainException("refundProcess.message.exception.refundItem.invalidArguments");
         }
         setClassification(classification);
         setDescription(description);

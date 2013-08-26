@@ -26,8 +26,6 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import module.fileManagement.domain.FileNode;
 import module.fileManagement.tools.StringUtils;
 import module.workflow.domain.AbstractWFDocsGroup;
@@ -38,8 +36,8 @@ import module.workflow.domain.WFDocsDefaultWriteGroup;
 import module.workflow.domain.WorkflowProcess;
 import module.workflow.util.FileUploadBeanResolver;
 import module.workflow.util.WorkflowFileUploadBean;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.security.Authenticate;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionProcess.AcquisitionProcessBasedMetadataResolver;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.SimplifiedProcedureProcess;
@@ -96,7 +94,7 @@ public class AcquisitionProposalDocument extends AcquisitionProposalDocument_Bas
                     "error.acquisitionProposalDocument.allowedOnlyOneProposal");
         }
         if (process.getProcessClassification() != ProcessClassification.CT75000
-                && (!process.isInGenesis() || process.getProcessCreator() != UserView.getCurrentUser())) {
+                && (!process.isInGenesis() || process.getProcessCreator() != Authenticate.getUser())) {
             throw new ProcessFileValidationException("resources/AcquisitionResources",
                     "error.acquisitionProposalDocument.upload.invalid");
         }
@@ -133,8 +131,7 @@ public class AcquisitionProposalDocument extends AcquisitionProposalDocument_Bas
         }
 
         @Override
-        public @Nonnull
-        Class<? extends AbstractWFDocsGroup> getWriteGroupClass() {
+        public Class<? extends AbstractWFDocsGroup> getWriteGroupClass() {
             return WFDocsDefaultWriteGroup.class;
         }
 
@@ -150,7 +147,7 @@ public class AcquisitionProposalDocument extends AcquisitionProposalDocument_Bas
     public boolean isPossibleToArchieve() {
         SimplifiedProcedureProcess process = (SimplifiedProcedureProcess) getProcess();
         return process.getProcessClassification() != ProcessClassification.CT75000 ? process.isInGenesis()
-                && process.getProcessCreator() == UserView.getCurrentUser() : (process.isAuthorized() || process
+                && process.getProcessCreator() == Authenticate.getUser() : (process.isAuthorized() || process
                 .isAcquisitionProcessed()) && ExpenditureTrackingSystem.isAcquisitionCentralGroupMember();
     }
 

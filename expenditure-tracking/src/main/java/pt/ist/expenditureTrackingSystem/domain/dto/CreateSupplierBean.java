@@ -28,7 +28,7 @@ import java.io.Serializable;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.domain.util.Address;
+import pt.ist.bennu.core.util.legacy.Address;
 
 /**
  * 

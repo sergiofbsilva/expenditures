@@ -1,76 +1,83 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>pt.ist</groupId>
-        <artifactId>bennu-project</artifactId>
-        <version>1.1.0</version>
-        <relativePath />
-    </parent>
+	<parent>
+		<groupId>pt.ist</groupId>
+		<artifactId>fenix-framework-project</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+		<relativePath></relativePath>
+	</parent>
 
-    <groupId>pt.ist</groupId>
-    <artifactId>working-capital</artifactId>
-    <version>1.7.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>working-capital</name>
+	<artifactId>working-capital</artifactId>
+	<version>1.7.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>working-capital</name>
 
-    <properties>
-        <version.pt.ist.bennu.core>1.1.0</version.pt.ist.bennu.core>
-        <version.pt.ist.workflow>1.2.0</version.pt.ist.workflow>
-        <version.pt.ist.scheduler>1.1.0</version.pt.ist.scheduler>
-        <version.pt.ist.messaging>1.1.0</version.pt.ist.messaging>
-    </properties>
+	<properties>
+		<version.pt.ist.bennu.bennu.core>2.0.0-SNAPSHOT</version.pt.ist.bennu.bennu.core>
+		<version.pt.ist.bennu.bennu.scheduler>2.0.0-SNAPSHOT</version.pt.ist.bennu.bennu.scheduler>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.alexnederlof</groupId>
-                <artifactId>jasperreports-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+		<version.pt.ist.workflow>1.3.1-SNAPSHOT</version.pt.ist.workflow>
+		<version.pt.ist.messaging>1.2.1-SNAPSHOT</version.pt.ist.messaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>pt.ist</groupId>
-            <artifactId>bennu-core</artifactId>
-            <version>${version.pt.ist.bennu.core}</version>
-        </dependency>
-        <dependency>
-            <groupId>pt.ist</groupId>
-            <artifactId>workflow</artifactId>
-            <version>${version.pt.ist.workflow}</version>
-        </dependency>
-        <dependency>
-            <groupId>pt.ist</groupId>
-            <artifactId>finance</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pt.ist</groupId>
-            <artifactId>expenditure-tracking</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>pt.ist</groupId>
-            <artifactId>scheduler</artifactId>
-            <version>${version.pt.ist.scheduler}</version>
-        </dependency>
-        <dependency>
-            <groupId>pt.ist</groupId>
-            <artifactId>messaging</artifactId>
-            <version>${version.pt.ist.messaging}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google</groupId>
-            <artifactId>soastation</artifactId>
-        </dependency>
-    </dependencies>
+		<version.com.google.soastation>1.0</version.com.google.soastation>
+		<version.com.alexnederlof.jasperreports.plugin>1.5.1</version.com.alexnederlof.jasperreports.plugin>
+		
+	</properties>
 
-    <repositories>
-        <repository>
-            <id>fenix-ashes-maven-repository</id>
-            <url>https://fenix-ashes.ist.utl.pt/nexus/content/groups/fenix-ashes-maven-repository</url>
-        </repository>
-    </repositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.alexnederlof</groupId>
+				<artifactId>jasperreports-plugin</artifactId>
+				<version>${version.com.alexnederlof.jasperreports.plugin}</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>pt.ist.bennu</groupId>
+			<artifactId>bennu-core</artifactId>
+			<version>${version.pt.ist.bennu.bennu.core}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist.bennu</groupId>
+			<artifactId>bennu-scheduler</artifactId>
+			<version>${version.pt.ist.bennu.bennu.scheduler}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>workflow</artifactId>
+			<version>${version.pt.ist.workflow}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>finance</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>expenditure-tracking</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>messaging</artifactId>
+			<version>${version.pt.ist.messaging}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google</groupId>
+			<artifactId>soastation</artifactId>
+			<version>${version.com.google.soastation}</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>fenix-ashes-maven-repository</id>
+			<url>https://fenix-ashes.ist.utl.pt/nexus/content/groups/fenix-ashes-maven-repository</url>
+		</repository>
+	</repositories>
 </project>

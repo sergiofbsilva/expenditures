@@ -26,17 +26,14 @@ package pt.ist.expenditureTrackingSystem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import pt.ist.bennu.core._development.PropertiesManager;
 import pt.ist.bennu.core.domain.MyOrg;
+import pt.ist.bennu.scheduler.custom.CustomTask;
 import pt.ist.expenditureTrackingSystem.domain.DashBoard;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
-import pt.ist.fenixWebFramework.FenixWebFramework;
 import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.Strings;
-import pt.utl.ist.fenix.tools.util.i18n.Language;
 
 /**
  * 
@@ -45,20 +42,7 @@ import pt.utl.ist.fenix.tools.util.i18n.Language;
  * @author Luis Cruz
  * 
  */
-public class DashBoardResetter {
-
-    public static void init() {
-        Language.setDefaultLocale(new Locale("pt", "PT"));
-        Language.setLocale(Language.getDefaultLocale());
-
-        FenixWebFramework.initialize(PropertiesManager.getFenixFrameworkConfig());
-    }
-
-    public static void main(String[] args) {
-        init();
-        reset();
-        System.out.println("Done.");
-    }
+public class DashBoardResetter extends CustomTask {
 
     @Atomic
     private static void reset() {
@@ -107,6 +91,12 @@ public class DashBoardResetter {
     private static boolean hasWidget(String string, DashBoard dashBoard) {
         return dashBoard.getColumn1().contains(string) || dashBoard.getColumn2().contains(string)
                 || dashBoard.getColumn3().contains(string);
+    }
+
+    @Override
+    public void runTask() {
+        reset();
+        taskLog("Done.");
     }
 
 }

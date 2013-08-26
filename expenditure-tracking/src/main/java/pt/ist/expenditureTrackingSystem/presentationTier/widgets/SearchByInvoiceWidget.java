@@ -39,10 +39,10 @@ import module.workflow.presentationTier.actions.ProcessManagement;
 
 import org.apache.struts.action.ActionForward;
 
-import pt.ist.bennu.core.domain.contents.Node;
+import pt.ist.bennu.core.domain.contents.legacy.Node;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcess;
 import pt.ist.expenditureTrackingSystem.domain.dto.SearchByInvoiceBean;
 import pt.ist.fenixWebFramework.renderers.components.state.IViewState;
@@ -129,7 +129,6 @@ public class SearchByInvoiceWidget extends WidgetController {
 
     @Override
     public String getWidgetDescription() {
-        return BundleUtil.getStringFromResourceBundle("resources/ExpenditureResources",
-                "widget.description.SearchByInvoiceWidget");
+        return BundleUtil.getString("resources/ExpenditureResources", "widget.description.SearchByInvoiceWidget");
     }
 }

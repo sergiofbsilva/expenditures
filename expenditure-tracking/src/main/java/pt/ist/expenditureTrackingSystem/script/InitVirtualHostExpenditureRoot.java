@@ -26,7 +26,7 @@ package pt.ist.expenditureTrackingSystem.script;
 
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.scheduler.WriteCustomTask;
+import pt.ist.bennu.scheduler.custom.CustomTask;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 
 /**
@@ -34,10 +34,10 @@ import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
  * @author Luis Cruz
  * 
  */
-public class InitVirtualHostExpenditureRoot extends WriteCustomTask {
+public class InitVirtualHostExpenditureRoot extends CustomTask {
 
     @Override
-    protected void doService() {
+    public void runTask() {
         final ExpenditureTrackingSystem instance = ExpenditureTrackingSystem.getInstance();
         for (final VirtualHost virtualHost : MyOrg.getInstance().getVirtualHostsSet()) {
             virtualHost.setExpenditureTrackingSystem(instance);

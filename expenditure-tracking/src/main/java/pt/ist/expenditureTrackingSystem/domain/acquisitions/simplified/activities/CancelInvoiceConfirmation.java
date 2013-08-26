@@ -26,9 +26,9 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.activiti
 
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem._development.ExternalIntegration;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RegularAcquisitionProcess;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
@@ -56,7 +56,7 @@ public class CancelInvoiceConfirmation extends
     @Override
     protected void process(ActivityInformation<RegularAcquisitionProcess> activityInformation) {
         final RegularAcquisitionProcess process = activityInformation.getProcess();
-        process.cancelInvoiceConfirmationBy(UserView.getCurrentUser().getExpenditurePerson());
+        process.cancelInvoiceConfirmationBy(Authenticate.getUser().getExpenditurePerson());
 
         if (ExternalIntegration.isActive()) {
             process.cancelFundAllocationRequest(true);
@@ -65,7 +65,7 @@ public class CancelInvoiceConfirmation extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "label." + getClass().getName());
+        return BundleUtil.getString(getUsedBundle(), "label." + getClass().getName());
     }
 
     @Override

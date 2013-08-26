@@ -43,8 +43,8 @@ import module.organization.domain.Unit;
 
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.core.security.Authenticate;
 
 /**
  * 
@@ -59,7 +59,7 @@ public class MissionAuthorizationMap implements Serializable {
     private final Unit[] levelsForUser = new Unit[NUMBER_OF_LEVELS];
     private final Set<PersonMissionAuthorization>[] personMissionAuthorizations = new Set[NUMBER_OF_LEVELS];
 
-    private final User user = UserView.getCurrentUser();
+    private final User user = Authenticate.getUser();
 
     public MissionAuthorizationMap(final MissionYear missionYear) {
         final MissionSystem missionSystem = MissionSystem.getInstance();

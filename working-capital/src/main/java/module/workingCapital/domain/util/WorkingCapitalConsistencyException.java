@@ -25,7 +25,7 @@
 package module.workingCapital.domain.util;
 
 import jvstm.cps.ConsistencyException;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 
 /**
  * 
@@ -37,6 +37,6 @@ public class WorkingCapitalConsistencyException extends ConsistencyException {
 
     @Override
     public String getLocalizedMessage() {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "error." + getMethodFullname());
+        return BundleUtil.getString("resources/WorkingCapitalResources", "error." + getMethodFullname());
     }
 }

@@ -26,8 +26,8 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.activiti
 
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RegularAcquisitionProcess;
 
 /**
@@ -48,7 +48,7 @@ public class UnApproveAcquisitionProcess extends
     @Override
     protected void process(ActivityInformation<RegularAcquisitionProcess> activityInformation) {
         RegularAcquisitionProcess process = activityInformation.getProcess();
-        process.getAcquisitionRequest().unapprove(UserView.getCurrentUser().getExpenditurePerson());
+        process.getAcquisitionRequest().unapprove(Authenticate.getUser().getExpenditurePerson());
         process.submitForApproval();
 
     }

@@ -4,8 +4,8 @@ import java.util.Comparator;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.VirtualHost;
+import pt.ist.bennu.core.security.Authenticate;
 
 public class MissionProcessLateJustification extends MissionProcessLateJustification_Base {
 
@@ -23,7 +23,7 @@ public class MissionProcessLateJustification extends MissionProcessLateJustifica
         super();
         setMissionSystem(MissionSystem.getInstance());
         setJustificationDateTime(new DateTime());
-        setPerson(UserView.getCurrentUser().getPerson());
+        setPerson(Authenticate.getUser().getPerson());
     }
 
     public MissionProcessLateJustification(final MissionProcess missionProcess, final String justification) {

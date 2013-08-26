@@ -31,9 +31,9 @@ import module.workflow.activities.WorkflowActivity;
 
 import org.apache.commons.lang.StringUtils;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem._development.ExternalIntegration;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionInvoice;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcessInvoice;
@@ -63,7 +63,7 @@ public class ConfirmInvoice extends WorkflowActivity<RegularAcquisitionProcess, 
     @Override
     protected void process(ActivityInformation<RegularAcquisitionProcess> activityInformation) {
         final RegularAcquisitionProcess process = activityInformation.getProcess();
-        process.confirmInvoiceBy(UserView.getCurrentUser().getExpenditurePerson());
+        process.confirmInvoiceBy(Authenticate.getUser().getExpenditurePerson());
 
         if (ExternalIntegration.isActive()) {
             process.createFundAllocationRequest(true);
@@ -72,7 +72,7 @@ public class ConfirmInvoice extends WorkflowActivity<RegularAcquisitionProcess, 
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "label." + getClass().getName());
+        return BundleUtil.getString(getUsedBundle(), "label." + getClass().getName());
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ConfirmInvoice extends WorkflowActivity<RegularAcquisitionProcess, 
 
     @Override
     public boolean isConfirmationNeeded(RegularAcquisitionProcess process) {
-        User currentUser = UserView.getCurrentUser();
+        User currentUser = Authenticate.getUser();
         Set<AcquisitionInvoice> unconfirmedInvoices = process.getUnconfirmedInvoices(currentUser.getExpenditurePerson());
         for (AcquisitionInvoice unconfirmedInvoice : unconfirmedInvoices) {
             if (!StringUtils.isEmpty(unconfirmedInvoice.getConfirmationReport())) {
@@ -95,7 +95,7 @@ public class ConfirmInvoice extends WorkflowActivity<RegularAcquisitionProcess, 
     @Override
     public String getLocalizedConfirmationMessage(RegularAcquisitionProcess process) {
         StringBuilder builder = new StringBuilder();
-        User currentUser = UserView.getCurrentUser();
+        User currentUser = Authenticate.getUser();
         Set<AcquisitionInvoice> unconfirmedInvoices = process.getUnconfirmedInvoices(currentUser.getExpenditurePerson());
         final int invoiceCount = unconfirmedInvoices.size();
         int column = 1;
@@ -109,7 +109,7 @@ public class ConfirmInvoice extends WorkflowActivity<RegularAcquisitionProcess, 
                 }
                 builder.append("<td>");
             }
-            builder.append(BundleUtil.getFormattedStringFromResourceBundle(getUsedBundle(), "activity.confirmation."
+            builder.append(BundleUtil.getString(getUsedBundle(), "activity.confirmation."
                     + getClass().getName(), unconfirmedInvoice.getInvoiceNumber(), unconfirmedInvoice.getConfirmationReport()));
             if (invoiceCount > 1) {
                 builder.append("</td>");

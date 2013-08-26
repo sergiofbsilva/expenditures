@@ -26,9 +26,9 @@ package module.mission.domain.activity;
 
 import module.mission.domain.MissionProcess;
 import module.workflow.activities.ActivityInformation;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
 
 /**
  * 
@@ -39,7 +39,7 @@ public class ApproveActivity extends MissionProcessActivity<MissionProcess, Late
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/MissionResources", "activity." + getClass().getSimpleName());
+        return BundleUtil.getString("resources/MissionResources", "activity." + getClass().getSimpleName());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ApproveActivity extends MissionProcessActivity<MissionProcess, Late
     @Override
     protected void process(final LateJustificationActivityInformation activityInformation) {
         final MissionProcess missionProcess = activityInformation.getProcess();
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         missionProcess.approve(user);
         if (!missionProcess.isOnTime()) {
             missionProcess.justifyLateSubmission(activityInformation.getJustification());
@@ -71,7 +71,7 @@ public class ApproveActivity extends MissionProcessActivity<MissionProcess, Late
 
     @Override
     public String getLocalizedConfirmationMessage() {
-        return BundleUtil.getFormattedStringFromResourceBundle("resources/MissionResources",
+        return BundleUtil.getString("resources/MissionResources",
                 "label.module.mission.approve.confirm.service.is.assured");
     }
 

@@ -27,8 +27,8 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions;
 import java.math.BigDecimal;
 import java.util.Collection;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.AccountingUnit;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
 
@@ -55,24 +55,22 @@ public class UnitItem extends UnitItem_Base {
 
     private void checkParameters(Financer financer, RequestItem item, Money shareValue, Boolean isApproved) {
         if (financer == null || item == null || shareValue == null || isApproved == null) {
-            throw new DomainException("unitItem.message.exception.parametersCannotBeNull",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "unitItem.message.exception.parametersCannotBeNull");
         }
 
         if (shareValue.isZero()) {
-            throw new DomainException("error.share.value.cannot.be.zero",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources", "error.share.value.cannot.be.zero");
         }
 
         if (shareValue.isNegative()) {
-            throw new DomainException("error.share.value.cannot.be.negative",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources", "error.share.value.cannot.be.negative");
         }
 
         Money currentAssignedValue = item.getTotalAssigned();
         if (currentAssignedValue.addAndRound(shareValue).isGreaterThan(item.getValue().round())) {
-            throw new DomainException("unitItem.message.exception.assignedValuedBiggerThanTotal",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "unitItem.message.exception.assignedValuedBiggerThanTotal");
         }
     }
 
@@ -109,8 +107,8 @@ public class UnitItem extends UnitItem_Base {
             Money currentAssignedValue = getItem().getTotalRealAssigned();
 
             if (currentAssignedValue.add(realShareValue).round().isGreaterThan(totalAmount.round())) {
-                throw new DomainException("unitItem.message.exception.cannotASsignMoreThanTotalAmount",
-                        DomainException.getResourceFor("resources/AcquisitionResources"));
+                throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                        "unitItem.message.exception.cannotASsignMoreThanTotalAmount");
             }
         }
         super.setRealShareValue(realShareValue);

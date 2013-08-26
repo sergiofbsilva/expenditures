@@ -168,8 +168,6 @@ class TemporaryMissionItemEntry implements .pt.ist.bennu.core.domain.VirtualHost
 	DateTime created;
 }
 
-class ClearTemporaryMissionItems extends .pt.ist.bennu.core.domain.scheduler.Task {	
-}
 
 class MissionAuthorizationAccountabilityType implements .pt.ist.bennu.core.domain.VirtualHostAware {
 }
@@ -190,9 +188,6 @@ class Salary implements .pt.ist.bennu.core.domain.VirtualHostAware {
 }
 
 class AccountabilityTypeQueue implements .pt.ist.bennu.core.domain.VirtualHostAware {
-}
-
-class EmailDigester extends .pt.ist.bennu.core.domain.scheduler.Task {
 }
 
 

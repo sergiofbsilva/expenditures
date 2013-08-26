@@ -51,14 +51,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.domain.groups.People;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.People;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.bennu.core.util.VariantBean;
+import pt.ist.bennu.core.util.legacy.LegacyUtil;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.Role;
 import pt.ist.expenditureTrackingSystem.domain.RoleType;
@@ -370,7 +371,7 @@ public class OrganizationAction extends BaseAction {
 
     public final ActionForward viewLoggedPerson(final ActionMapping mapping, final ActionForm form,
             final HttpServletRequest request, final HttpServletResponse response) {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         final Person person = user.getExpenditurePerson();
         return viewPerson(mapping, request, person);
     }
@@ -1107,7 +1108,8 @@ public class OrganizationAction extends BaseAction {
         request.setAttribute("unit", unit);
 
         final Person loggedPerson = Person.getLoggedPerson();
-        if (!unit.isResponsible(loggedPerson) && !loggedPerson.getUser().hasRoleType(pt.ist.bennu.core.domain.RoleType.MANAGER)
+        if (!unit.isResponsible(loggedPerson)
+                && !LegacyUtil.hasRoleType(loggedPerson.getUser(), pt.ist.bennu.core.domain.RoleType.MANAGER)
                 && !ExpenditureTrackingSystem.isAcquisitionsUnitManagerGroupMember()) {
             return viewLoggedPerson(mapping, form, request, response);
         }

@@ -29,7 +29,8 @@ import module.mission.domain.MissionSystem;
 import module.workflow.activities.ActivityInformation;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.LegacyUtil;
 
 /**
  * 
@@ -41,13 +42,13 @@ public class SubmitForApprovalByManagerOrManagementCouncilActivity extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/MissionResources", "activity." + getClass().getSimpleName());
+        return BundleUtil.getString("resources/MissionResources", "activity." + getClass().getSimpleName());
     }
 
     @Override
     public boolean isActive(final MissionProcess missionProcess, final User user) {
         return super.isActive(missionProcess, user) && missionProcess.isUnderConstruction()
-                && (user.hasRoleType(RoleType.MANAGER) || isManagementCouncilMember(user));
+                && (LegacyUtil.hasRoleType(user,RoleType.MANAGER) || isManagementCouncilMember(user));
     }
 
     private boolean isManagementCouncilMember(final User user) {

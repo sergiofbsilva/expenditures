@@ -30,8 +30,8 @@ import java.util.TreeSet;
 import module.dashBoard.domain.DashBoardWidget;
 import module.dashBoard.presentationTier.WidgetRequest;
 import module.dashBoard.widgets.WidgetController;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.LegacyBundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureWidgetOptions;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
@@ -91,7 +91,7 @@ public class MyUnitsWidget extends WidgetController {
 
     @Override
     public String getWidgetDescription() {
-        return BundleUtil
+        return LegacyBundleUtil
                 .getStringFromResourceBundle("resources/ExpenditureResources", "widget.description.MyUnitsWidget");
     }
 }

@@ -35,10 +35,9 @@ import module.workflow.activities.WorkflowActivity;
 import module.workflow.domain.ProcessFile;
 import module.workflow.domain.WorkflowProcess;
 import module.workflow.util.PresentableProcessState;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionInvoice;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionItemClassification;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionProcessStateType;
@@ -103,6 +102,7 @@ import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.activitie
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.activities.UnsetSkipSupplierFundAllocation;
 import pt.ist.expenditureTrackingSystem.domain.announcements.RCISTAnnouncement;
 import pt.ist.expenditureTrackingSystem.domain.dto.CreateAcquisitionProcessBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
@@ -154,8 +154,7 @@ public class SimplifiedProcedureProcess extends SimplifiedProcedureProcess_Base 
 
         @Override
         public String getLocalizedName() {
-            return BundleUtil.getFormattedStringFromResourceBundle("resources/ExpenditureResources",
-                    "label.processClassification." + name());
+            return BundleUtil.getString("resources/ExpenditureResources", "label.processClassification." + name());
         }
     }
 
@@ -267,8 +266,8 @@ public class SimplifiedProcedureProcess extends SimplifiedProcedureProcess_Base 
         inGenesis();
         AcquisitionRequest acquisitionRequest = new AcquisitionRequest(this, suppliers, person);
         if (suppliers.size() == 0) {
-            throw new DomainException("acquisitionProcess.message.exception.needsMoreSuppliers",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "acquisitionProcess.message.exception.needsMoreSuppliers");
         }
         if (suppliers.size() == 1) {
             acquisitionRequest.setSelectedSupplier(suppliers.get(0));
@@ -280,7 +279,7 @@ public class SimplifiedProcedureProcess extends SimplifiedProcedureProcess_Base 
     public static SimplifiedProcedureProcess createNewAcquisitionProcess(
             final CreateAcquisitionProcessBean createAcquisitionProcessBean) {
         if (!isCreateNewProcessAvailable()) {
-            throw new DomainException("acquisitionProcess.message.exception.invalidStateToRun.create");
+            throw new ExpenditureTrackingDomainException("acquisitionProcess.message.exception.invalidStateToRun.create");
         }
         SimplifiedProcedureProcess process =
                 new SimplifiedProcedureProcess(createAcquisitionProcessBean.getClassification(),
@@ -294,8 +293,7 @@ public class SimplifiedProcedureProcess extends SimplifiedProcedureProcess_Base 
         }
         if (createAcquisitionProcessBean.isForMission()) {
             if (createAcquisitionProcessBean.getMissionProcess() == null) {
-                throw new DomainException("mission.process.is.mandatory",
-                        DomainException.getResourceFor("resources/AcquisitionResources"));
+                throw new ExpenditureTrackingDomainException("resources/AcquisitionResources", "mission.process.is.mandatory");
             }
             process.setMissionProcess(createAcquisitionProcessBean.getMissionProcess());
         }
@@ -362,8 +360,8 @@ public class SimplifiedProcedureProcess extends SimplifiedProcedureProcess_Base 
             unSkipSupplierFundAllocation();
         }
         if (processClassification.getLimit().isLessThan(this.getAcquisitionRequest().getCurrentValue())) {
-            throw new DomainException("error.message.processValueExceedsLimitForClassification",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "error.message.processValueExceedsLimitForClassification");
         }
         super.setProcessClassification(processClassification);
     }

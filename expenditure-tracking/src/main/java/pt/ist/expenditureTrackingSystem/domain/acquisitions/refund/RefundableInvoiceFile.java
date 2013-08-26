@@ -34,14 +34,14 @@ import module.workflow.domain.ProcessFile;
 
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.CPVReference;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RequestItem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RequestWithPayment;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
 
 @ClassNameBundle(bundle = "resources/AcquisitionResources")
@@ -88,21 +88,21 @@ public class RefundableInvoiceFile extends RefundableInvoiceFile_Base {
     private void check(RequestItem item, Supplier supplier, Money value, BigDecimal vatValue, Money refundableValue) {
         RefundProcess process = item.getRequest().getProcess();
         if (!process.getShouldSkipSupplierFundAllocation() && isFundAllocationAllowed(supplier, item.getCPVReference(), value)) {
-            throw new DomainException("acquisitionRequestItem.message.exception.fundAllocationNotAllowed",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "acquisitionRequestItem.message.exception.fundAllocationNotAllowed");
         }
         Money realValue = item.getRealValue();
         Money estimatedValue = item.getValue();
 
         if ((realValue != null && realValue.add(refundableValue).isGreaterThan(estimatedValue)) || realValue == null
                 && refundableValue.isGreaterThan(estimatedValue.round())) {
-            throw new DomainException("refundItem.message.info.realValueLessThanRefundableValue",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "refundItem.message.info.realValueLessThanRefundableValue");
         }
 
         if (new Money(value.addPercentage(vatValue).getRoundedValue()).isLessThan(refundableValue)) {
-            throw new DomainException("refundItem.message.info.refundableValueCannotBeBiggerThanInvoiceValue",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "refundItem.message.info.refundableValueCannotBeBiggerThanInvoiceValue");
         }
     }
 
@@ -175,7 +175,8 @@ public class RefundableInvoiceFile extends RefundableInvoiceFile_Base {
     public RefundItem getRefundItem() {
         Collection<RequestItem> items = getRequestItems();
         if (items.size() > 1) {
-            throw new DomainException("acquisitionRequestItem.message.exception.thereShouldBeOnlyOneRefundItemAssociated");
+            throw new ExpenditureTrackingDomainException(
+                    "acquisitionRequestItem.message.exception.thereShouldBeOnlyOneRefundItemAssociated");
         }
         return items != null ? (RefundItem) items.iterator().next() : null;
     }

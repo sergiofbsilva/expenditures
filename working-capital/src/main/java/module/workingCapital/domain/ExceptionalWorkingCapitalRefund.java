@@ -26,7 +26,7 @@ package module.workingCapital.domain;
 
 import module.organization.domain.Person;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 
 /**
  * 
@@ -53,7 +53,7 @@ public class ExceptionalWorkingCapitalRefund extends ExceptionalWorkingCapitalRe
 
     @Override
     public String getDescription() {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources",
+        return BundleUtil.getString("resources/WorkingCapitalResources",
                 "label.module.workingCapital.transaction.ExceptionalWorkingCapitalRefund");
     }
 

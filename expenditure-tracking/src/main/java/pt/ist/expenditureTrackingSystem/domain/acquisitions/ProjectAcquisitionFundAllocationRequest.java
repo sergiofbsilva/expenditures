@@ -38,20 +38,19 @@ import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import module.workflow.activities.WorkflowActivity.NotActiveActivityException;
 import module.workflow.domain.WorkflowProcess;
-import pt.ist.bennu.core.applicationTier.Authenticate;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.activities.commons.AbstractFundAllocationActivityInformation;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.activities.commons.AllocateProjectFundsPermanently;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.activities.commons.ProjectFundAllocation;
 import pt.ist.expenditureTrackingSystem.domain.dto.FundAllocationBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.AccountingUnit;
 import pt.ist.expenditureTrackingSystem.domain.organization.Project;
 import pt.ist.expenditureTrackingSystem.domain.organization.SubProject;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
-import pt.ist.fenixWebFramework.security.UserView;
 
 /**
  * 
@@ -76,7 +75,7 @@ public class ProjectAcquisitionFundAllocationRequest extends ProjectAcquisitionF
     @Override
     public void registerFundAllocation(final String fundAllocationNumber, final String operatorUsername) {
         if (getCancelFundAllocationRequest() != null) {
-            throw new DomainException("error.cannot.allocate.funds.because.request.has.been.canceled");
+            throw new ExpenditureTrackingDomainException("error.cannot.allocate.funds.because.request.has.been.canceled");
         }
 
         try {
@@ -105,17 +104,16 @@ public class ProjectAcquisitionFundAllocationRequest extends ProjectAcquisitionF
 
                 ((AbstractFundAllocationActivityInformation) information).setBeans(args);
 
-                final pt.ist.bennu.core.applicationTier.Authenticate.UserView currentUserView = UserView.getUser();
+                final User currentUser = Authenticate.getUser();
                 final User user = User.findByUsername(operatorUsername);
                 if (user == null) {
                     throw new NullPointerException("No user found for: " + operatorUsername);
                 }
-                final pt.ist.bennu.core.applicationTier.Authenticate.UserView userView = Authenticate.authenticate(user);
                 try {
-                    UserView.setUser(userView);
+                    Authenticate.setUser(user);
                     activity.execute(information);
                 } finally {
-                    UserView.setUser(currentUserView);
+                    Authenticate.setUser(currentUser);
                 }
             }
             super.registerFundAllocation(fundAllocationNumber, operatorUsername);

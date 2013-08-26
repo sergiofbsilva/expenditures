@@ -24,20 +24,17 @@
  */
 package module.mission.domain;
 
-import java.util.ResourceBundle;
-
 import module.organization.domain.Person;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.AccountingUnit;
 import pt.ist.expenditureTrackingSystem.domain.organization.Project;
 import pt.ist.expenditureTrackingSystem.domain.organization.SubProject;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
-import pt.utl.ist.fenix.tools.util.i18n.Language;
 
 /**
  * 
@@ -64,8 +61,7 @@ public class MissionFinancer extends MissionFinancer_Base {
 
     private void checkUnitIsActive(final Unit unit) {
         if (!unit.isActive()) {
-            throw new DomainException("error.mission.financer.closed", ResourceBundle.getBundle("resources/MissionResources",
-                    Language.getLocale()));
+            throw new ExpenditureTrackingDomainException("resources/MissionResources", "error.mission.financer.closed");
         }
     }
 
@@ -374,19 +370,19 @@ public class MissionFinancer extends MissionFinancer_Base {
 
     public boolean isCurrentUserAccountant() {
         final Unit unit = getUnit();
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return unit.isAccountingEmployee(user.getExpenditurePerson());
     }
 
     public boolean isCurrentUserProjectAccountant() {
         final Unit unit = getUnit();
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return unit.isProjectAccountingEmployee(user.getExpenditurePerson());
     }
 
     public boolean isCurrentUserDirectProjectAccountant() {
         final Unit unit = getUnit();
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return unit.isProjectAccountingEmployee(user.getExpenditurePerson())
                 && (!unit.hasSomeAccountManager() || unit.isAccountManager(user.getExpenditurePerson()));
     }

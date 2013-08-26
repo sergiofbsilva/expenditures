@@ -34,18 +34,18 @@ import module.finance.domain.SupplierContact;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import net.sf.jasperreports.engine.JRException;
-import pt.ist.bennu.core._development.PropertiesManager;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.domain.util.Address;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ReportUtils;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.ConfigurationManager;
+import pt.ist.bennu.core.util.legacy.Address;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionRequest;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionRequestItem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PurchaseOrderDocument;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RegularAcquisitionProcess;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
+import pt.ist.expenditureTrackingSystem.util.ReportUtils;
 
 /**
  * 
@@ -82,7 +82,7 @@ public class CreateAcquisitionPurchaseOrderDocument extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "label." + getClass().getName());
+        return BundleUtil.getString(getUsedBundle(), "label." + getClass().getName());
     }
 
     @Override
@@ -107,8 +107,8 @@ public class CreateAcquisitionPurchaseOrderDocument extends
         createBeansLists(acquisitionRequest, deliveryLocalList, acquisitionRequestItemBeans);
         paramMap.put("deliveryLocals", deliveryLocalList);
         paramMap.put("institutionSocialSecurityNumber",
-                PropertiesManager.getProperty(VirtualHost.getVirtualHostForThread().getHostname() + ".ssn"));
-        paramMap.put("cae", PropertiesManager.getProperty(VirtualHost.getVirtualHostForThread().getHostname() + ".cae"));
+                ConfigurationManager.getProperty(VirtualHost.getVirtualHostForThread().getHostname() + ".ssn"));
+        paramMap.put("cae", ConfigurationManager.getProperty(VirtualHost.getVirtualHostForThread().getHostname() + ".cae"));
         paramMap.put("logoFilename", "Logo_" + VirtualHost.getVirtualHostForThread().getHostname() + ".png");
         paramMap.put("commitmentNumbers", acquisitionRequest.getCommitmentNumbers());
 
@@ -122,7 +122,7 @@ public class CreateAcquisitionPurchaseOrderDocument extends
             return byteArray;
         } catch (JRException e) {
             e.printStackTrace();
-            throw new DomainException("acquisitionRequestDocument.message.exception.failedCreation");
+            throw new ExpenditureTrackingDomainException("acquisitionRequestDocument.message.exception.failedCreation");
         }
 
     }

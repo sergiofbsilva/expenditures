@@ -26,6 +26,8 @@ package module.mission.domain;
 
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.VirtualHost;
+import pt.ist.bennu.scheduler.CronTask;
+import pt.ist.bennu.scheduler.annotation.Task;
 import pt.ist.fenixframework.Atomic;
 
 /**
@@ -33,7 +35,8 @@ import pt.ist.fenixframework.Atomic;
  * @author Luis Cruz
  * 
  */
-public class EmailDigester extends EmailDigester_Base {
+@Task(englishTitle = "Email Digester")
+public class EmailDigester extends CronTask {
 
     public EmailDigester() {
         super();
@@ -41,7 +44,7 @@ public class EmailDigester extends EmailDigester_Base {
 
     @Override
     @Atomic
-    public void executeTask() {
+    public void runTask() {
         for (final VirtualHost virtualHost : MyOrg.getInstance().getVirtualHostsSet()) {
             if (!virtualHost.getHostname().startsWith("dot") && !virtualHost.getHostname().equals("localhost")) {
                 continue;

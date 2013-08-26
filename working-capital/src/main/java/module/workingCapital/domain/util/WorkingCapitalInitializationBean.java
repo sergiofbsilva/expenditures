@@ -29,9 +29,9 @@ import java.util.Calendar;
 
 import module.organization.domain.Person;
 import module.workingCapital.domain.WorkingCapitalInitialization;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
 import pt.ist.fenixframework.Atomic;
 
@@ -52,7 +52,7 @@ public class WorkingCapitalInitializationBean implements Serializable {
     private String internationalBankAccountNumber;
 
     private Person initPerson() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return user == null ? null : user.getPerson();
     }
 

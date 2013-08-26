@@ -33,13 +33,12 @@ import java.util.SortedSet;
 import org.jfree.data.time.Month;
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.applicationTier.Authenticate;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.ist.bennu.core.domain.groups.SingleUserGroup;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.SingleUserGroup;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.Role;
 import pt.ist.expenditureTrackingSystem.domain.RoleType;
@@ -65,8 +64,7 @@ public class EmailDigesterUtil {
 
             final User user = person.getUser();
             if (user.getPerson() != null && user.getExpenditurePerson() != null) {
-                final UserView userView = Authenticate.authenticate(user);
-                pt.ist.fenixWebFramework.security.UserView.setUser(userView);
+                pt.ist.bennu.core.security.Authenticate.setUser(user);
 
                 try {
                     final WorkingCapitalYear workingCapitalYear = WorkingCapitalYear.getCurrentYear();
@@ -108,7 +106,7 @@ public class EmailDigesterUtil {
                             if (email != null) {
                                 final StringBuilder body =
                                         new StringBuilder("Caro utilizador, possui processos de fundos de maneio pendentes nas ");
-                                body.append(virtualHost.getApplicationSubTitle().getContent());
+                                body.append(virtualHost.getConfiguration().getApplicationSubTitle().getContent());
                                 body.append(", em https://");
                                 body.append(virtualHost.getHostname());
                                 body.append("/.\n");
@@ -168,7 +166,7 @@ public class EmailDigesterUtil {
                         }
                     }
                 } finally {
-                    pt.ist.fenixWebFramework.security.UserView.setUser(null);
+                    Authenticate.setUser((User) null);
                 }
             }
         }
@@ -183,8 +181,7 @@ public class EmailDigesterUtil {
             body.append("\n\t\t");
             body.append(workingCapital.getUnit().getPresentationName());
             body.append(" - ");
-            body.append(BundleUtil.getStringFromResourceBundle("resources.WorkingCapitalResources",
-                    "label.module.workingCapital.year"));
+            body.append(BundleUtil.getString("resources.WorkingCapitalResources", "label.module.workingCapital.year"));
             body.append(" ");
             body.append(workingCapital.getWorkingCapitalYear().getYear());
         }
@@ -195,7 +192,7 @@ public class EmailDigesterUtil {
     }
 
     protected String getMessage(final String key) {
-        return BundleUtil.getStringFromResourceBundle(getBundle(), key);
+        return BundleUtil.getString(getBundle(), key);
     }
 
     private static Collection<Person> getPeopleToProcess() {

@@ -44,8 +44,8 @@ import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.search.IndexableField;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.Financer;
@@ -55,9 +55,9 @@ import pt.ist.expenditureTrackingSystem.domain.acquisitions.RequestWithPayment;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.AuthorizationLog;
 import pt.ist.expenditureTrackingSystem.domain.dto.CreateUnitBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.processes.GenericProcess;
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.plugins.luceneIndexing.IndexableField;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
@@ -205,13 +205,13 @@ public class Unit extends Unit_Base /* implements Indexable, Searchable */{
     @Atomic
     public void delete() {
         if (!getAuthorizationsSet().isEmpty()) {
-            throw new DomainException("error.cannot.delete.units.which.have.or.had.authorizations");
+            throw new ExpenditureTrackingDomainException("error.cannot.delete.units.which.have.or.had.authorizations");
         }
         if (hasAnyFinancedItems()) {
-            throw new DomainException("error.cannot.delete.units.which.have.or.had.financedItems");
+            throw new ExpenditureTrackingDomainException("error.cannot.delete.units.which.have.or.had.financedItems");
         }
         if (!getUnit().getParentAccountabilitiesSet().isEmpty()) {
-            throw new DomainException("error.cannot.delete.units.which.have.subUnits");
+            throw new ExpenditureTrackingDomainException("error.cannot.delete.units.which.have.subUnits");
         }
 
         setExpenditureTrackingSystemFromTopLevelUnit(null);

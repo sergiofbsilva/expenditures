@@ -30,9 +30,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import pt.ist.bennu.core.domain.MyOrg;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.domain.util.Address;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.core.util.legacy.Address;
+import pt.ist.bennu.search.IndexableField;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.SavedSearch;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionProcess;
@@ -49,8 +49,8 @@ import pt.ist.expenditureTrackingSystem.domain.acquisitions.refund.RefundRequest
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.refund.RefundableInvoiceFile;
 import pt.ist.expenditureTrackingSystem.domain.announcements.CCPAnnouncement;
 import pt.ist.expenditureTrackingSystem.domain.dto.CreateSupplierBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.plugins.luceneIndexing.IndexableField;
 
 /**
  * 
@@ -86,7 +86,7 @@ public class Supplier extends Supplier_Base /* implements Indexable, Searchable 
     public Supplier(String fiscalCode) {
         this();
         if (fiscalCode == null || fiscalCode.length() == 0) {
-            throw new DomainException("error.fiscal.code.cannot.be.empty");
+            throw new ExpenditureTrackingDomainException("error.fiscal.code.cannot.be.empty");
         }
         setFiscalIdentificationCode(fiscalCode);
     }

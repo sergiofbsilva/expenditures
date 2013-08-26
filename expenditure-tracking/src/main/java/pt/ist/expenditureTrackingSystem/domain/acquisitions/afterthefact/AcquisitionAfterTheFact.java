@@ -29,8 +29,8 @@ import java.util.Calendar;
 
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
 
 /**
@@ -77,8 +77,8 @@ public class AcquisitionAfterTheFact extends AcquisitionAfterTheFact_Base {
         if (getValue() == null || value.isGreaterThan(getValue())) {
             super.setValue(Money.ZERO);
             if (getSupplier() != null && !getSupplier().isFundAllocationAllowed(Money.ZERO)) {
-                throw new DomainException("acquisitionProcess.message.exception.SupplierDoesNotAlloweAmount",
-                        DomainException.getResourceFor("resources/AcquisitionResources"));
+                throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                        "acquisitionProcess.message.exception.SupplierDoesNotAlloweAmount");
             }
         }
         super.setValue(value);

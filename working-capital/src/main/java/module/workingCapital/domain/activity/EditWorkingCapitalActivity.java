@@ -32,10 +32,10 @@ import module.workingCapital.domain.WorkingCapitalAcquisition;
 import module.workingCapital.domain.WorkingCapitalAcquisitionTransaction;
 import module.workingCapital.domain.WorkingCapitalProcess;
 import module.workingCapital.domain.WorkingCapitalSystem;
+import module.workingCapital.domain.exception.WorkingCapitalDomainException;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.bennu.core.util.InputStreamUtil;
 
 /**
@@ -49,7 +49,7 @@ import pt.ist.bennu.core.util.InputStreamUtil;
 public class EditWorkingCapitalActivity extends WorkflowActivity<WorkingCapitalProcess, EditWorkingCapitalActivityInformation> {
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "activity."
+        return BundleUtil.getString("resources/WorkingCapitalResources", "activity."
                 + getClass().getSimpleName());
     }
 
@@ -75,7 +75,7 @@ public class EditWorkingCapitalActivity extends WorkflowActivity<WorkingCapitalP
     protected void process(final EditWorkingCapitalActivityInformation activityInformation) {
         final WorkingCapitalAcquisitionTransaction transaction = activityInformation.getWorkingCapitalAcquisitionTransaction();
         if (isRegularAndApproved(transaction) || isExceptionalAndManagementApproved(transaction)) {
-            throw new DomainException("expense.already.approved.cant.edit");
+            throw new WorkingCapitalDomainException("expense.already.approved.cant.edit");
         }
         final WorkingCapitalAcquisition workingCapitalAcquisition = transaction.getWorkingCapitalAcquisition();
 
@@ -119,8 +119,8 @@ public class EditWorkingCapitalActivity extends WorkflowActivity<WorkingCapitalP
         Money value = activityInformation.getMoney();
         if ((limit != null) && (value.compareTo(limit) == 1)) {
             args[0] =
-                    "(" + BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "label.exceptional") + ", "
-                            + BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "label.limit") + " = "
+                    "(" + BundleUtil.getString("resources/WorkingCapitalResources", "label.exceptional") + ", "
+                            + BundleUtil.getString("resources/WorkingCapitalResources", "label.limit") + " = "
                             + limit.getValue().toString() + ")";
         } else {
             args[0] = "";

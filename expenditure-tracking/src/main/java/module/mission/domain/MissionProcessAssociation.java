@@ -5,8 +5,8 @@ import java.util.List;
 
 import jvstm.cps.ConsistencyPredicate;
 import pt.ist.bennu.core.domain.MyOrg;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.fenixframework.dml.runtime.Relation;
 import pt.ist.fenixframework.dml.runtime.RelationAdapter;
 
@@ -19,7 +19,7 @@ public class MissionProcessAssociation extends MissionProcessAssociation_Base {
                     public void afterAdd(Relation<MissionProcess, MissionProcessAssociation> relation, MissionProcess process,
                             MissionProcessAssociation association) {
                         if (!association.checkHasNoRepeatedMissionSystems()) {
-                            throw new DomainException(BundleUtil.getStringFromResourceBundle("resources/MissionResources",
+                            throw new ExpenditureTrackingDomainException(BundleUtil.getString("resources/MissionResources",
                                     "error.cannot.associate.MissionProcesses.from.same.system"));
                         }
                     }
@@ -31,7 +31,7 @@ public class MissionProcessAssociation extends MissionProcessAssociation_Base {
                     public void afterAdd(Relation<MissionProcess, MissionProcessAssociation> relation, MissionProcess process,
                             MissionProcessAssociation association) {
                         if (!association.checkAllMissionProcessesOfSameType()) {
-                            throw new DomainException(BundleUtil.getStringFromResourceBundle("resources/MissionResources",
+                            throw new ExpenditureTrackingDomainException(BundleUtil.getString("resources/MissionResources",
                                     "error.cannot.associate.MissionProcesses.of.diferent.types"));
                         }
                     }

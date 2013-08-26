@@ -45,8 +45,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
-import pt.ist.bennu.core.util.BundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.organization.AccountingUnit;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
@@ -177,11 +177,11 @@ public class SearchMissionsAction extends ContextBaseAction {
     }
 
     private String getMissionsMessage(String label) {
-        return BundleUtil.getStringFromResourceBundle("resources.MissionResources", label);
+        return BundleUtil.getString("resources.MissionResources", label);
     }
 
     private String getExpendituresMessage(String label) {
-        return BundleUtil.getStringFromResourceBundle("resources.ExpenditureResources", label);
+        return BundleUtil.getString("resources.ExpenditureResources", label);
     }
 
     private String getFinancingUnits(Mission mission) {

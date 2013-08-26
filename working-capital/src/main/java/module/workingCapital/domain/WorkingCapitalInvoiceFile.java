@@ -26,14 +26,12 @@ package module.workingCapital.domain;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import module.workflow.domain.AbstractWFDocsGroup;
 import module.workflow.domain.ProcessDocumentMetaDataResolver;
 import module.workflow.domain.ProcessFile;
 import module.workflow.domain.WFDocsDefaultWriteGroup;
 import module.workingCapital.domain.WorkingCapitalProcess.WorkingCapitalProcessFileMetadataResolver;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 
 @ClassNameBundle(bundle = "resources/WorkingCapitalResources")
 /**
@@ -67,8 +65,7 @@ public class WorkingCapitalInvoiceFile extends WorkingCapitalInvoiceFile_Base {
         private static final String VALUE_WITH_VAT = "Valor com IVA";
 
         @Override
-        public @Nonnull
-        Class<? extends AbstractWFDocsGroup> getWriteGroupClass() {
+        public Class<? extends AbstractWFDocsGroup> getWriteGroupClass() {
             return WFDocsDefaultWriteGroup.class;
         }
 
@@ -97,6 +94,7 @@ public class WorkingCapitalInvoiceFile extends WorkingCapitalInvoiceFile_Base {
         setTransaction(null);
         super.delete();
     }
+
     @Deprecated
     public boolean hasTransaction() {
         return getTransaction() != null;

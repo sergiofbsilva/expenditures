@@ -1,7 +1,7 @@
 package module.mission.domain;
 
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 
 public abstract class TransportationItem extends TransportationItem_Base {
 
@@ -12,7 +12,7 @@ public abstract class TransportationItem extends TransportationItem_Base {
 
     @Override
     public String getItemDescription() {
-        return BundleUtil.getFormattedStringFromResourceBundle("resources/MissionResources",
+        return BundleUtil.getString("resources/MissionResources",
                 "label.transportationItem.description", getItinerary());
     }
 

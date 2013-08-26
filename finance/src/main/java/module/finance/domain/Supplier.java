@@ -24,8 +24,8 @@
  */
 package module.finance.domain;
 
-import pt.ist.bennu.core.domain.util.Address;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.core.util.legacy.Address;
 
 /**
  * 

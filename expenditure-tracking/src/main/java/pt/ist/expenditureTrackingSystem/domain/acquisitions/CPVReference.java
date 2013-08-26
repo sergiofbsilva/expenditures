@@ -27,11 +27,11 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions;
 import java.util.Comparator;
 
 import pt.ist.bennu.core.domain.MyOrg;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.search.IndexableField;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.plugins.luceneIndexing.IndexableField;
 
 /**
  * 
@@ -90,10 +90,10 @@ public class CPVReference extends CPVReference_Base /* implements Indexable, Sea
 
     private void checkParameters(String code, String description) {
         if (code == null || description == null) {
-            throw new DomainException("error.code.and.description.are.required");
+            throw new ExpenditureTrackingDomainException("error.code.and.description.are.required");
         }
         if (getCPVCode(code) != null) {
-            throw new DomainException("error.cpv.code.already.exists");
+            throw new ExpenditureTrackingDomainException("error.cpv.code.already.exists");
         }
     }
 

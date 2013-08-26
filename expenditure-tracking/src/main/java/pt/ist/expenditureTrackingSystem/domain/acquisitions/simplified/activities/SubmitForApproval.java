@@ -27,11 +27,11 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.activiti
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RegularAcquisitionProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.SimplifiedProcedureProcess;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 
 /**
  * 
@@ -58,9 +58,9 @@ public class SubmitForApproval extends
                 && ((SimplifiedProcedureProcess) process).hasInvoiceFile()
                 && process.getTotalValue().isGreaterThan(ExpenditureTrackingSystem.getInstance().getMaxValueStartedWithInvoive())) {
             final String message =
-                    BundleUtil.getStringFromResourceBundle(getUsedBundle(),
+                    BundleUtil.getString(getUsedBundle(),
                             "activities.message.exception.exceeded.limit.to.start.process.with.invoice");
-            throw new DomainException(message);
+            throw new ExpenditureTrackingDomainException(message);
         }
 
         process.submitForApproval();
@@ -68,7 +68,7 @@ public class SubmitForApproval extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "label." + getClass().getName());
+        return BundleUtil.getString(getUsedBundle(), "label." + getClass().getName());
     }
 
     @Override

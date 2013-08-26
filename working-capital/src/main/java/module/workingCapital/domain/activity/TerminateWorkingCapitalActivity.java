@@ -35,7 +35,8 @@ import org.joda.time.DateTime;
 
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.LegacyUtil;
 
 /**
  * 
@@ -47,8 +48,7 @@ public class TerminateWorkingCapitalActivity extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "activity."
-                + getClass().getSimpleName());
+        return BundleUtil.getString("resources/WorkingCapitalResources", "activity." + getClass().getSimpleName());
     }
 
     @Override
@@ -56,8 +56,8 @@ public class TerminateWorkingCapitalActivity extends
         final WorkingCapital workingCapital = missionProcess.getWorkingCapital();
         return !workingCapital.isCanceledOrRejected()
                 && (workingCapital.isMovementResponsible(user)
-                        || WorkingCapitalSystem.getInstanceForCurrentHost().isManagementMember(user) || user
-                            .hasRoleType(RoleType.MANAGER)) && workingCapital.canTerminateFund();
+                        || WorkingCapitalSystem.getInstanceForCurrentHost().isManagementMember(user) || LegacyUtil.hasRoleType(
+                        user, RoleType.MANAGER)) && workingCapital.canTerminateFund();
     }
 
     @Override
@@ -86,8 +86,7 @@ public class TerminateWorkingCapitalActivity extends
 
     @Override
     public String getLocalizedConfirmationMessage(final WorkingCapitalProcess process) {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources",
-                "label.message.SubmitForValidationActivity.confirm");
+        return BundleUtil.getString("resources/WorkingCapitalResources", "label.message.SubmitForValidationActivity.confirm");
     }
 
 }

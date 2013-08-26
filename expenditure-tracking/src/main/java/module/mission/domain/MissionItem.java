@@ -35,7 +35,7 @@ import module.mission.domain.activity.ItemActivityInformation;
 import module.organization.domain.Person;
 import pt.ist.bennu.core.domain.VirtualHost;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 
 /**
  * 
@@ -95,7 +95,7 @@ public abstract class MissionItem extends MissionItem_Base {
 
     public String getLocalizedName() {
         final String key = KEY_PREFIX + getClass().getName();
-        return BundleUtil.getStringFromResourceBundle(BUNDLE, key);
+        return BundleUtil.getString(BUNDLE, key);
     }
 
     public void setMissionItemFinancers(final MissionItemFinancerBeanCollection missionItemFinancerBeans) {

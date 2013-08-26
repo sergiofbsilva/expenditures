@@ -24,12 +24,15 @@
  */
 package module.externalAccountingIntegration.domain;
 
+import pt.ist.bennu.scheduler.annotation.Task;
+
 /**
  * 
  * @author Luis Cruz
  * 
  */
-public class ExternalRequestSyncTaskMgpADIST extends ExternalRequestSyncTaskMgpADIST_Base {
+@Task(englishTitle = "External Request Sync Task for Mgp @ ADIST")
+public class ExternalRequestSyncTaskMgpADIST extends ExternalRequestSyncTask {
 
     public ExternalRequestSyncTaskMgpADIST() {
         super();

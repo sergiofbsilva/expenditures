@@ -29,8 +29,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import module.workflow.domain.ProcessDocumentMetaDataResolver;
 import module.workflow.domain.ProcessFile;
 import module.workflow.domain.WFDocsDefaultWriteGroup;
@@ -38,12 +36,12 @@ import module.workflow.domain.WFDocsDefaultWriteGroup;
 import org.apache.commons.lang.StringUtils;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.ProcessState;
 import pt.ist.expenditureTrackingSystem.domain.dto.PayingUnitTotalBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
@@ -102,8 +100,7 @@ public abstract class AcquisitionProcess extends AcquisitionProcess_Base {
         }
 
         @Override
-        public @Nonnull
-        Class<? extends module.workflow.domain.AbstractWFDocsGroup> getWriteGroupClass() {
+        public Class<? extends module.workflow.domain.AbstractWFDocsGroup> getWriteGroupClass() {
             return WFDocsDefaultWriteGroup.class;
         }
 
@@ -368,7 +365,7 @@ public abstract class AcquisitionProcess extends AcquisitionProcess_Base {
     public PurchaseOrderDocument getPurchaseOrderDocument() {
         List<PurchaseOrderDocument> files = getFiles(PurchaseOrderDocument.class);
         if (files.size() > 1) {
-            throw new DomainException("error.should.only.have.one.purchaseOrder");
+            throw new ExpenditureTrackingDomainException("error.should.only.have.one.purchaseOrder");
         }
         return files.isEmpty() ? null : files.get(0);
     }

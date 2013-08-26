@@ -24,7 +24,7 @@
  */
 package module.workingCapital.domain;
 
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 
 @ClassNameBundle(bundle = "resources/WorkingCapitalResources")
 public class TransactionFile extends TransactionFile_Base {

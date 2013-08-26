@@ -26,8 +26,8 @@ package pt.ist.expenditureTrackingSystem.presentationTier.widgets;
 
 import module.dashBoard.presentationTier.WidgetRequest;
 import module.dashBoard.widgets.WidgetController;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 
 @ClassNameBundle(bundle = "resources/ExpenditureResources", key = "process.title.mySearchs")
@@ -46,6 +46,6 @@ public class MySearchesWidget extends WidgetController {
 
     @Override
     public String getWidgetDescription() {
-        return BundleUtil.getStringFromResourceBundle("resources/ExpenditureResources", "widget.description.MySearchesWidget");
+        return BundleUtil.getString("resources/ExpenditureResources", "widget.description.MySearchesWidget");
     }
 }

@@ -27,15 +27,16 @@ package module.externalAccountingIntegration.domain;
 import java.sql.SQLException;
 
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.dbUtils.ExternalDbQuery;
+import pt.ist.dbUtils.TaskWithExternalDbOperation;
 
 /**
  * 
  * @author Luis Cruz
  * 
  */
-public abstract class ExternalRequestSyncTask extends ExternalRequestSyncTask_Base {
+public abstract class ExternalRequestSyncTask extends TaskWithExternalDbOperation {
 
     public ExternalRequestSyncTask() {
         super();
@@ -67,15 +68,15 @@ public abstract class ExternalRequestSyncTask extends ExternalRequestSyncTask_Ba
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getFormattedStringFromResourceBundle("resources.ExternalAccountingIntegrationResources",
-                "label.task.ExternalRequestSyncTask", getDbPropertyPrefix());
+        return BundleUtil.getString("resources.ExternalAccountingIntegrationResources", "label.task.ExternalRequestSyncTask",
+                getDbPropertyPrefix());
     }
 
     @Override
-    public void executeTask() {
+    public void runTask() {
         try {
             setVirtualHost();
-            super.executeTask();
+            super.runTask();
         } finally {
             VirtualHost.releaseVirtualHostFromThread();
         }

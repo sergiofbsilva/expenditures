@@ -25,17 +25,17 @@
 package module.workingCapital.domain.util;
 
 import module.workingCapital.domain.AcquisitionClassification;
-import pt.ist.bennu.core.domain.scheduler.WriteCustomTask;
+import pt.ist.bennu.scheduler.custom.CustomTask;
 
 /**
  * 
  * @author Luis Cruz
  * 
  */
-public class CreateAcquisitionClassifications extends WriteCustomTask {
+public class CreateAcquisitionClassifications extends CustomTask {
 
     @Override
-    protected void doService() {
+    public void runTask() {
         create("Combustiveis", "622121", "020102");
         create("Laboratorio", "622151", "020120");
         create("Ferra.Utensílios", "622159", "020117");

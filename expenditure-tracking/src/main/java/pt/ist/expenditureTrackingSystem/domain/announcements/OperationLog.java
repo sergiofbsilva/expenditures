@@ -29,8 +29,8 @@ import module.workflow.domain.WorkflowProcess;
 import org.joda.time.DateTime;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.processes.GenericProcess;
 
 /**
@@ -58,32 +58,32 @@ public class OperationLog extends OperationLog_Base {
 
     @Override
     public void setOperation(String operation) {
-        throw new DomainException("error.unable.to.change.operation");
+        throw new ExpenditureTrackingDomainException("error.unable.to.change.operation");
     }
 
     @Override
     public void setProcess(WorkflowProcess process) {
-        throw new DomainException("error.unable.to.change.process");
+        throw new ExpenditureTrackingDomainException("error.unable.to.change.process");
     }
 
     @Override
     public void setActivityExecutor(User executor) {
-        throw new DomainException("error.unable.to.change.executor");
+        throw new ExpenditureTrackingDomainException("error.unable.to.change.executor");
     }
 
     @Override
     public void setWhenOperationWasRan(DateTime when) {
-        throw new DomainException("error.unable.to.change.when.operation.was.executed");
+        throw new ExpenditureTrackingDomainException("error.unable.to.change.when.operation.was.executed");
     }
 
     @Override
     public void setState(AnnouncementProcessStateType state) {
-        throw new DomainException("error.unable.to.change.when.state");
+        throw new ExpenditureTrackingDomainException("error.unable.to.change.when.state");
     }
 
     @Override
     public String getDescription() {
-        return BundleUtil.getFormattedStringFromResourceBundle("resources/AnnouncementsResources", "label." + getOperation());
+        return BundleUtil.getString("resources/AnnouncementsResources", "label." + getOperation());
     }
 
     @Override

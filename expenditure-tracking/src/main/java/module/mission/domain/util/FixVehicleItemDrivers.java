@@ -31,14 +31,14 @@ import module.mission.domain.VehiclItem;
 import module.organization.domain.Person;
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.scheduler.WriteCustomTask;
+import pt.ist.bennu.scheduler.custom.CustomTask;
 
 /**
  * 
  * @author João Neves
  * 
  */
-public class FixVehicleItemDrivers extends WriteCustomTask {
+public class FixVehicleItemDrivers extends CustomTask {
 
     private static final boolean PERFORM_CHANGES = false;
 
@@ -46,7 +46,7 @@ public class FixVehicleItemDrivers extends WriteCustomTask {
     private static int noDriverVehiclesFixable = 0;
 
     @Override
-    public void doService() {
+    public void runTask() {
         for (VirtualHost vHost : MyOrg.getInstance().getVirtualHosts()) {
             try {
                 VirtualHost.setVirtualHostForThread(vHost);
@@ -56,8 +56,8 @@ public class FixVehicleItemDrivers extends WriteCustomTask {
             }
         }
 
-        out.println("Total Vehicles with no driver: " + noDriverVehicles);
-        out.println("Total Vehicles with no driver that can be fixed (single-participant-item): " + noDriverVehiclesFixable);
+        taskLog("Total Vehicles with no driver: " + noDriverVehicles);
+        taskLog("Total Vehicles with no driver that can be fixed (single-participant-item): " + noDriverVehiclesFixable);
     }
 
     private void fixVehicleItemDrivers() {

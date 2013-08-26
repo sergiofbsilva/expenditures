@@ -24,7 +24,7 @@
  */
 package pt.ist.expenditureTrackingSystem.domain.acquisitions.search;
 
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.refund.RefundProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.SimplifiedProcedureProcess;
@@ -52,7 +52,7 @@ public enum SearchProcessValues implements IPresentableEnum {
 
     @Override
     public String getLocalizedName() {
-        return (searchClassification != null) ? searchClassification.getLocalizedName() : BundleUtil.getStringFromResourceBundle(
+        return (searchClassification != null) ? searchClassification.getLocalizedName() : BundleUtil.getString(
                 "resources/ExpenditureResources", "label.search." + searchClass.getSimpleName() + ".description");
     }
 

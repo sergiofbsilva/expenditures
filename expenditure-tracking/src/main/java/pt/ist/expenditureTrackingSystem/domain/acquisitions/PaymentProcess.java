@@ -44,14 +44,14 @@ import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
-import pt.ist.emailNotifier.domain.Email;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
+import pt.ist.bennu.email.domain.Email;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.ProcessState;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.AccountingUnit;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Project;
@@ -400,13 +400,12 @@ public abstract class PaymentProcess extends PaymentProcess_Base implements HasP
     }
 
     public String getTypeDescription() {
-        return BundleUtil.getStringFromResourceBundle("resources/ExpenditureResources", "label." + getClass().getSimpleName()
-                + ".description");
+        return BundleUtil.getString("resources/ExpenditureResources", "label." + getClass().getSimpleName() + ".description");
     }
 
     public String getTypeShortDescription() {
-        return BundleUtil.getStringFromResourceBundle("resources/ExpenditureResources", "label." + getClass().getSimpleName()
-                + ".shortDescription");
+        return BundleUtil
+                .getString("resources/ExpenditureResources", "label." + getClass().getSimpleName() + ".shortDescription");
     }
 
     public abstract boolean isAppiableForYear(final int year);
@@ -429,10 +428,10 @@ public abstract class PaymentProcess extends PaymentProcess_Base implements HasP
             toAddress.add(email);
 
             final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
-            new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
-                    toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(
-                            "resources/AcquisitionResources", "label.email.commentCreated.subject", getAcquisitionProcessId()),
-                    BundleUtil.getFormattedStringFromResourceBundle("resources/AcquisitionResources",
+            new Email(virtualHost.getConfiguration().getApplicationSubTitle().getContent(), virtualHost.getConfiguration()
+                    .getSystemEmailAddress(), new String[] {}, toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
+                    BundleUtil.getString("resources/AcquisitionResources", "label.email.commentCreated.subject",
+                            getAcquisitionProcessId()), BundleUtil.getString("resources/AcquisitionResources",
                             "label.email.commentCreated.body", Person.getLoggedPerson().getName(), getAcquisitionProcessId(),
                             comment, virtualHost.getHostname()));
         }
@@ -475,9 +474,9 @@ public abstract class PaymentProcess extends PaymentProcess_Base implements HasP
                 /*&& missionProcess.getMission().isPendingApproval()*/)) {
             super.setMissionProcess(missionProcess);
         } else {
-//	    throw new DomainException("error.cannot.connect.acquisition.to.unauthorized.mission",
-            throw new DomainException("error.cannot.connect.acquisition.to.unsubmitted.for.approval.mission",
-                    DomainException.getResourceFor("resources/AcquisitionResources"));
+//	    throw new ExpenditureTrackingDomainException("error.cannot.connect.acquisition.to.unauthorized.mission",
+            throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                    "error.cannot.connect.acquisition.to.unsubmitted.for.approval.mission");
         }
     }
 

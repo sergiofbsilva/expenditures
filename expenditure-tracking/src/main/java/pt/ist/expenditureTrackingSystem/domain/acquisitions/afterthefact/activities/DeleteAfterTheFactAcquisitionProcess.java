@@ -27,7 +27,7 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact.activi
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact.AcquisitionAfterTheFact;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact.AfterTheFactAcquisitionProcess;
@@ -60,7 +60,7 @@ public class DeleteAfterTheFactAcquisitionProcess extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "label." + getClass().getName());
+        return BundleUtil.getString(getUsedBundle(), "label." + getClass().getName());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class DeleteAfterTheFactAcquisitionProcess extends
 
     @Override
     public String getLocalizedConfirmationMessage() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "message.confirm.delete.acquisition.process");
+        return BundleUtil.getString(getUsedBundle(), "message.confirm.delete.acquisition.process");
     }
 
     @Override

@@ -32,7 +32,7 @@ import module.workingCapital.domain.WorkingCapitalTransaction;
 
 import org.apache.commons.lang.StringUtils;
 
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.fenixWebFramework.renderers.OutputRenderer;
 import pt.ist.fenixWebFramework.renderers.components.HtmlBlockContainer;
 import pt.ist.fenixWebFramework.renderers.components.HtmlComponent;
@@ -137,7 +137,7 @@ public class WorkingCapitalTransactionFiles extends OutputRenderer {
                 script.setScript("linkConfirmationHookLink('access-"
                         + file.getExternalId()
                         + "', '"
-                        + BundleUtil.getFormattedStringFromResourceBundle("resources/WorkflowResources",
+                        + BundleUtil.getString("resources/WorkflowResources",
                                 "label.fileAccess.logged.confirmMessage", displayName) + "' , '" + displayName + "');");
                 return script;
             }
@@ -152,7 +152,7 @@ public class WorkingCapitalTransactionFiles extends OutputRenderer {
                 script.setScript("linkConfirmationHook('remove-"
                         + file.getExternalId()
                         + "', '"
-                        + BundleUtil.getFormattedStringFromResourceBundle("resources/WorkflowResources",
+                        + BundleUtil.getString("resources/WorkflowResources",
                                 "label.fileRemoval.confirmation", displayName) + "' , '" + displayName + "');");
                 return script;
             }

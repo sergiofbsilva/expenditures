@@ -32,12 +32,12 @@ import module.workflow.activities.WorkflowActivity;
 import module.workflow.domain.ActivityLog;
 import module.workflow.domain.WorkflowProcess;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.ProcessState;
 import pt.ist.expenditureTrackingSystem.domain.announcement.AnnouncementProcessState;
 import pt.ist.expenditureTrackingSystem.domain.dto.AnnouncementBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.fenixframework.Atomic;
 
@@ -72,7 +72,7 @@ public class AnnouncementProcess extends AnnouncementProcess_Base {
     @Atomic
     public static AnnouncementProcess createNewAnnouncementProcess(Person publisher, AnnouncementBean announcementBean) {
         if (!isCreateNewProcessAvailable()) {
-            throw new DomainException("announcementProcess.message.exception.invalidStateToRun.create");
+            throw new ExpenditureTrackingDomainException("announcementProcess.message.exception.invalidStateToRun.create");
         }
 
         announcementBean.setBuyingUnit(ExpenditureTrackingSystem.getInstance().getTopLevelUnitsSet().iterator().next());

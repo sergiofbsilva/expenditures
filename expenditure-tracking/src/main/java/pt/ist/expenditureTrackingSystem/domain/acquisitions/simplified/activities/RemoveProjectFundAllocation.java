@@ -26,9 +26,9 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.activiti
 
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem._development.ExternalIntegration;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RegularAcquisitionProcess;
@@ -74,7 +74,7 @@ public class RemoveProjectFundAllocation extends
         if (process.isInAllocatedToUnitState() && !process.isCanceled()) {
             process.allocateFundsToSupplier();
         }
-        process.getAcquisitionRequest().resetProjectFundAllocationId(UserView.getCurrentUser().getExpenditurePerson());
+        process.getAcquisitionRequest().resetProjectFundAllocationId(Authenticate.getUser().getExpenditurePerson());
         RemoveFundAllocationExpirationDate removeFundAllocationExpirationDate = new RemoveFundAllocationExpirationDate();
         if (process.getAcquisitionProcessState().isCanceled() && !process.getAcquisitionRequest().hasAllFundAllocationId()
                 && removeFundAllocationExpirationDate.isActive(process)) {
@@ -88,7 +88,7 @@ public class RemoveProjectFundAllocation extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "label." + getClass().getName());
+        return BundleUtil.getString(getUsedBundle(), "label." + getClass().getName());
     }
 
     @Override

@@ -9,8 +9,8 @@ import java.util.TreeSet;
 import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.fenixframework.Atomic;
 
 public class DailyPersonelExpenseTable extends DailyPersonelExpenseTable_Base {
@@ -57,7 +57,7 @@ public class DailyPersonelExpenseTable extends DailyPersonelExpenseTable_Base {
             if (dailyPersonelExpenseTable != this
                     && dailyPersonelExpenseTable.getAplicableToMissionClass() == getAplicableToMissionClass()
                     && dailyPersonelExpenseTable.getAplicableSince().equals(getAplicableSince())) {
-                throw new DomainException("error.duplicate.daily.personel.expense.table");
+                throw new ExpenditureTrackingDomainException(null, "error.duplicate.daily.personel.expense.table");
             }
         }
     }
@@ -88,7 +88,7 @@ public class DailyPersonelExpenseTable extends DailyPersonelExpenseTable_Base {
             final BigDecimal minSalaryValue) {
         for (final DailyPersonelExpenseCategory dailyPersonelExpenseCategory : getDailyPersonelExpenseCategoriesSet()) {
             if (dailyPersonelExpenseCategory.getDescription().equals(description)) {
-                throw new DomainException("error.duplicate.daily.personel.expense.category");
+                throw new ExpenditureTrackingDomainException(null, "error.duplicate.daily.personel.expense.category");
             }
         }
         return new DailyPersonelExpenseCategory(this, description, value, minSalaryValue);

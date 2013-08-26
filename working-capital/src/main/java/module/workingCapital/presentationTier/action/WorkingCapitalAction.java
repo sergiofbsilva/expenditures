@@ -57,8 +57,8 @@ import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.domain.VirtualHost;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
-import pt.ist.bennu.core.util.BundleUtil;
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 import pt.utl.ist.fenix.tools.spreadsheet.SheetData;
@@ -206,7 +206,7 @@ public class WorkingCapitalAction extends ContextBaseAction {
             return viewWorkingCapital(request, workingCapitalProcess);
         } catch (final DomainException domainException) {
             RenderUtils.invalidateViewState();
-            addLocalizedMessage(request, BundleUtil.getFormattedStringFromResourceBundle("resources.WorkingCapitalResources",
+            addLocalizedMessage(request, BundleUtil.getString("resources.WorkingCapitalResources",
                     domainException.getKey()));
             return prepareCreateWorkingCapitalInitialization(request, workingCapitalInitializationBean);
         }
@@ -334,7 +334,7 @@ public class WorkingCapitalAction extends ContextBaseAction {
     }
 
     private String getLocalizedMessate(String msg) {
-        return BundleUtil.getStringFromResourceBundle(WorkingCapital.bundleResource, msg);
+        return BundleUtil.getString(WorkingCapital.bundleResource, msg);
     }
 
     private ActionForward streamSpreadsheet(final HttpServletResponse response, final String fileName,

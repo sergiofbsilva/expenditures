@@ -10,8 +10,8 @@ import module.mission.domain.MissionProcess;
 import module.organization.domain.Person;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.core.security.Authenticate;
 
 public class CommitFundsActivityInformation extends ActivityInformation<MissionProcess> implements Serializable {
 
@@ -67,7 +67,7 @@ public class CommitFundsActivityInformation extends ActivityInformation<MissionP
     }
 
     protected boolean canAllocateFunds(final MissionFinancer missionFinancer) {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         final Person person = user.getPerson();
         return missionFinancer.canAllocateFunds(person);
     }

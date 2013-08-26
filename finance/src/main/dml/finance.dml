@@ -1,6 +1,6 @@
 package module.finance.domain;
 
-valueType pt.ist.bennu.core.domain.util.Address as Address {
+valueType pt.ist.bennu.core.util.legacy.Address as Address {
     externalizeWith {
         String exportAsString();
     }

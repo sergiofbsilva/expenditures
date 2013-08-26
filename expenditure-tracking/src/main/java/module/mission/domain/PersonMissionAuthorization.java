@@ -38,9 +38,9 @@ import module.organization.domain.Unit;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
+import pt.ist.bennu.core.security.Authenticate;
 
 /**
  * 
@@ -135,7 +135,7 @@ public class PersonMissionAuthorization extends PersonMissionAuthorization_Base 
     }
 
     public boolean canAuthoriseParticipantActivity() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return user != null && canAuthoriseParticipantActivity(user.getPerson());
     }
 
@@ -160,7 +160,7 @@ public class PersonMissionAuthorization extends PersonMissionAuthorization_Base 
     }
 
     public boolean canUnAuthoriseParticipantActivity() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return user != null && canUnAuthoriseParticipantActivity(user.getPerson());
     }
 

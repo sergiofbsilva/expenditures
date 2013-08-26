@@ -64,13 +64,13 @@ public class Role extends Role_Base {
         super();
         setRoleType(type);
         setExpenditureTrackingSystem(ExpenditureTrackingSystem.getInstance());
-        setSystemRole(pt.ist.bennu.core.domain.groups.Role.getRole(type));
+        setSystemRole(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(type));
     }
 
     @Atomic
     public static Role createRole(final RoleType type) {
         final Role role = new Role(type);
-        role.setSystemRole(pt.ist.bennu.core.domain.groups.Role.getRole(type));
+        role.setSystemRole(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(type));
         return role;
     }
 
@@ -79,7 +79,7 @@ public class Role extends Role_Base {
         for (final Role role : ExpenditureTrackingSystem.getInstance().getRoles()) {
             if (role.getRoleType().equals(roleType) && role.isConnectedToCurrentHost()) {
                 if (!role.hasSystemRole()) {
-                    role.setSystemRole(pt.ist.bennu.core.domain.groups.Role.getRole(roleType));
+                    role.setSystemRole(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(roleType));
                 }
                 for (final Person person : role.getPersonSet()) {
                     final User user = person.getUser();

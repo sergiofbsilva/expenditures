@@ -32,7 +32,7 @@ import module.workingCapital.domain.WorkingCapitalProcess;
 import module.workingCapital.domain.WorkingCapitalSystem;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.bennu.core.util.InputStreamUtil;
 
 /**
@@ -46,7 +46,7 @@ public class RegisterWorkingCapitalAcquisitionActivity extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "activity."
+        return BundleUtil.getString("resources/WorkingCapitalResources", "activity."
                 + getClass().getSimpleName());
     }
 
@@ -101,8 +101,8 @@ public class RegisterWorkingCapitalAcquisitionActivity extends
         Money value = activityInformation.getMoney();
         if ((limit != null) && (value.compareTo(limit) == 1)) {
             args[0] =
-                    "(" + BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "label.exceptional") + ", "
-                            + BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "label.limit") + " = "
+                    "(" + BundleUtil.getString("resources/WorkingCapitalResources", "label.exceptional") + ", "
+                            + BundleUtil.getString("resources/WorkingCapitalResources", "label.limit") + " = "
                             + limit.getValue().toString() + ")";
             return args;
         } else {

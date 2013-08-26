@@ -27,12 +27,12 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions.activities.commons;
 import java.util.List;
 
 import module.workflow.activities.WorkflowActivity;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RequestItem;
 import pt.ist.expenditureTrackingSystem.domain.dto.UnitItemBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 
 /**
  * 
@@ -53,7 +53,7 @@ public abstract class AbstractDistributeRealValuesForPayingUnits<P extends Payme
         for (UnitItemBean bean : beans) {
             Money share = bean.getRealShareValue();
             if (share == null) {
-                throw new DomainException("activities.message.exception.monetaryValueMustBeFilled", getName());
+                throw new ExpenditureTrackingDomainException("activities.message.exception.monetaryValueMustBeFilled", getName());
             }
             amount = amount.add(share);
             item.getUnitItemFor(bean.getUnit()).setRealShareValue(share);
@@ -68,7 +68,7 @@ public abstract class AbstractDistributeRealValuesForPayingUnits<P extends Payme
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "label." + getClass().getName());
+        return BundleUtil.getString(getUsedBundle(), "label." + getClass().getName());
     }
 
     @Override

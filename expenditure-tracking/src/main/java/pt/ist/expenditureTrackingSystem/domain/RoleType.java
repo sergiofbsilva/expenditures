@@ -27,7 +27,7 @@ package pt.ist.expenditureTrackingSystem.domain;
 import java.util.ResourceBundle;
 
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.groups.IRoleEnum;
+import pt.ist.bennu.core.domain.groups.legacy.IRoleEnum;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 
 /**
@@ -53,11 +53,15 @@ public enum RoleType implements IRoleEnum {
         return virtualHost == null ? name() : name() + '@' + virtualHost.getHostname();
     }
 
-    @Override
     public String getLocalizedName() {
         final ResourceBundle resourceBundle =
                 ResourceBundle.getBundle("resources.ExpenditureEnumerationResources", Language.getLocale());
         return resourceBundle.getString(RoleType.class.getSimpleName() + "." + name());
+    }
+
+    @Override
+    public String getPresentationName() {
+        return getLocalizedName();
     }
 
 }

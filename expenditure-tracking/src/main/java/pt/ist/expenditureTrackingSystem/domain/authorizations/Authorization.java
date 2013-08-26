@@ -29,11 +29,11 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionProcess;
 import pt.ist.expenditureTrackingSystem.domain.dto.AuthorizationBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
 import pt.ist.fenixframework.Atomic;
@@ -108,7 +108,7 @@ public class Authorization extends Authorization_Base {
     @Atomic
     public void revoke() {
         if (!isCurrentUserAbleToRevoke()) {
-            throw new DomainException("error.person.not.authorized.to.revoke");
+            throw new ExpenditureTrackingDomainException("error.person.not.authorized.to.revoke");
         }
         setEndDate(new LocalDate());
         for (DelegatedAuthorization authorization : getDelegatedAuthorizations()) {

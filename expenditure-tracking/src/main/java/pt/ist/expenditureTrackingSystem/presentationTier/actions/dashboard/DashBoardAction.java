@@ -39,10 +39,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.contents.ActionNode;
-import pt.ist.bennu.core.domain.contents.Node;
-import pt.ist.bennu.core.domain.groups.UserGroup;
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureUserDashBoardPanel;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
@@ -53,7 +49,6 @@ import pt.ist.expenditureTrackingSystem.presentationTier.widgets.PendingRefundWi
 import pt.ist.expenditureTrackingSystem.presentationTier.widgets.PendingSimplifiedWidget;
 import pt.ist.expenditureTrackingSystem.presentationTier.widgets.TakenProcessesWidget;
 import pt.ist.expenditureTrackingSystem.presentationTier.widgets.UnreadCommentsWidget;
-import pt.ist.fenixWebFramework.servlets.functionalities.CreateNodeAction;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
@@ -97,19 +92,19 @@ public class DashBoardAction extends ContextBaseAction {
         return expenditureUserDashBoardPanel;
     }
 
-    @CreateNodeAction(bundle = "EXPENDITURE_RESOURCES", key = "add.node.expenditure-tracking.interface.dashboard",
-            groupKey = "label.module.dashboard")
-    public ActionForward createDashBoardLink(final ActionMapping mapping, final ActionForm form,
-            final HttpServletRequest request, final HttpServletResponse response) {
-
-        final VirtualHost virtualHost = getDomainObject(request, "virtualHostToManageId");
-        final Node node = getDomainObject(request, "parentOfNodesToManageId");
-
-        ActionNode.createActionNode(virtualHost, node, "/dashBoard", "viewDigest", "resources.ExpenditureResources",
-                "link.sideBar.acquisitionProcess.digest", UserGroup.getInstance());
-
-        return forwardToMuneConfiguration(request, virtualHost, node);
-
-    }
+//    @CreateNodeAction(bundle = "EXPENDITURE_RESOURCES", key = "add.node.expenditure-tracking.interface.dashboard",
+//            groupKey = "label.module.dashboard")
+//    public ActionForward createDashBoardLink(final ActionMapping mapping, final ActionForm form,
+//            final HttpServletRequest request, final HttpServletResponse response) {
+//
+//        final VirtualHost virtualHost = getDomainObject(request, "virtualHostToManageId");
+//        final Node node = getDomainObject(request, "parentOfNodesToManageId");
+//
+//        ActionNode.createActionNode(virtualHost, node, "/dashBoard", "viewDigest", "resources.ExpenditureResources",
+//                "link.sideBar.acquisitionProcess.digest", UserGroup.getInstance());
+//
+//        return forwardToMuneConfiguration(request, virtualHost, node);
+//
+//    }
 
 }

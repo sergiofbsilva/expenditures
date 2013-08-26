@@ -54,13 +54,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
 import pt.ist.bennu.core.presentationTier.component.OrganizationChart;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
+import pt.ist.bennu.core.util.legacy.LegacyUtil;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 
 @Mapping(path = "/missionOrganization")
@@ -82,7 +83,7 @@ public class MissionOrganizationAction extends ContextBaseAction {
 
     public ActionForward showPerson(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
             final HttpServletResponse response) {
-        final User currentUser = UserView.getCurrentUser();
+        final User currentUser = Authenticate.getUser();
         final Person person = currentUser.getPerson();
         return showPerson(person, request);
     }
@@ -277,8 +278,7 @@ public class MissionOrganizationAction extends ContextBaseAction {
         }
 
         if (!hasPermission(unit)) {
-            addLocalizedMessage(request,
-                    BundleUtil.getStringFromResourceBundle("resources/MissionResources", "label.not.authorized"));
+            addLocalizedMessage(request, BundleUtil.getString("resources/MissionResources", "label.not.authorized"));
             return showUnit(unit, request);
         }
 
@@ -293,12 +293,11 @@ public class MissionOrganizationAction extends ContextBaseAction {
     }
 
     public static boolean hasPermission(final Unit unit) {
-        final UserView userView = UserView.getCurrentUserView();
-        if (userView == null) {
+        final User user = Authenticate.getUser();
+        if (user == null) {
             return false;
         }
-        final User user = userView.getUser();
-        if (user.hasRoleType(RoleType.MANAGER)) {
+        if (LegacyUtil.hasRoleType(user, RoleType.MANAGER)) {
             return true;
         }
         final Person person = user == null ? null : user.getPerson();

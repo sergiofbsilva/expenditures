@@ -25,15 +25,15 @@
 package module.workingCapital.domain;
 
 import module.workflow.domain.WorkflowProcess;
+import module.workingCapital.domain.exception.WorkingCapitalDomainException;
 import module.workingCapital.domain.util.WorkingCapitalTransactionFileUploadBean;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.consistencyPredicates.ConsistencyPredicate;
 
@@ -61,7 +61,7 @@ public class WorkingCapitalAcquisitionTransaction extends WorkingCapitalAcquisit
     @Override
     public String getDescription() {
         final WorkingCapitalAcquisition workingCapitalAcquisition = getWorkingCapitalAcquisition();
-        return BundleUtil.getStringFromResourceBundle(WORKING_CAPITAL_RESOURCES, "label." + getClass().getName()) + ": "
+        return BundleUtil.getString(WORKING_CAPITAL_RESOURCES, "label." + getClass().getName()) + ": "
                 + workingCapitalAcquisition.getAcquisitionClassification().getDescription();
     }
 
@@ -78,7 +78,7 @@ public class WorkingCapitalAcquisitionTransaction extends WorkingCapitalAcquisit
     }
 
     public boolean isPendingApprovalByUser() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return !isCanceledOrRejected() && isPendingApproval() && !getWorkingCapital().isCanceledOrRejected()
                 && getWorkingCapital().hasAcquisitionPendingApproval(user);
     }
@@ -124,7 +124,7 @@ public class WorkingCapitalAcquisitionTransaction extends WorkingCapitalAcquisit
     }
 
     public boolean isPendingVerificationByUser() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isPendingVerification() && !getWorkingCapital().isCanceledOrRejected()
                 && getWorkingCapital().hasAcquisitionPendingVerification(user);
     }
@@ -189,7 +189,7 @@ public class WorkingCapitalAcquisitionTransaction extends WorkingCapitalAcquisit
     public void addValue(final Money value) {
         Money limit = getWorkingCapitalSystem().getAcquisitionValueLimit();
         if ((limit != null) && (getValue().add(value).compareTo(limit) == 1)) {
-            throw new DomainException(BundleUtil.getStringFromResourceBundle(WORKING_CAPITAL_RESOURCES,
+            throw new WorkingCapitalDomainException(BundleUtil.getString(WORKING_CAPITAL_RESOURCES,
                     "error.acquisition.limit.exceeded"));
         }
         super.addValue(value);
@@ -212,7 +212,7 @@ public class WorkingCapitalAcquisitionTransaction extends WorkingCapitalAcquisit
     public void resetValue(final Money value) {
         Money limit = getWorkingCapitalSystem().getAcquisitionValueLimit();
         if ((limit != null) && (value.compareTo(limit) == 1)) {
-            throw new DomainException(BundleUtil.getStringFromResourceBundle(WORKING_CAPITAL_RESOURCES,
+            throw new WorkingCapitalDomainException(BundleUtil.getString(WORKING_CAPITAL_RESOURCES,
                     "error.acquisition.limit.exceeded"));
         }
         super.resetValue(value);

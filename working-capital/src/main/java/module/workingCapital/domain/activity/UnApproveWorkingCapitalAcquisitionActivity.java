@@ -33,7 +33,7 @@ import module.workingCapital.domain.WorkingCapitalProcess;
 import module.workingCapital.domain.WorkingCapitalTransaction;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
 
 /**
@@ -46,7 +46,7 @@ public class UnApproveWorkingCapitalAcquisitionActivity extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "activity."
+        return BundleUtil.getString("resources/WorkingCapitalResources", "activity."
                 + getClass().getSimpleName());
     }
 

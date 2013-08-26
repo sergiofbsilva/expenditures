@@ -24,7 +24,7 @@
  */
 package pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.fenixframework.Atomic;
 
 /**
@@ -46,7 +46,7 @@ public class ImportFile extends ImportFile_Base {
     @Atomic
     public void delete() {
         if (getAfterTheFactAcquisitionProcessesSet().size() > 0) {
-            throw new DomainException("exception.domain.ImportFile.cannotDeleteImportFileWithProcesses");
+            throw new ExpenditureTrackingDomainException("exception.domain.ImportFile.cannotDeleteImportFileWithProcesses");
         }
 
         deleteDomainObject();

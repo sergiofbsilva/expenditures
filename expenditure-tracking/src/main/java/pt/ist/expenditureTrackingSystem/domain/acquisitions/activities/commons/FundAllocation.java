@@ -26,7 +26,7 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions.activities.commons;
 
 import module.workflow.activities.WorkflowActivity;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcess;
 import pt.ist.expenditureTrackingSystem.domain.dto.FundAllocationBean;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
@@ -71,7 +71,7 @@ public class FundAllocation<P extends PaymentProcess> extends WorkflowActivity<P
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "label." + getClass().getName());
+        return BundleUtil.getString(getUsedBundle(), "label." + getClass().getName());
     }
 
     @Override

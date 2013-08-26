@@ -36,12 +36,12 @@ import module.dashBoard.domain.DashBoardPanel;
 import module.dashBoard.widgets.WidgetController;
 import module.organization.presentationTier.actions.OrganizationModelAction;
 import module.workflow.widgets.ProcessListWidget;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.ModuleInitializer;
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcessYear;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.search.SearchProcessValues;
@@ -301,28 +301,30 @@ public class ExpenditureTrackingSystem extends ExpenditureTrackingSystem_Base im
 //	    person.setDefaultSearch(savedSearch);
 //	}
 
-        setAcquisitionCentralGroup(pt.ist.bennu.core.domain.groups.Role.getRole(RoleType.ACQUISITION_CENTRAL));
+        setAcquisitionCentralGroup(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(RoleType.ACQUISITION_CENTRAL));
 
-        setFundCommitmentManagerGroup(pt.ist.bennu.core.domain.groups.Role.getRole(RoleType.FUND_COMMITMENT_MANAGER));
+        setFundCommitmentManagerGroup(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(RoleType.FUND_COMMITMENT_MANAGER));
 
-        setAcquisitionCentralManagerGroup(pt.ist.bennu.core.domain.groups.Role.getRole(RoleType.ACQUISITION_CENTRAL_MANAGER));
+        setAcquisitionCentralManagerGroup(pt.ist.bennu.core.domain.groups.legacy.Role
+                .getRole(RoleType.ACQUISITION_CENTRAL_MANAGER));
 
-        setAccountingManagerGroup(pt.ist.bennu.core.domain.groups.Role.getRole(RoleType.ACCOUNTING_MANAGER));
+        setAccountingManagerGroup(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(RoleType.ACCOUNTING_MANAGER));
 
-        setProjectAccountingManagerGroup(pt.ist.bennu.core.domain.groups.Role.getRole(RoleType.PROJECT_ACCOUNTING_MANAGER));
+        setProjectAccountingManagerGroup(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(RoleType.PROJECT_ACCOUNTING_MANAGER));
 
-        setTreasuryMemberGroup(pt.ist.bennu.core.domain.groups.Role.getRole(RoleType.TREASURY_MANAGER));
+        setTreasuryMemberGroup(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(RoleType.TREASURY_MANAGER));
 
-        setSupplierManagerGroup(pt.ist.bennu.core.domain.groups.Role.getRole(RoleType.SUPPLIER_MANAGER));
+        setSupplierManagerGroup(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(RoleType.SUPPLIER_MANAGER));
 
-        setSupplierFundAllocationManagerGroup(pt.ist.bennu.core.domain.groups.Role
+        setSupplierFundAllocationManagerGroup(pt.ist.bennu.core.domain.groups.legacy.Role
                 .getRole(RoleType.SUPPLIER_FUND_ALLOCATION_MANAGER));
 
-        setStatisticsViewerGroup(pt.ist.bennu.core.domain.groups.Role.getRole(RoleType.STATISTICS_VIEWER));
+        setStatisticsViewerGroup(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(RoleType.STATISTICS_VIEWER));
 
-        setAcquisitionsUnitManagerGroup(pt.ist.bennu.core.domain.groups.Role.getRole(RoleType.AQUISITIONS_UNIT_MANAGER));
+        setAcquisitionsUnitManagerGroup(pt.ist.bennu.core.domain.groups.legacy.Role.getRole(RoleType.AQUISITIONS_UNIT_MANAGER));
 
-        setAcquisitionsProcessAuditorGroup(pt.ist.bennu.core.domain.groups.Role.getRole(RoleType.ACQUISITION_PROCESS_AUDITOR));
+        setAcquisitionsProcessAuditorGroup(pt.ist.bennu.core.domain.groups.legacy.Role
+                .getRole(RoleType.ACQUISITION_PROCESS_AUDITOR));
 
         setSearchProcessValuesArray(new SearchProcessValuesArray(SearchProcessValues.values()));
 
@@ -425,64 +427,64 @@ public class ExpenditureTrackingSystem extends ExpenditureTrackingSystem_Base im
     }
 
     public static boolean isAcquisitionCentralGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isAcquisitionCentralGroupMember(user);
     }
 
     public static boolean isFundCommitmentManagerGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isFundCommitmentManagerGroupMember(user);
     }
 
     public static boolean isAcquisitionCentralManagerGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isAcquisitionCentralManagerGroupMember(user);
     }
 
     public static boolean isAccountingManagerGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isAccountingManagerGroupMember(user);
     }
 
     public static boolean isProjectAccountingManagerGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isProjectAccountingManagerGroupMember(user);
     }
 
     public static boolean isTreasuryMemberGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isTreasuryMemberGroupMember(user);
     }
 
     public static boolean isSupplierManagerGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isSupplierManagerGroupMember(user);
     }
 
     public static boolean isSupplierFundAllocationManagerGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isSupplierFundAllocationManagerGroupMember(user);
     }
 
     public static boolean isStatisticsViewerGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isStatisticsViewerGroupMember(user);
     }
 
     public static boolean isAcquisitionsUnitManagerGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isAcquisitionsUnitManagerGroupMember(user);
     }
 
     public static boolean isAcquisitionsProcessAuditorGroupMember() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return isAcquisitionsProcessAuditorGroupMember(user);
     }
 
     public static boolean isManager() {
-        final User user = UserView.getCurrentUser();
-        final pt.ist.bennu.core.domain.groups.Role role =
-                pt.ist.bennu.core.domain.groups.Role.getRole(pt.ist.bennu.core.domain.RoleType.MANAGER);
+        final User user = Authenticate.getUser();
+        final pt.ist.bennu.core.domain.groups.legacy.Role role =
+                pt.ist.bennu.core.domain.groups.legacy.Role.getRole(pt.ist.bennu.core.domain.RoleType.MANAGER);
         return role.isMember(user);
     }
 

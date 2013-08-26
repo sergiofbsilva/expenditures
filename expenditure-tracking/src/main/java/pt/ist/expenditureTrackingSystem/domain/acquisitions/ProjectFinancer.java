@@ -30,8 +30,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.AccountingUnit;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Project;
@@ -55,10 +55,10 @@ public class ProjectFinancer extends ProjectFinancer_Base {
     protected ProjectFinancer(final RequestWithPayment acquisitionRequest, final Unit unit) {
         this();
         if (acquisitionRequest == null || unit == null) {
-            throw new DomainException("error.financer.wrong.initial.arguments");
+            throw new ExpenditureTrackingDomainException("error.financer.wrong.initial.arguments");
         }
         if (acquisitionRequest.hasPayingUnit(unit)) {
-            throw new DomainException("error.financer.acquisition.request.already.has.paying.unit");
+            throw new ExpenditureTrackingDomainException("error.financer.acquisition.request.already.has.paying.unit");
         }
 
         setFundedRequest(acquisitionRequest);
@@ -141,7 +141,7 @@ public class ProjectFinancer extends ProjectFinancer_Base {
 
     public void addEffectiveProjectFundAllocationId(String effectiveProjectFundAllocationId) {
         if (StringUtils.isEmpty(effectiveProjectFundAllocationId)) {
-            throw new DomainException("acquisitionProcess.message.exception.effectiveFundAllocationCannotBeNull");
+            throw new ExpenditureTrackingDomainException("acquisitionProcess.message.exception.effectiveFundAllocationCannotBeNull");
         }
         Strings strings = getEffectiveProjectFundAllocationId();
         if (strings == null) {

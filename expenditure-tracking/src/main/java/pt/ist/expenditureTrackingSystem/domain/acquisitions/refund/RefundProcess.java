@@ -43,10 +43,9 @@ import module.workflow.domain.ProcessFile;
 import module.workflow.domain.WorkflowProcess;
 import module.workflow.util.PresentableProcessState;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem._development.ExternalIntegration;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.ProcessState;
@@ -96,6 +95,7 @@ import pt.ist.expenditureTrackingSystem.domain.acquisitions.refund.activities.Un
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.Util;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
 import pt.ist.expenditureTrackingSystem.domain.dto.CreateRefundProcessBean;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
@@ -208,7 +208,7 @@ public class RefundProcess extends RefundProcess_Base {
         }
         if (bean.isForMission()) {
             if (bean.getMissionProcess() == null) {
-                throw new DomainException("mission.process.is.mandatory");
+                throw new ExpenditureTrackingDomainException("mission.process.is.mandatory");
             }
             process.setMissionProcess(bean.getMissionProcess());
         }
@@ -521,7 +521,7 @@ public class RefundProcess extends RefundProcess_Base {
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/AcquisitionResources", "label.RefundProcess");
+        return BundleUtil.getString("resources/AcquisitionResources", "label.RefundProcess");
     }
 
     public Boolean getShouldSkipSupplierFundAllocation() {
@@ -600,14 +600,14 @@ public class RefundProcess extends RefundProcess_Base {
                 final CPVReference cpvReference = centry.getKey();
                 final Money value = centry.getValue();
                 if (checkSupplierLimitsByCPV && !supplier.isFundAllocationAllowed(cpvReference.getCode(), value)) {
-                    throw new DomainException("acquisitionProcess.message.exception.SupplierDoesNotAlloweAmount",
-                            DomainException.getResourceFor("resources/AcquisitionResources"));
+                    throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                            "acquisitionProcess.message.exception.SupplierDoesNotAlloweAmount");
                 }
                 total = total.add(value);
             }
             if (!checkSupplierLimitsByCPV && !supplier.isFundAllocationAllowed(total)) {
-                throw new DomainException("acquisitionProcess.message.exception.SupplierDoesNotAlloweAmount",
-                        DomainException.getResourceFor("resources/AcquisitionResources"));
+                throw new ExpenditureTrackingDomainException("resources/AcquisitionResources",
+                        "acquisitionProcess.message.exception.SupplierDoesNotAlloweAmount");
             }
         }
     }

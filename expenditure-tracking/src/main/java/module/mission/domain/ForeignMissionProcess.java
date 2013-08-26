@@ -84,7 +84,7 @@ import module.workflow.domain.WorkflowProcess;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 @ClassNameBundle(key = "label.module.mission.domain.ForeignMissions", bundle = "resources/MissionResources")

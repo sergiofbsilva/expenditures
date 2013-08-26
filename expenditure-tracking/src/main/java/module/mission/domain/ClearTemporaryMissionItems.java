@@ -2,15 +2,18 @@ package module.mission.domain;
 
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.VirtualHost;
+import pt.ist.bennu.scheduler.CronTask;
+import pt.ist.bennu.scheduler.annotation.Task;
 
-public class ClearTemporaryMissionItems extends ClearTemporaryMissionItems_Base {
+@Task(englishTitle = "Clear Temporary Mission Items")
+public class ClearTemporaryMissionItems extends CronTask {
 
     public ClearTemporaryMissionItems() {
         super();
     }
 
     @Override
-    public void executeTask() {
+    public void runTask() {
         for (VirtualHost vHost : MyOrg.getInstance().getVirtualHosts()) {
             try {
                 VirtualHost.setVirtualHostForThread(vHost);

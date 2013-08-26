@@ -36,14 +36,14 @@ import module.workingCapital.domain.WorkingCapitalAcquisitionSubmissionDocument;
 import module.workingCapital.domain.WorkingCapitalAcquisitionTransaction;
 import module.workingCapital.domain.WorkingCapitalProcess;
 import module.workingCapital.domain.WorkingCapitalTransaction;
+import module.workingCapital.domain.exception.WorkingCapitalDomainException;
 import net.sf.jasperreports.engine.JRException;
-import pt.ist.bennu.core._development.PropertiesManager;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.util.Money;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ReportUtils;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.ConfigurationManager;
+import pt.ist.expenditureTrackingSystem.util.ReportUtils;
 
 /**
  * 
@@ -55,8 +55,7 @@ public class SubmitForValidationActivity extends WorkflowActivity<WorkingCapital
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "activity."
-                + getClass().getSimpleName());
+        return BundleUtil.getString("resources/WorkingCapitalResources", "activity." + getClass().getSimpleName());
     }
 
     @Override
@@ -116,11 +115,11 @@ public class SubmitForValidationActivity extends WorkflowActivity<WorkingCapital
         paramMap.put("submissionBalance", acquisitionSubmission.getBalance());
         paramMap.put("submissionDebt", acquisitionSubmission.getDebt());
         paramMap.put("institutionSocialSecurityNumber",
-                PropertiesManager.getProperty(VirtualHost.getVirtualHostForThread().getHostname() + ".ssn"));
-        paramMap.put("cae", PropertiesManager.getProperty(VirtualHost.getVirtualHostForThread().getHostname() + ".cae"));
+                ConfigurationManager.getProperty(VirtualHost.getVirtualHostForThread().getHostname() + ".ssn"));
+        paramMap.put("cae", ConfigurationManager.getProperty(VirtualHost.getVirtualHostForThread().getHostname() + ".cae"));
 
-        paramMap.put("paymentRequired", BundleUtil.getStringFromResourceBundle("resources/MyorgResources", acquisitionSubmission
-                .getPaymentRequired().toString()));
+        paramMap.put("paymentRequired",
+                BundleUtil.getString("resources/MyorgResources", acquisitionSubmission.getPaymentRequired().toString()));
 
         final ResourceBundle resourceBundle = ResourceBundle.getBundle("resources/WorkingCapitalResources");
         try {
@@ -130,8 +129,8 @@ public class SubmitForValidationActivity extends WorkflowActivity<WorkingCapital
             return byteArray;
         } catch (JRException e) {
             e.printStackTrace();
-            throw new DomainException("workingCapitalAcquisitionSubmissionDocument.exception.failedCreation",
-                    DomainException.getResourceFor("resources/WorkingCapitalResources"));
+            throw new WorkingCapitalDomainException("resources/WorkingCapitalResources",
+                    "workingCapitalAcquisitionSubmissionDocument.exception.failedCreation");
         }
     }
 
@@ -144,7 +143,7 @@ public class SubmitForValidationActivity extends WorkflowActivity<WorkingCapital
     protected String[] getArgumentsDescription(SubmitForValidationActivityInformation activityInformation) {
         if (activityInformation.isLastSubmission()) {
             return new String[] { "("
-                    + BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources",
+                    + BundleUtil.getString("resources/WorkingCapitalResources",
                             "label.module.workingCapital.initialization.lastSubmission") + ")" };
         }
         return new String[] { "" };

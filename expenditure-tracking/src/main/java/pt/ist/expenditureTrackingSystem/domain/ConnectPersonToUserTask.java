@@ -26,7 +26,9 @@ package pt.ist.expenditureTrackingSystem.domain;
 
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.scheduler.CronTask;
+import pt.ist.bennu.scheduler.annotation.Task;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 
 /**
@@ -35,14 +37,15 @@ import pt.ist.expenditureTrackingSystem.domain.organization.Person;
  * @author Paulo Abrantes
  * 
  */
-public class ConnectPersonToUserTask extends ConnectPersonToUserTask_Base {
+@Task(englishTitle = "Connect Person to User")
+public class ConnectPersonToUserTask extends CronTask {
 
     public ConnectPersonToUserTask() {
         super();
     }
 
     @Override
-    public void executeTask() {
+    public void runTask() {
         for (Person person : MyOrg.getInstance().getPeopleFromExpenditureTackingSystemSet()) {
             if (!person.hasUser()) {
                 String username = person.getUsername();
@@ -53,12 +56,11 @@ public class ConnectPersonToUserTask extends ConnectPersonToUserTask_Base {
                 person.setUser(user);
             }
         }
-
     }
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/ExpenditureResources", "label.task.connectPersonToUserTask");
+        return BundleUtil.getString("resources/ExpenditureResources", "label.task.connectPersonToUserTask");
     }
 
 }

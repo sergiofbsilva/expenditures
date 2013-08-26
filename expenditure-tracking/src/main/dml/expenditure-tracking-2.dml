@@ -1,37 +1,8 @@
-
-
-class pt.ist.expenditureTrackingSystem.domain.SyncSuppliers extends pt.ist.bennu.core.domain.scheduler.Task {	
-}
-
-class pt.ist.expenditureTrackingSystem.domain.SetRoleTypes extends pt.ist.bennu.core.domain.scheduler.Task {	
-}
-
-class pt.ist.expenditureTrackingSystem.domain.ConnectPersonToUserTask extends pt.ist.bennu.core.domain.scheduler.Task {	
-}
-
-class pt.ist.expenditureTrackingSystem.domain.EmailDigester extends pt.ist.bennu.core.domain.scheduler.Task {
-}
-
-class pt.ist.expenditureTrackingSystem.domain.ConnectUnitsToOrganization extends pt.ist.bennu.core.domain.scheduler.Task {
-}
-
 class pt.ist.expenditureTrackingSystem.domain.ExpenditureUserDashBoardPanel extends module.dashBoard.domain.UserDashBoardPanel {
 }
 
 class pt.ist.expenditureTrackingSystem.domain.ExpenditureWidgetOptions extends module.dashBoard.domain.WidgetOptions {
 	Integer maxListSize;
-}
-
-class pt.ist.expenditureTrackingSystem.domain.task.ExportAuthorizations extends .pt.ist.dbUtils.TaskWithExternalDbOperation {
-}
-
-class pt.ist.expenditureTrackingSystem.domain.task.ExportAuthorizationsIST extends pt.ist.expenditureTrackingSystem.domain.task.ExportAuthorizations {
-}
-
-class pt.ist.expenditureTrackingSystem.domain.task.ExportAuthorizationsADIST extends pt.ist.expenditureTrackingSystem.domain.task.ExportAuthorizations {
-}
-
-class pt.ist.expenditureTrackingSystem.domain.task.ExportAuthorizationsISTID extends pt.ist.expenditureTrackingSystem.domain.task.ExportAuthorizations {
 }
 
 relation MyOrgExpenditureTrackingSystem {
@@ -41,7 +12,7 @@ relation MyOrgExpenditureTrackingSystem {
 
 
 relation MyOrgRoleExpendituresRole {
-	pt.ist.bennu.core.domain.groups.Role playsRole systemRole;
+	pt.ist.bennu.core.domain.groups.legacy.Role playsRole systemRole;
 	pt.ist.expenditureTrackingSystem.domain.Role playsRole expenditureTrackingSystemRole;
 }
 

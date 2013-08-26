@@ -32,8 +32,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import module.workflow.domain.ProcessDocumentMetaDataResolver;
@@ -82,13 +80,14 @@ import module.workingCapital.domain.activity.UnVerifyWorkingCapitalAcquisitionAc
 import module.workingCapital.domain.activity.UndoCancelOrRejectWorkingCapitalInitializationActivity;
 import module.workingCapital.domain.activity.VerifyActivity;
 import module.workingCapital.domain.activity.VerifyWorkingCapitalAcquisitionActivity;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
-import pt.ist.emailNotifier.domain.Email;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.LegacyUtil;
+import pt.ist.bennu.email.domain.Email;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 
 @ClassNameBundle(key = "label.module.workingCapital", bundle = "resources/WorkingCapitalResources")
@@ -179,8 +178,7 @@ public class WorkingCapitalProcess extends WorkingCapitalProcess_Base implements
         private final static String WORKING_CAPITAL = "Fundo de maneio";
 
         @Override
-        public @Nonnull
-        Class<? extends module.workflow.domain.AbstractWFDocsGroup> getWriteGroupClass() {
+        public Class<? extends module.workflow.domain.AbstractWFDocsGroup> getWriteGroupClass() {
             return WFDocsDefaultWriteGroup.class;
         }
 
@@ -202,8 +200,8 @@ public class WorkingCapitalProcess extends WorkingCapitalProcess_Base implements
     @Override
     public String getProcessNumber() {
         return getWorkingCapital().getUnit().getPresentationName() + " - "
-                + BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "label.module.workingCapital.year")
-                + " " + getWorkingCapital().getWorkingCapitalYear().getYear();
+                + BundleUtil.getString("resources/WorkingCapitalResources", "label.module.workingCapital.year") + " "
+                + getWorkingCapital().getWorkingCapitalYear().getYear();
 
     }
 
@@ -212,7 +210,7 @@ public class WorkingCapitalProcess extends WorkingCapitalProcess_Base implements
         final WorkingCapital workingCapital = getWorkingCapital();
         return user != null
                 && user.getPerson() != null
-                && (user.hasRoleType(RoleType.MANAGER)
+                && (LegacyUtil.hasRoleType(user, RoleType.MANAGER)
                         || (user.getExpenditurePerson() != null && ExpenditureTrackingSystem
                                 .isAcquisitionsProcessAuditorGroupMember(user))
                         || (workingCapital.hasMovementResponsible() && user.getPerson() == workingCapital
@@ -255,14 +253,14 @@ public class WorkingCapitalProcess extends WorkingCapitalProcess_Base implements
         if (email != null) {
             toAddress.add(email);
 
-            final User loggedUser = UserView.getCurrentUser();
+            final User loggedUser = Authenticate.getUser();
             final WorkingCapital workingCapital = getWorkingCapital();
             final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
-            new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
-                    toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(
-                            "resources/WorkingCapitalResources", "label.email.commentCreated.subject", workingCapital.getUnit()
-                                    .getPresentationName(), workingCapital.getWorkingCapitalYear().getYear().toString()),
-                    BundleUtil.getFormattedStringFromResourceBundle("resources/WorkingCapitalResources",
+            new Email(virtualHost.getConfiguration().getApplicationSubTitle().getContent(), virtualHost.getConfiguration()
+                    .getSystemEmailAddress(), new String[] {}, toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
+                    BundleUtil.getString("resources/WorkingCapitalResources", "label.email.commentCreated.subject",
+                            workingCapital.getUnit().getPresentationName(), workingCapital.getWorkingCapitalYear().getYear()
+                                    .toString()), BundleUtil.getString("resources/WorkingCapitalResources",
                             "label.email.commentCreated.body", loggedUser.getPerson().getName(), workingCapital.getUnit()
                                     .getPresentationName(), workingCapital.getWorkingCapitalYear().getYear().toString(), comment,
                             VirtualHost.getVirtualHostForThread().getHostname()));

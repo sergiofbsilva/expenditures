@@ -25,18 +25,6 @@ class ExternalRequest {
 	class CancelFundAllocationRequest extends ExternalRequest {
 	}
 
-class ExternalRequestSyncTask extends .pt.ist.dbUtils.TaskWithExternalDbOperation {
-}
-
-	class ExternalRequestSyncTaskMgpIST extends ExternalRequestSyncTask {
-	}
-
-	class ExternalRequestSyncTaskMgpADIST extends ExternalRequestSyncTask {
-	}
-
-	class ExternalRequestSyncTaskMgpISTID extends ExternalRequestSyncTask {
-	}
-
 
 relation VirtualHostExternalAccountingIntegrationSystem {
 	.pt.ist.bennu.core.domain.VirtualHost playsRole virtualHost {

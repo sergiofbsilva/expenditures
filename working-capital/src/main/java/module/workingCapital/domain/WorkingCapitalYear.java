@@ -37,8 +37,8 @@ import module.workflow.domain.WorkflowProcess;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
 
 /**
@@ -85,7 +85,7 @@ public class WorkingCapitalYear extends WorkingCapitalYear_Base {
         }
 
         SortedSet<WorkingCapitalProcess> search() {
-            final User user = UserView.getCurrentUser();
+            final User user = Authenticate.getUser();
             for (final WorkingCapital workingCapital : getWorkingCapitalsSet()) {
                 final WorkingCapitalProcess workingCapitalProcess = workingCapital.getWorkingCapitalProcess();
                 if (shouldAdd(workingCapitalProcess, user)) {
@@ -261,7 +261,7 @@ public class WorkingCapitalYear extends WorkingCapitalYear_Base {
     public SortedSet<WorkingCapitalProcess> getMyWorkingCapital() {
         final SortedSet<WorkingCapitalProcess> result =
                 new TreeSet<WorkingCapitalProcess>(WorkingCapitalProcess.COMPARATOR_BY_UNIT_NAME);
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         final Person person = user.getPerson();
         if (person != null) {
             for (final WorkingCapital workingCapital : person.getMovementResponsibleWorkingCapitalsSet()) {
@@ -277,7 +277,7 @@ public class WorkingCapitalYear extends WorkingCapitalYear_Base {
     public SortedSet<WorkingCapitalProcess> getRequestedWorkingCapital() {
         final SortedSet<WorkingCapitalProcess> result =
                 new TreeSet<WorkingCapitalProcess>(WorkingCapitalProcess.COMPARATOR_BY_UNIT_NAME);
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         final Person person = user.getPerson();
         if (person != null) {
             for (final WorkingCapitalInitialization workingCapitalInitialization : person
@@ -295,7 +295,7 @@ public class WorkingCapitalYear extends WorkingCapitalYear_Base {
     public SortedSet<WorkingCapitalProcess> getAprovalResponsibleWorkingCapital() {
         final SortedSet<WorkingCapitalProcess> result =
                 new TreeSet<WorkingCapitalProcess>(WorkingCapitalProcess.COMPARATOR_BY_UNIT_NAME);
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         if (user.getExpenditurePerson() != null) {
             final Set<Authorization> authorizations = getAuthorizations(user);
             if (!authorizations.isEmpty()) {
@@ -394,7 +394,7 @@ public class WorkingCapitalYear extends WorkingCapitalYear_Base {
     }
 
     public SortedSet<WorkingCapitalProcess> getForUnit(final Unit unit) {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         final SortedSet<WorkingCapitalProcess> result =
                 new TreeSet<WorkingCapitalProcess>(WorkingCapitalProcess.COMPARATOR_BY_UNIT_NAME);
         if (unit.getExpenditureUnit() != null) {
@@ -442,7 +442,7 @@ public class WorkingCapitalYear extends WorkingCapitalYear_Base {
     }
 
     public SortedSet<WorkingCapitalProcess> getTaken(final SortedSet<WorkingCapitalProcess> result) {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         for (final WorkflowProcess workflowProcess : user.getUserProcessesSet()) {
             if (workflowProcess instanceof WorkingCapitalProcess) {
                 final WorkingCapitalProcess workingCapitalProcess = (WorkingCapitalProcess) workflowProcess;

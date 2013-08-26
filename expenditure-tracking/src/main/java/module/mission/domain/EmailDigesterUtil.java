@@ -35,12 +35,11 @@ import module.organization.domain.Party;
 import org.jfree.data.time.Month;
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.applicationTier.Authenticate;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.ist.bennu.core.domain.groups.SingleUserGroup;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.SingleUserGroup;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.Role;
 import pt.ist.expenditureTrackingSystem.domain.RoleType;
@@ -65,8 +64,7 @@ public class EmailDigesterUtil {
 
             final User user = person.getUser();
             if (user.getPerson() != null && user.getExpenditurePerson() != null) {
-                final UserView userView = Authenticate.authenticate(user);
-                pt.ist.fenixWebFramework.security.UserView.setUser(userView);
+                Authenticate.setUser(user);
 
                 try {
                     final MissionYear missionYear = MissionYear.getCurrentYear();
@@ -114,7 +112,7 @@ public class EmailDigesterUtil {
                             if (email != null) {
                                 final StringBuilder body =
                                         new StringBuilder("Caro utilizador, possui processos de missão pendentes nas ");
-                                body.append(virtualHost.getApplicationSubTitle().getContent());
+                                body.append(virtualHost.getConfiguration().getApplicationSubTitle().getContent());
                                 body.append(", em https://");
                                 body.append(virtualHost.getHostname());
                                 body.append("/.\n");
@@ -185,7 +183,7 @@ public class EmailDigesterUtil {
                         }
                     }
                 } finally {
-                    pt.ist.fenixWebFramework.security.UserView.setUser(null);
+                    Authenticate.setUser((User) null);
                 }
             }
         }

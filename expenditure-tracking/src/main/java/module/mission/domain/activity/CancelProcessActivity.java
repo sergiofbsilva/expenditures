@@ -24,17 +24,15 @@
  */
 package module.mission.domain.activity;
 
-import java.util.ResourceBundle;
-
 import module.mission.domain.MissionProcess;
 import module.mission.domain.MissionSystem;
 import module.workflow.activities.ActivityInformation;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.LegacyUtil;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcess;
-import pt.utl.ist.fenix.tools.util.i18n.Language;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 
 /**
  * 
@@ -45,14 +43,14 @@ public class CancelProcessActivity extends MissionProcessActivity<MissionProcess
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/MissionResources", "activity." + getClass().getSimpleName());
+        return BundleUtil.getString("resources/MissionResources", "activity." + getClass().getSimpleName());
     }
 
     @Override
     public boolean isActive(final MissionProcess missionProcess, final User user) {
         return super.isActive(missionProcess, user)
-                && (missionProcess.isRequestor(user) || user.hasRoleType(RoleType.MANAGER) || MissionSystem.getInstance()
-                        .getUsersWhoCanCancelMissionSet().contains(user));
+                && (missionProcess.isRequestor(user) || LegacyUtil.hasRoleType(user, RoleType.MANAGER) || MissionSystem
+                        .getInstance().getUsersWhoCanCancelMissionSet().contains(user));
     }
 
     @Override
@@ -61,8 +59,8 @@ public class CancelProcessActivity extends MissionProcessActivity<MissionProcess
 
         if (hasConnectedPaymentProcess(missionProcess)) {
             final String processes = getConnectedPaymentProcess(missionProcess);
-            throw new DomainException("error.mission.has.active.payment.processes.cannot.cancel", ResourceBundle.getBundle(
-                    "resources/MissionResources", Language.getLocale()), processes);
+            throw new ExpenditureTrackingDomainException("resources/MissionResources",
+                    "error.mission.has.active.payment.processes.cannot.cancel", processes);
         }
 
         missionProcess.cancel();
@@ -108,8 +106,7 @@ public class CancelProcessActivity extends MissionProcessActivity<MissionProcess
 
     @Override
     public String getLocalizedConfirmationMessage() {
-        return BundleUtil.getFormattedStringFromResourceBundle("resources/MissionResources",
-                "label.module.mission.cancel.process.confirm");
+        return BundleUtil.getString("resources/MissionResources", "label.module.mission.cancel.process.confirm");
     }
 
     @Override

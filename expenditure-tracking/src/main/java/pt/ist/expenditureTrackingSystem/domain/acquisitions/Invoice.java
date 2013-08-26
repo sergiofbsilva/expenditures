@@ -26,8 +26,6 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import module.workflow.domain.AbstractWFDocsGroup;
 import module.workflow.domain.ProcessDocumentMetaDataResolver;
 import module.workflow.domain.ProcessFile;
@@ -79,8 +77,7 @@ public class Invoice extends Invoice_Base {
         }
 
         @Override
-        public @Nonnull
-        Class<? extends AbstractWFDocsGroup> getWriteGroupClass() {
+        public Class<? extends AbstractWFDocsGroup> getWriteGroupClass() {
             //TODO probably review it case by case, but for now let it be like this
             return WFDocsDefaultWriteGroup.class;
         }

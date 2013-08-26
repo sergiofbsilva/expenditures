@@ -28,10 +28,11 @@ import module.mission.domain.MissionProcess;
 import module.organization.domain.Person;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.presentationTier.actions.CommentBean;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
+import pt.ist.bennu.core.util.legacy.LegacyUtil;
 
 /**
  * 
@@ -43,12 +44,12 @@ public class ExceptionalChangeRequestingPerson extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "activity." + getClass().getSimpleName());
+        return BundleUtil.getString(getUsedBundle(), "activity." + getClass().getSimpleName());
     }
 
     @Override
     public boolean isActive(final MissionProcess missionProcess, final User user) {
-        return user.hasRoleType(RoleType.MANAGER);
+        return LegacyUtil.hasRoleType(user, RoleType.MANAGER);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class ExceptionalChangeRequestingPerson extends
 
         CommentBean commentBean = new CommentBean(process);
         commentBean.setComment(activityInformation.getComment());
-        process.createComment(UserView.getCurrentUser(), commentBean);
+        process.createComment(Authenticate.getUser(), commentBean);
     }
 
     @Override

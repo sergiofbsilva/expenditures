@@ -83,7 +83,7 @@ import module.workflow.domain.WorkflowProcess;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 
 @ClassNameBundle(key = "label.module.mission.domain.NationalMissions", bundle = "resources/MissionResources")
 /**

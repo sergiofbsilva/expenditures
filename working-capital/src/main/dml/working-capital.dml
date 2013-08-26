@@ -103,9 +103,6 @@ class WorkingCapitalInvoiceFile extends .module.workflow.domain.ProcessFile {
 class WorkingCapitalAcquisitionSubmissionDocument extends .module.workflow.domain.ProcessFile {
 }
 
-class EmailDigester extends .pt.ist.bennu.core.domain.scheduler.Task {
-}
-
 class TransactionFile extends .module.workflow.domain.ProcessFile {
 
 }

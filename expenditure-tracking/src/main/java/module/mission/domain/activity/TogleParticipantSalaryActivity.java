@@ -7,13 +7,13 @@ import module.mission.domain.MissionProcess;
 import module.organization.domain.Person;
 import module.workflow.activities.ActivityInformation;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 
 public class TogleParticipantSalaryActivity extends MissionProcessActivity<MissionProcess, ParticipantActivityInformation> {
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/MissionResources", "activity." + getClass().getSimpleName());
+        return BundleUtil.getString("resources/MissionResources", "activity." + getClass().getSimpleName());
     }
 
     @Override

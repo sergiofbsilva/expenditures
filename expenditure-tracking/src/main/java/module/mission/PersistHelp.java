@@ -28,36 +28,36 @@ import module.contents.domain.Container;
 import module.contents.domain.Page;
 import module.contents.domain.Section;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.contents.Node;
-import pt.ist.bennu.core.domain.groups.UserGroup;
-import pt.ist.bennu.core.domain.scheduler.WriteCustomTask;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.vaadin.domain.contents.VaadinNode;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.LegacyBundleUtil;
+import pt.ist.bennu.scheduler.custom.CustomTask;
 import pt.ist.fenixframework.FenixFramework;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
+
+import com.google.gwt.dom.client.Node;
 
 /**
  * 
  * @author Luis Cruz
  * 
  */
-public class PersistHelp extends WriteCustomTask {
+public class PersistHelp extends CustomTask {
 
     @Override
-    protected void doService() {
+    public void runTask() {
         final VirtualHost virtualHost = FenixFramework.getDomainObject("395136991834");
         //final Node node = FenixFramework.getDomainObject("335007455097");
         final Node node = FenixFramework.getDomainObject("335007455097");
 
         final Page page = Page.createNewPage();
-
+//TODO: create vaadin node ?
 //	VaadinNode.createVaadinNode(virtualHost, node, "resources.MissionResources", "link.sideBar.help", "SectionedPage-" + page.getExternalId(), UserGroup.getInstance());
-        VaadinNode.createVaadinNode(virtualHost, node, "resources.MissionResources", "link.sideBar.help", "SectionedPageViewer-"
-                + page.getExternalId(), UserGroup.getInstance());
+//        VaadinNode.createVaadinNode(virtualHost, node, "resources.MissionResources", "link.sideBar.help", "SectionedPageViewer-"
+//                + page.getExternalId(), UserGroup.getInstance());
 
         writePage(page);
 
-        out.println("Done.");
+        taskLog("Done.");
     }
 
     private void writePage(final Page page) {
@@ -317,7 +317,7 @@ public class PersistHelp extends WriteCustomTask {
     }
 
     private void add(final StringBuilder stringBuilder, final String key) {
-        stringBuilder.append(BundleUtil.getStringFromResourceBundle("resources.MissionResources", key));
+        stringBuilder.append(BundleUtil.getString("resources.MissionResources", key));
     }
 
     private void add(final StringBuilder stringBuilder, final String tag, final String key) {
@@ -364,7 +364,7 @@ public class PersistHelp extends WriteCustomTask {
     }
 
     private MultiLanguageString read(final String key) {
-        return BundleUtil.getMultilanguageString("resources.MissionResources", key);
+        return LegacyBundleUtil.getMultilanguageString("resources.MissionResources", key);
     }
 
 }

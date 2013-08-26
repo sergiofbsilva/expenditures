@@ -28,6 +28,8 @@ import java.util.Collection;
 
 import module.organization.domain.PartyType;
 import pt.ist.bennu.core.domain.MyOrg;
+import pt.ist.bennu.scheduler.CronTask;
+import pt.ist.bennu.scheduler.annotation.Task;
 import pt.ist.expenditureTrackingSystem.domain.organization.CostCenter;
 import pt.ist.expenditureTrackingSystem.domain.organization.Project;
 import pt.ist.expenditureTrackingSystem.domain.organization.SubProject;
@@ -40,7 +42,8 @@ import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
  * @author Luis Cruz
  * 
  */
-public class ConnectUnitsToOrganization extends ConnectUnitsToOrganization_Base {
+@Task(englishTitle = "Connect Units To Organization")
+public class ConnectUnitsToOrganization extends CronTask {
 
     public ConnectUnitsToOrganization() {
         super();
@@ -53,7 +56,7 @@ public class ConnectUnitsToOrganization extends ConnectUnitsToOrganization_Base 
 
     @Override
     @Atomic
-    public void executeTask() {
+    public void runTask() {
         for (final Unit unit : ExpenditureTrackingSystem.getInstance().getUnitsSet()) {
             connect(unit);
         }
@@ -104,14 +107,14 @@ public class ConnectUnitsToOrganization extends ConnectUnitsToOrganization_Base 
         stringBuilder.append(" ");
         stringBuilder.append(unit.getPresentationName());
         stringBuilder.append(".");
-        logInfo(stringBuilder.toString());
+        taskLog(stringBuilder.toString());
         return null;
     }
 
     private module.organization.domain.Unit findUnit(final Unit unit, final Collection<module.organization.domain.Unit> units) {
         for (final module.organization.domain.Unit organizationUnit : units) {
             if (match(organizationUnit.getPartyName(), unit.getName())) {
-                logInfo("Matched: " + unit.getPresentationName() + " with: " + organizationUnit.getPresentationName());
+                taskLog("Matched: " + unit.getPresentationName() + " with: " + organizationUnit.getPresentationName());
                 return organizationUnit;
             }
             final module.organization.domain.Unit result = findUnit(unit, organizationUnit.getChildUnits());

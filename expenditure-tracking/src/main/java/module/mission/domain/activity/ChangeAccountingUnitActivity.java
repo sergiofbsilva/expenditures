@@ -30,7 +30,8 @@ import module.mission.domain.MissionProcess;
 import module.workflow.activities.ActivityInformation;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.LegacyUtil;
 import pt.ist.expenditureTrackingSystem.domain.organization.AccountingUnit;
 
 /**
@@ -42,15 +43,15 @@ public class ChangeAccountingUnitActivity extends MissionProcessActivity<Mission
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/MissionResources", "activity." + getClass().getSimpleName());
+        return BundleUtil.getString("resources/MissionResources", "activity." + getClass().getSimpleName());
     }
 
     @Override
     public boolean isActive(final MissionProcess missionProcess, final User user) {
         final Mission mission = missionProcess.getMission();
         return super.isActive(missionProcess, user)
-                && (missionProcess.isUnderConstruction() && missionProcess.isRequestor(user) || user
-                        .hasRoleType(RoleType.MANAGER)) && mission.getFinancerCount() > 0;
+                && (missionProcess.isUnderConstruction() && missionProcess.isRequestor(user) || LegacyUtil.hasRoleType(user,
+                        RoleType.MANAGER)) && mission.getFinancerCount() > 0;
     }
 
     @Override

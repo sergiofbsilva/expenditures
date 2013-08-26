@@ -26,9 +26,9 @@ package pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.activiti
 
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RegularAcquisitionProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RequestItem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.UnitItem;
@@ -53,12 +53,12 @@ public class SubmitForFundAllocation extends
 
     @Override
     protected void process(ActivityInformation<RegularAcquisitionProcess> activityInformation) {
-        activityInformation.getProcess().getAcquisitionRequest().approve(UserView.getCurrentUser().getExpenditurePerson());
+        activityInformation.getProcess().getAcquisitionRequest().approve(Authenticate.getUser().getExpenditurePerson());
     }
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle(getUsedBundle(), "label." + getClass().getName());
+        return BundleUtil.getString(getUsedBundle(), "label." + getClass().getName());
     }
 
     @Override

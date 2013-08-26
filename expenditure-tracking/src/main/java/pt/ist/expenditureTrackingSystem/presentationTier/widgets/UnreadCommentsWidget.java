@@ -35,8 +35,8 @@ import module.dashBoard.widgets.WidgetController;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.ReverseComparator;
 
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
+import pt.ist.bennu.core.util.legacy.LegacyBundleUtil;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureWidgetOptions;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcess;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
@@ -91,7 +91,7 @@ public class UnreadCommentsWidget extends WidgetController {
 
     @Override
     public String getWidgetDescription() {
-        return BundleUtil
+        return LegacyBundleUtil
                 .getStringFromResourceBundle("resources/ExpenditureResources", "widget.description.UnreadCommentsWidget");
     }
 }

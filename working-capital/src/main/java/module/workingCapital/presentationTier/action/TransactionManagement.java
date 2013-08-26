@@ -18,9 +18,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.bennu.core.util.InputStreamUtil;
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
@@ -33,7 +33,7 @@ public class TransactionManagement extends ProcessManagement {
 
     @Override
     protected User getLoggedPerson() {
-        return UserView.getCurrentUser();
+        return Authenticate.getUser();
     }
 
     private ActionForward forwardToUpload(HttpServletRequest request, WorkingCapitalTransactionFileUploadBean bean) {

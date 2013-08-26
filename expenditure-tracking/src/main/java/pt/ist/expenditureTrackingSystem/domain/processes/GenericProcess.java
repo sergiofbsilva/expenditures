@@ -37,8 +37,8 @@ import module.workflow.util.ProcessEvaluator;
 
 import org.apache.commons.collections.Predicate;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcessYear;
@@ -216,7 +216,7 @@ public abstract class GenericProcess extends GenericProcess_Base {
     }
 
     public static boolean isCreateNewProcessAvailable() {
-        final User user = UserView.getCurrentUser();
+        final User user = Authenticate.getUser();
         return user != null;
     }
 

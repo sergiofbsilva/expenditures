@@ -2,8 +2,8 @@ package module.mission.domain;
 
 import org.joda.time.DateTime;
 
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.VirtualHost;
+import pt.ist.bennu.core.security.Authenticate;
 
 public class TemporaryMissionItemEntry extends TemporaryMissionItemEntry_Base {
 
@@ -12,7 +12,7 @@ public class TemporaryMissionItemEntry extends TemporaryMissionItemEntry_Base {
     public TemporaryMissionItemEntry() {
         super();
         setMissionSystem(MissionSystem.getInstance());
-        setUser(UserView.getCurrentUser());
+        setUser(Authenticate.getUser());
         setCreated(new DateTime());
     }
 

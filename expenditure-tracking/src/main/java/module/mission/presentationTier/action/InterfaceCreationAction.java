@@ -24,23 +24,7 @@
  */
 package module.mission.presentationTier.action;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-
-import pt.ist.bennu.core.domain.RoleType;
-import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.contents.ActionNode;
-import pt.ist.bennu.core.domain.contents.LinkNode;
-import pt.ist.bennu.core.domain.contents.Node;
-import pt.ist.bennu.core.domain.groups.Role;
-import pt.ist.bennu.core.domain.groups.UserGroup;
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
-import pt.ist.bennu.vaadin.domain.contents.VaadinNode;
-import pt.ist.fenixWebFramework.servlets.functionalities.CreateNodeAction;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 
 /**
@@ -51,6 +35,7 @@ import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 @Mapping(path = "/missionInterfaceCreationAction")
 public class InterfaceCreationAction extends ContextBaseAction {
 
+    /*
     @CreateNodeAction(bundle = "MISSION_RESOURCES", key = "add.node.mission.interface", groupKey = "label.module.mission")
     public final ActionForward createAnnouncmentNodes(final ActionMapping mapping, final ActionForm form,
             final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -61,11 +46,11 @@ public class InterfaceCreationAction extends ContextBaseAction {
                 ActionNode.createActionNode(virtualHost, node, "/missionProcess", "frontPage", "resources.MissionResources",
                         "link.sideBar.missionProcess", UserGroup.getInstance());
 
-//	ActionNode homeNode = ActionNode.createActionNode(virtualHost, node, "/searchMissions", "prepare",
-//		"resources.MissionResources", "link.sideBar.missionProcess", Role.getRole(RoleType.MANAGER));
+    //	ActionNode homeNode = ActionNode.createActionNode(virtualHost, node, "/searchMissions", "prepare",
+    //		"resources.MissionResources", "link.sideBar.missionProcess", Role.getRole(RoleType.MANAGER));
 
-//	ActionNode homeNode = ActionNode.createActionNode(virtualHost, node, "/missionProcess", "showProcesses",
-//		"resources.MissionResources", "link.sideBar.missionProcess", UserGroup.getInstance());
+    //	ActionNode homeNode = ActionNode.createActionNode(virtualHost, node, "/missionProcess", "showProcesses",
+    //		"resources.MissionResources", "link.sideBar.missionProcess", UserGroup.getInstance());
 
         ActionNode.createActionNode(virtualHost, homeNode, "/missionProcess", "missionCreationInstructions",
                 "resources.MissionResources", "link.sideBar.newMission", UserGroup.getInstance());
@@ -105,5 +90,5 @@ public class InterfaceCreationAction extends ContextBaseAction {
 
         return forwardToMuneConfiguration(request, virtualHost, node);
     }
-
+    */
 }

@@ -163,7 +163,7 @@ class authorizations.AuthorizationLog implements .pt.ist.bennu.core.domain.Virtu
 	String justification;
 }	
 
-class acquisitions.afterthefact.ImportFile extends .pt.ist.fenixframework.plugins.fileSupport.domain.GenericFile implements .pt.ist.bennu.core.domain.VirtualHostAware {
+class acquisitions.afterthefact.ImportFile extends .pt.ist.bennu.io.domain.GenericFile implements .pt.ist.bennu.core.domain.VirtualHostAware {
 	Boolean active;
 }
 	
@@ -344,7 +344,7 @@ class acquisitions.AcquisitionFundAllocationDiaryAndTransactionReportRequest ext
 	String transactionNumber;
 }
 
-class organization.UnitActiveResponsibleGroup extends .pt.ist.bennu.core.domain.groups.PersistentGroup { }
+class organization.UnitActiveResponsibleGroup extends .pt.ist.bennu.core.domain.groups.legacy.PersistentGroup { }
 
 	class organization.ProjectActiveResponsibleGroup extends organization.UnitActiveResponsibleGroup { }
 
@@ -994,7 +994,7 @@ relation ExpenditureTrackingSystemAcquisitionCentralGroup {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromAcquisitionCentralGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole acquisitionCentralGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole acquisitionCentralGroup {
 		multiplicity 0..1;
 	}
 }
@@ -1003,7 +1003,7 @@ relation ExpenditureTrackingSystemAcquisitionCentralManagerGroup {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromAcquisitionCentralManagerGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole acquisitionCentralManagerGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole acquisitionCentralManagerGroup {
 		multiplicity 0..1;
 	}
 }
@@ -1012,7 +1012,7 @@ relation ExpenditureTrackingSystemFundCommitmentManagerGroupp {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromFundCommitmentManagerGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole fundCommitmentManagerGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole fundCommitmentManagerGroup {
 		multiplicity 0..1;
 	}
 }
@@ -1021,7 +1021,7 @@ relation ExpenditureTrackingSystemAccountingManagerGroup {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromAccountingManagerGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole accountingManagerGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole accountingManagerGroup {
 		multiplicity 0..1;
 	}
 }
@@ -1030,7 +1030,7 @@ relation ExpenditureTrackingSystemProjectAccountingManagerGroup {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromProjectAccountingManagerGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole projectAccountingManagerGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole projectAccountingManagerGroup {
 		multiplicity 0..1;
 	}
 }
@@ -1039,7 +1039,7 @@ relation ExpenditureTrackingSystemTreasuryMemberGroup {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromTreasuryMemberGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole treasuryMemberGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole treasuryMemberGroup {
 		multiplicity 0..1;
 	}
 }
@@ -1048,7 +1048,7 @@ relation ExpenditureTrackingSystemSupplierManagerGroup {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromSupplierManagerGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole supplierManagerGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole supplierManagerGroup {
 		multiplicity 0..1;
 	}
 }
@@ -1057,7 +1057,7 @@ relation ExpenditureTrackingSystemSupplierFundAllocationManagerGroup {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromSupplierFundAllocationManagerGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole supplierFundAllocationManagerGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole supplierFundAllocationManagerGroup {
 		multiplicity 0..1;
 	}
 }
@@ -1066,7 +1066,7 @@ relation ExpenditureTrackingSystemStatisticsViewerGroup {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromStatisticsViewerGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole statisticsViewerGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole statisticsViewerGroup {
 		multiplicity 0..1;
 	}
 }
@@ -1075,7 +1075,7 @@ relation ExpenditureTrackingSystemAcquisitionsUnitManagerGroup {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromAcquisitionsUnitManagerGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole acquisitionsUnitManagerGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole acquisitionsUnitManagerGroup {
 		multiplicity 0..1;
 	}
 }
@@ -1084,7 +1084,7 @@ relation ExpenditureTrackingSystemAcquisitionsProcessAuditorGroup {
 	ExpenditureTrackingSystem playsRole expenditureTrackingSystemFromAcquisitionsProcessAuditorGroup {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole acquisitionsProcessAuditorGroup {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole acquisitionsProcessAuditorGroup {
 		multiplicity 0..1;
 	}
 }

@@ -34,10 +34,10 @@ import module.dashBoard.widgets.WidgetController;
 
 import org.apache.commons.beanutils.BeanComparator;
 
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.bennu.core.util.Counter;
 import pt.ist.bennu.core.util.MultiCounter;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RefundProcessStateType;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.util.ProcessMapGenerator;
@@ -72,6 +72,6 @@ public class PendingRefundWidget extends WidgetController {
 
     @Override
     public String getWidgetDescription() {
-        return BundleUtil.getStringFromResourceBundle("resources/ExpenditureResources", "widget.description.PendingRefundWidget");
+        return BundleUtil.getString("resources/ExpenditureResources", "widget.description.PendingRefundWidget");
     }
 }

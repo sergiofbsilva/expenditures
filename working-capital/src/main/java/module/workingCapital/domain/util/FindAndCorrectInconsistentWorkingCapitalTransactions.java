@@ -30,15 +30,15 @@ import module.workingCapital.domain.WorkingCapital;
 import module.workingCapital.domain.WorkingCapitalAcquisitionSubmission;
 import module.workingCapital.domain.WorkingCapitalSystem;
 import module.workingCapital.domain.WorkingCapitalTransaction;
-import pt.ist.bennu.core.domain.scheduler.WriteCustomTask;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.scheduler.custom.CustomTask;
 
 /**
  * 
  * @author João Neves
  * 
  */
-public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteCustomTask {
+public class FindAndCorrectInconsistentWorkingCapitalTransactions extends CustomTask {
 
     private final boolean PERFORM_CORRECTIONS = false;
 
@@ -47,11 +47,11 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
     private HashMap<Integer, WorkingCapitalTransaction> transactionList;
 
     @Override
-    protected void doService() {
-        out.println();
-        out.println("################################################################################################");
-        out.println();
-        out.println("Processing " + WorkingCapitalSystem.getInstanceForCurrentHost().getWorkingCapitals().size()
+    public void runTask() {
+        taskLog("\n");
+        taskLog("################################################################################################");
+        taskLog("\n");
+        taskLog("Processing " + WorkingCapitalSystem.getInstanceForCurrentHost().getWorkingCapitals().size()
                 + " working capitals.");
         for (WorkingCapital workingCapital : WorkingCapitalSystem.getInstanceForCurrentHost().getWorkingCapitals()) {
             isNewWorkingCapital = true;
@@ -87,17 +87,17 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
     private void checkFirstTransaction(WorkingCapitalTransaction transaction) {
         if (!transaction.isPayment()) {
             printTransaction(transaction);
-            out.println("WARNING - First transaction is not a payment!");
+            taskLog("WARNING - First transaction is not a payment!");
         }
 
         if (!transaction.getAccumulatedValue().isZero()) {
             printTransaction(transaction);
-            out.println("WARNING - First transaction ACCUMULATED VALUE is not zero!");
+            taskLog("WARNING - First transaction ACCUMULATED VALUE is not zero!");
         }
 
         if (!transaction.getValue().equals(transaction.getBalance())) {
             printTransaction(transaction);
-            out.println("WARNING - First transaction VALUE is DIFFERENT from the BALANCE!");
+            taskLog("WARNING - First transaction VALUE is DIFFERENT from the BALANCE!");
         }
         checkPositiveValues(transaction);
         checkBalanceEqualsDebt(transaction);
@@ -107,12 +107,12 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
         if (transaction.isPayment()) {
             if (!transaction.getAccumulatedValue().equals(previousTransaction.getAccumulatedValue())) {
                 printTransaction(transaction);
-                out.println("WARNING - Payment transaction changes the ACCUMULATED VALUE!");
+                taskLog("WARNING - Payment transaction changes the ACCUMULATED VALUE!");
             }
 
             if (!transaction.getBalance().equals(transaction.getValue().add(previousTransaction.getBalance()))) {
                 printTransaction(transaction);
-                out.println("WARNING - Payment transaction does not update the BALANCE correctly!");
+                taskLog("WARNING - Payment transaction does not update the BALANCE correctly!");
             }
             return;
         }
@@ -121,57 +121,57 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
             if (transaction.isCanceledOrRejected()) {
                 if (!transaction.getAccumulatedValue().equals(previousTransaction.getAccumulatedValue())) {
                     printTransaction(transaction);
-                    out.println("WARNING - Canceled acquisition transaction changes the ACCUMULATED VALUE!");
+                    taskLog("WARNING - Canceled acquisition transaction changes the ACCUMULATED VALUE!");
                     if (PERFORM_CORRECTIONS) {
-                        out.println("-> correcting the problem...");
+                        taskLog("-> correcting the problem...");
                         final Money correctAccumulatedValue = previousTransaction.getAccumulatedValue();
                         final Money diffAccumulatedValue = correctAccumulatedValue.subtract(transaction.getAccumulatedValue());
                         correctAccumulatedValueOfFollowingTransactions(transaction, diffAccumulatedValue);
                     } else {
-                        out.println("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
+                        taskLog("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
                     }
                 }
 
                 if (!transaction.getBalance().equals(previousTransaction.getBalance())) {
                     printTransaction(transaction);
-                    out.println("WARNING - Canceled acquisition transaction changes the BALANCE!");
+                    taskLog("WARNING - Canceled acquisition transaction changes the BALANCE!");
                     if (PERFORM_CORRECTIONS) {
-                        out.println("-> correcting the problem...");
+                        taskLog("-> correcting the problem...");
                         final Money correctBalance = previousTransaction.getBalance();
                         final Money diffBalance = correctBalance.subtract(transaction.getBalance());
                         correctBalanceOfFollowingTransactions(transaction, diffBalance);
                         correctDebtOfFollowingTransactions(transaction, diffBalance);
                     } else {
-                        out.println("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
+                        taskLog("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
                     }
                 }
             } else {
                 if (!transaction.getAccumulatedValue().equals(
                         transaction.getValue().add(previousTransaction.getAccumulatedValue()))) {
                     printTransaction(transaction);
-                    out.println("Acquisition transaction does not update the ACCUMULATED VALUE correctly!");
+                    taskLog("Acquisition transaction does not update the ACCUMULATED VALUE correctly!");
                     if (PERFORM_CORRECTIONS) {
-                        out.println("-> correcting the problem...");
+                        taskLog("-> correcting the problem...");
                         final Money correctAccumulatedValue =
                                 transaction.getValue().add(previousTransaction.getAccumulatedValue());
                         final Money diffAccumulatedValue = correctAccumulatedValue.subtract(transaction.getAccumulatedValue());
                         correctAccumulatedValueOfFollowingTransactions(transaction, diffAccumulatedValue);
                     } else {
-                        out.println("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
+                        taskLog("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
                     }
                 }
 
                 if (!transaction.getBalance().equals(previousTransaction.getBalance().subtract(transaction.getValue()))) {
                     printTransaction(transaction);
-                    out.println("Acquisition transaction does not update the BALANCE correctly!");
+                    taskLog("Acquisition transaction does not update the BALANCE correctly!");
                     if (PERFORM_CORRECTIONS) {
-                        out.println("-> correcting the problem...");
+                        taskLog("-> correcting the problem...");
                         final Money correctBalance = previousTransaction.getBalance().subtract(transaction.getValue());
                         final Money diffBalance = correctBalance.subtract(transaction.getBalance());
                         correctBalanceOfFollowingTransactions(transaction, diffBalance);
                         correctDebtOfFollowingTransactions(transaction, diffBalance);
                     } else {
-                        out.println("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
+                        taskLog("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
                     }
                 }
             }
@@ -181,25 +181,25 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
         if (transaction instanceof WorkingCapitalAcquisitionSubmission) {
             if (!transaction.getValue().equals(previousTransaction.getAccumulatedValue())) {
                 printTransaction(transaction);
-                out.println("AcquisitionSubmission transaction VALUE is DIFFERENT from the previous ACCUMULATED VALUE!");
+                taskLog("AcquisitionSubmission transaction VALUE is DIFFERENT from the previous ACCUMULATED VALUE!");
                 if (PERFORM_CORRECTIONS) {
-                    out.println("-> correcting the problem...");
+                    taskLog("-> correcting the problem...");
                     final Money correctValue = previousTransaction.getAccumulatedValue();
                     final Money diffValue = correctValue.subtract(transaction.getValue());
                     correctValue(transaction, diffValue);
                 } else {
-                    out.println("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
+                    taskLog("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
                 }
             }
 
             if (!transaction.getAccumulatedValue().isZero()) {
                 printTransaction(transaction);
-                out.println("WARNING - AcquisitionSubmission transaction ACCUMULATED VALUE is not zero!");
+                taskLog("WARNING - AcquisitionSubmission transaction ACCUMULATED VALUE is not zero!");
             }
 
             if (!transaction.getBalance().equals(previousTransaction.getBalance())) {
                 printTransaction(transaction);
-                out.println("WARNING - AcquisitionSubmission transaction changes the BALANCE!");
+                taskLog("WARNING - AcquisitionSubmission transaction changes the BALANCE!");
             }
             return;
         }
@@ -207,22 +207,22 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
         if (transaction.isRefund()) {
             if (!previousTransaction.getAccumulatedValue().isZero()) {
                 printTransaction(transaction);
-                out.println("WARNING - Refund transaction is not performed after a acquisition submission!");
+                taskLog("WARNING - Refund transaction is not performed after a acquisition submission!");
             }
 
             if (!transaction.getAccumulatedValue().equals(previousTransaction.getAccumulatedValue())) {
                 printTransaction(transaction);
-                out.println("WARNING - Refund transaction changes the ACCUMULATED VALUE!");
+                taskLog("WARNING - Refund transaction changes the ACCUMULATED VALUE!");
             }
 
             if (!transaction.getValue().equals(previousTransaction.getBalance())) {
                 printTransaction(transaction);
-                out.println("WARNING - Refund transaction VALUE is DIFFERENT from the previous BALANCE!");
+                taskLog("WARNING - Refund transaction VALUE is DIFFERENT from the previous BALANCE!");
             }
 
             if (!transaction.getBalance().isZero()) {
                 printTransaction(transaction);
-                out.println("WARNING - Refund transaction does not set the BALANCE to zero!");
+                taskLog("WARNING - Refund transaction does not set the BALANCE to zero!");
             }
             return;
         }
@@ -231,14 +231,14 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
     private void checkBalanceEqualsDebt(WorkingCapitalTransaction transaction) {
         if (!transaction.getBalance().equals(transaction.getDebt())) {
             printTransaction(transaction);
-            out.println("DEBT is DIFFERENT from the BALANCE!");
+            taskLog("DEBT is DIFFERENT from the BALANCE!");
             if (PERFORM_CORRECTIONS) {
-                out.println("-> correcting the problem...");
+                taskLog("-> correcting the problem...");
                 final Money correctDebt = transaction.getBalance();
                 final Money diffDebt = correctDebt.subtract(transaction.getDebt());
                 correctDebt(transaction, diffDebt);
             } else {
-                out.println("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
+                taskLog("-> to correct the problem, set PERFORM_CORRECTIONS to TRUE.");
             }
         }
     }
@@ -247,13 +247,13 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
         if (transaction.getValue().isNegative() || transaction.getAccumulatedValue().isNegative()
                 || transaction.getBalance().isNegative() || transaction.getDebt().isNegative()) {
             printTransaction(transaction);
-            out.println("WARNING - Negative values found!");
+            taskLog("WARNING - Negative values found!");
         }
     }
 
     private void correctAccumulatedValueOfFollowingTransactions(WorkingCapitalTransaction transaction, Money diffAccumulatedValue) {
         transaction.setAccumulatedValue(transaction.getAccumulatedValue().add(diffAccumulatedValue));
-        out.println("AccumulatedValue of transaction " + transaction.getNumber() + " set to: "
+        taskLog("AccumulatedValue of transaction " + transaction.getNumber() + " set to: "
                 + transaction.getAccumulatedValue().toFormatString());
         if ((transaction.getNext() != null) && !(transaction.getNext() instanceof WorkingCapitalAcquisitionSubmission)) {
             correctAccumulatedValueOfFollowingTransactions(transaction.getNext(), diffAccumulatedValue);
@@ -262,7 +262,7 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
 
     private void correctBalanceOfFollowingTransactions(WorkingCapitalTransaction transaction, Money diffBalance) {
         transaction.setBalance(transaction.getBalance().add(diffBalance));
-        out.println("Balance of transaction " + transaction.getNumber() + " set to: " + transaction.getBalance().toFormatString());
+        taskLog("Balance of transaction " + transaction.getNumber() + " set to: " + transaction.getBalance().toFormatString());
         if (transaction.getNext() != null) {
             correctBalanceOfFollowingTransactions(transaction.getNext(), diffBalance);
         }
@@ -277,18 +277,18 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
 
     private void correctDebt(WorkingCapitalTransaction transaction, Money diffDebt) {
         transaction.setDebt(transaction.getDebt().add(diffDebt));
-        out.println("Debt of transaction " + transaction.getNumber() + " set to: " + transaction.getDebt().toFormatString());
+        taskLog("Debt of transaction " + transaction.getNumber() + " set to: " + transaction.getDebt().toFormatString());
     }
 
     private void correctValue(WorkingCapitalTransaction transaction, Money diffValue) {
         transaction.setValue(transaction.getValue().add(diffValue));
-        out.println("Value of transaction " + transaction.getNumber() + " set to: " + transaction.getValue().toFormatString());
+        taskLog("Value of transaction " + transaction.getNumber() + " set to: " + transaction.getValue().toFormatString());
     }
 
     private void printTransaction(WorkingCapitalTransaction transaction) {
         printWorkingCapitalIfNew(transaction.getWorkingCapital());
-        out.println();
-        out.println("Transaction: " + transaction.getNumber() + ". " + transaction.getDescription() + " ["
+        taskLog("\n");
+        taskLog("Transaction: " + transaction.getNumber() + ". " + transaction.getDescription() + " ["
                 + transaction.getExternalId() + "]");
     }
 
@@ -297,14 +297,14 @@ public class FindAndCorrectInconsistentWorkingCapitalTransactions extends WriteC
             return;
         }
 
-        out.println();
-        out.println();
-        out.println();
-        out.println();
-        out.println();
-        out.println("Problems found in working capital: " + workingCapital.getUnit().getPresentationName() + " ["
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("Problems found in working capital: " + workingCapital.getUnit().getPresentationName() + " ["
                 + workingCapital.getExternalId() + "]");
-        out.println(workingCapital.getWorkingCapitalTransactions().size() + " transactions found.");
+        taskLog(workingCapital.getWorkingCapitalTransactions().size() + " transactions found.");
 
         isNewWorkingCapital = false;
     }

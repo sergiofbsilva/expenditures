@@ -30,9 +30,9 @@ import module.workflow.domain.ProcessFileValidationException;
 import module.workflow.domain.WorkflowProcess;
 import module.workflow.util.FileUploadBeanResolver;
 import module.workflow.util.WorkflowFileUploadBean;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
-import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.bennu.core.util.ClassNameBundle;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.fileBeans.InvoiceFileBean;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.fileBeans.InvoiceFileBean.RequestItemHolder;
@@ -79,7 +79,7 @@ public class AcquisitionInvoice extends AcquisitionInvoice_Base {
                 builder.append("<li>");
                 builder.append(itemHolder.getDescription());
                 builder.append(" - ");
-                builder.append(BundleUtil.getFormattedStringFromResourceBundle("resources/AcquisitionResources",
+                builder.append(BundleUtil.getString("resources/AcquisitionResources",
                         "acquisitionRequestItem.label.quantity"));
                 builder.append(":");
                 builder.append(itemHolder.getAmount());
@@ -100,12 +100,12 @@ public class AcquisitionInvoice extends AcquisitionInvoice_Base {
         RegularAcquisitionProcess process = (RegularAcquisitionProcess) workflowProcess;
 
         if (process.isAcquisitionProcessed()
-                && ExpenditureTrackingSystem.isAcquisitionCentralGroupMember(UserView.getCurrentUser())) {
+                && ExpenditureTrackingSystem.isAcquisitionCentralGroupMember(Authenticate.getUser())) {
             return;
         }
 
         if (ExpenditureTrackingSystem.isInvoiceAllowedToStartAcquisitionProcess()) {
-            if (process.isInGenesis() && process.getRequestor() == UserView.getCurrentUser().getExpenditurePerson()) {
+            if (process.isInGenesis() && process.getRequestor() == Authenticate.getUser().getExpenditurePerson()) {
                 return;
             }
             throw new ProcessFileValidationException("resources/AcquisitionResources",
@@ -132,7 +132,7 @@ public class AcquisitionInvoice extends AcquisitionInvoice_Base {
     public boolean isPossibleToArchieve() {
         RegularAcquisitionProcess process = (RegularAcquisitionProcess) getProcess();
         return (process.isAcquisitionProcessed() || process.isInvoiceReceived())
-                && ExpenditureTrackingSystem.isAcquisitionCentralGroupMember(UserView.getCurrentUser());
+                && ExpenditureTrackingSystem.isAcquisitionCentralGroupMember(Authenticate.getUser());
     }
 
     @Override

@@ -31,7 +31,8 @@ import module.workingCapital.domain.WorkingCapitalInitialization;
 import module.workingCapital.domain.WorkingCapitalProcess;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.util.legacy.LegacyUtil;
 
 /**
  * 
@@ -43,14 +44,13 @@ public class UndoCancelOrRejectWorkingCapitalInitializationActivity extends
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/WorkingCapitalResources", "activity."
-                + getClass().getSimpleName());
+        return BundleUtil.getString("resources/WorkingCapitalResources", "activity." + getClass().getSimpleName());
     }
 
     @Override
     public boolean isActive(final WorkingCapitalProcess missionProcess, final User user) {
         final WorkingCapital workingCapital = missionProcess.getWorkingCapital();
-        return user.hasRoleType(RoleType.MANAGER) && workingCapital.isCanceledOrRejected();
+        return LegacyUtil.hasRoleType(user, RoleType.MANAGER) && workingCapital.isCanceledOrRejected();
     }
 
     @Override

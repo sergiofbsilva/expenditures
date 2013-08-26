@@ -30,22 +30,20 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.domain.util.Address;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.core.util.legacy.Address;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.SimplifiedProcedureProcess;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.simplified.SimplifiedProcedureProcess.ProcessClassification;
+import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
 import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
-import pt.utl.ist.fenix.tools.util.i18n.Language;
 
 /**
  * 
@@ -67,10 +65,10 @@ public class AcquisitionRequest extends AcquisitionRequest_Base {
 
     private void checkParameters(AcquisitionProcess acquisitionProcess, Person person) {
         if (acquisitionProcess == null) {
-            throw new DomainException("error.acquisition.request.wrong.acquisition.process");
+            throw new ExpenditureTrackingDomainException("error.acquisition.request.wrong.acquisition.process");
         }
         if (person == null) {
-            throw new DomainException("acquisitionProcess.message.exception.anonymousNotAllowedToCreate");
+            throw new ExpenditureTrackingDomainException("acquisitionProcess.message.exception.anonymousNotAllowedToCreate");
         }
     }
 
@@ -588,8 +586,8 @@ public class AcquisitionRequest extends AcquisitionRequest_Base {
     public void validateInvoiceNumber(String invoiceNumber) {
         for (PaymentProcessInvoice invoice : getInvoices()) {
             if (invoice.getInvoiceNumber().equals(invoiceNumber)) {
-                throw new DomainException("acquisitionProcess.message.exception.InvoiceWithSameNumber", ResourceBundle.getBundle(
-                        "resources.AcquisitionResources", Language.getLocale()));
+                throw new ExpenditureTrackingDomainException("resources.AcquisitionResources",
+                        "acquisitionProcess.message.exception.InvoiceWithSameNumber");
             }
         }
     }

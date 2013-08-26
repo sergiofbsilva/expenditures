@@ -33,15 +33,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.jfree.data.time.Month;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.applicationTier.Authenticate;
 import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.ist.bennu.core.domain.groups.SingleUserGroup;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.SingleUserGroup;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.bennu.core.util.MultiCounter;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.AcquisitionProcessStateType;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.PaymentProcess;
@@ -71,7 +70,7 @@ public class EmailDigesterUtil {
         List<String> toAddress = new ArrayList<String>();
         Language.setLocale(Language.getDefaultLocale());
         for (Person person : getPeopleToProcess()) {
-            Authenticate.authenticate(person.getUsername(), StringUtils.EMPTY, false);
+            Authenticate.setUser(person.getUser());
             Map<AcquisitionProcessStateType, MultiCounter<AcquisitionProcessStateType>> generateAcquisitionMap =
                     ProcessMapGenerator.generateAcquisitionMap(person, true);
             Map<RefundProcessStateType, MultiCounter<RefundProcessStateType>> generateRefundMap =
@@ -157,7 +156,7 @@ public class EmailDigesterUtil {
             Map<RefundProcessStateType, MultiCounter<RefundProcessStateType>> refundMap, final VirtualHost virtualHost) {
 
         final StringBuilder builder = new StringBuilder("Caro utilizador, possui processos de aquisições pendentes nas ");
-        builder.append(virtualHost.getApplicationSubTitle().getContent());
+        builder.append(virtualHost.getConfiguration().getApplicationSubTitle().getContent());
         builder.append(", em https://");
         builder.append(virtualHost.getHostname());
         builder.append("/.\n");

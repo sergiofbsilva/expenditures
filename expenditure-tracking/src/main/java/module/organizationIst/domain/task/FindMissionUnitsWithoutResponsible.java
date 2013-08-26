@@ -32,8 +32,8 @@ import module.organization.domain.AccountabilityType;
 import module.organization.domain.OrganizationalModel;
 import module.organization.domain.Party;
 import module.organization.domain.Unit;
-import pt.ist.bennu.core.domain.scheduler.ReadCustomTask;
 import pt.ist.bennu.core.domain.util.Money;
+import pt.ist.bennu.scheduler.custom.CustomTask;
 import pt.ist.expenditureTrackingSystem.domain.authorizations.Authorization;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.fenixframework.FenixFramework;
@@ -43,7 +43,7 @@ import pt.ist.fenixframework.FenixFramework;
  * @author Luis Cruz
  * 
  */
-public class FindMissionUnitsWithoutResponsible extends ReadCustomTask {
+public class FindMissionUnitsWithoutResponsible extends CustomTask {
 
     private class UnitsExpendituresResponsibles extends HashMap<Unit, HashSet<Person>> {
         private static final long serialVersionUID = 1L;
@@ -103,7 +103,7 @@ public class FindMissionUnitsWithoutResponsible extends ReadCustomTask {
     private Unit academicUnitsUnit;
 
     @Override
-    public void doIt() {
+    public void runTask() {
 
         init();
 
@@ -162,17 +162,17 @@ public class FindMissionUnitsWithoutResponsible extends ReadCustomTask {
     }
 
     private void printUnitHasNoExpenditureUnit(Unit unit) {
-        out.println("WARNING!");
+        taskLog("WARNING!");
         printUnit(unit);
-        out.println("has no expenditure unit.");
-        out.println();
+        taskLog("has no expenditure unit.");
+        taskLog("\n");
     }
 
     private void printAuthorizationHasNoPerson(Authorization authorization) {
-        out.println("WARNING!");
-        out.println("Authorization: " + authorization.getJustification() + " [ " + authorization.getExternalId() + " ] ");
-        out.println("has no associated person.");
-        out.println();
+        taskLog("WARNING!");
+        taskLog("Authorization: " + authorization.getJustification() + " [ " + authorization.getExternalId() + " ] ");
+        taskLog("has no associated person.");
+        taskLog("\n");
     }
 
     private void init() {
@@ -189,8 +189,7 @@ public class FindMissionUnitsWithoutResponsible extends ReadCustomTask {
         personnelTypeList.add(investigatorPersonnelType);
 
         AccountabilityType responsibleType = FenixFramework.getDomainObject(RESPONSIBLE_ACCOUNTABILITY_TYPE_OID);
-        AccountabilityType teacherResponsibleType =
-                FenixFramework.getDomainObject(TEACHER_RESPONSIBLE_ACCOUNTABILITY_TYPE_OID);
+        AccountabilityType teacherResponsibleType = FenixFramework.getDomainObject(TEACHER_RESPONSIBLE_ACCOUNTABILITY_TYPE_OID);
         responsibleTypeList.add(responsibleType);
         responsibleTypeList.add(teacherResponsibleType);
 
@@ -198,41 +197,40 @@ public class FindMissionUnitsWithoutResponsible extends ReadCustomTask {
     }
 
     private void printResults() {
-        out.println("Found " + unitsWithoutResponsible.size() + " cases without responsible, in a total of "
+        taskLog("Found " + unitsWithoutResponsible.size() + " cases without responsible, in a total of "
                 + (unitsWithoutResponsible.size() + unitsWithResponsible.size()));
 
-        out.println("Of the " + unitsWithoutResponsible.size() + " cases without responsible "
+        taskLog("Of the " + unitsWithoutResponsible.size() + " cases without responsible "
                 + unitsWithExpendituresResponsible.size() + " have expenditures responsibles, and "
                 + unitsWithoutExpendituresResponsible.size() + " have not.");
 
-        out.println();
-        out.println();
-        out.println();
-        out.println();
-        out.println();
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
 
-        out.println("The following " + unitsWithoutExpendituresResponsible.size() + " units have no expenditures responsible: ");
-        out.println();
+        taskLog("The following " + unitsWithoutExpendituresResponsible.size() + " units have no expenditures responsible: ");
+        taskLog("\n");
         printUnitsWithoutExpendituresResponsible();
 
-        out.println();
-        out.println();
-        out.println();
-        out.println();
-        out.println();
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
 
-        out.println("The following " + unitsNonZeroAmountsExpendituresResponsibles.size()
+        taskLog("The following " + unitsNonZeroAmountsExpendituresResponsibles.size()
                 + " units have at least one Non-Zero-Amount expenditures responsible: ");
         printUnitsWithExpendituresNonZeroAmountResponsibles();
 
-        out.println();
-        out.println();
-        out.println();
-        out.println();
-        out.println();
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
+        taskLog("\n");
 
-        out.println("The following "
-                + (unitsWithExpendituresResponsible.size() - unitsNonZeroAmountsExpendituresResponsibles.size())
+        taskLog("The following " + (unitsWithExpendituresResponsible.size() - unitsNonZeroAmountsExpendituresResponsibles.size())
                 + " units only have Zero-Amount expenditures responsible: ");
         printUnitsWithExpendituresZeroAmountResponsibles();
     }
@@ -246,7 +244,7 @@ public class FindMissionUnitsWithoutResponsible extends ReadCustomTask {
 
     private void recursiveCheckParentsForAcademicUnits(Collection<Unit> parentUnits) {
         if (parentUnits.contains(academicUnitsUnit)) {
-            out.println(" - WARNING: This unit is an academic unit!");
+            taskLog(" - WARNING: This unit is an academic unit!");
         } else {
             for (Unit parentUnit : parentUnits) {
                 recursiveCheckParentsForAcademicUnits(parentUnit.getParentUnits(missionAccType));
@@ -259,10 +257,9 @@ public class FindMissionUnitsWithoutResponsible extends ReadCustomTask {
             if (unitsNonZeroAmountsExpendituresResponsibles.get(unit).size() == 0) {
                 continue;
             }
-            out.println();
+            taskLog("\n");
             printUnit(unit);
-            out.println(unitsNonZeroAmountsExpendituresResponsibles.get(unit).size()
-                    + " Non-Zero-Amount Expenditures Responsibles:");
+            taskLog(unitsNonZeroAmountsExpendituresResponsibles.get(unit).size() + " Non-Zero-Amount Expenditures Responsibles:");
             for (Person person : unitsNonZeroAmountsExpendituresResponsibles.get(unit)) {
                 printExpendituresResponsible(person);
             }
@@ -270,7 +267,7 @@ public class FindMissionUnitsWithoutResponsible extends ReadCustomTask {
             if (unitsZeroAmountsExpendituresResponsibles.get(unit).size() == 0) {
                 continue;
             }
-            out.println(unitsZeroAmountsExpendituresResponsibles.get(unit).size() + " Zero-Amount Expenditures Responsibles:");
+            taskLog(unitsZeroAmountsExpendituresResponsibles.get(unit).size() + " Zero-Amount Expenditures Responsibles:");
             for (Person person : unitsZeroAmountsExpendituresResponsibles.get(unit)) {
                 printExpendituresResponsible(person);
             }
@@ -282,9 +279,9 @@ public class FindMissionUnitsWithoutResponsible extends ReadCustomTask {
             if (unitsNonZeroAmountsExpendituresResponsibles.get(unit).size() != 0) {
                 continue;
             }
-            out.println();
+            taskLog("\n");
             printUnit(unit);
-            out.println(unitsZeroAmountsExpendituresResponsibles.get(unit).size() + " Zero-Amount Expenditures Responsibles:");
+            taskLog(unitsZeroAmountsExpendituresResponsibles.get(unit).size() + " Zero-Amount Expenditures Responsibles:");
             for (Person person : unitsZeroAmountsExpendituresResponsibles.get(unit)) {
                 printExpendituresResponsible(person);
             }
@@ -292,10 +289,10 @@ public class FindMissionUnitsWithoutResponsible extends ReadCustomTask {
     }
 
     private void printExpendituresResponsible(Person person) {
-        out.println("Person: " + person.getName() + " [ " + person.getExternalId() + " ] ");
+        taskLog("Person: " + person.getName() + " [ " + person.getExternalId() + " ] ");
     }
 
     private void printUnit(Unit unit) {
-        out.println("Unit: " + unit.getPresentationName() + " [ " + unit.getExternalId() + " ] ");
+        taskLog("Unit: " + unit.getPresentationName() + " [ " + unit.getExternalId() + " ] ");
     }
 }
