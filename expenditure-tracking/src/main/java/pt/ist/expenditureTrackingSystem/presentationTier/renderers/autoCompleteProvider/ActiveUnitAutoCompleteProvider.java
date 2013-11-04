@@ -24,6 +24,14 @@
  */
 package pt.ist.expenditureTrackingSystem.presentationTier.renderers.autoCompleteProvider;
 
+import pt.ist.bennu.core.presentationTier.renderers.autoCompleteProvider.AutoCompleteProvider;
+import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
+import pt.ist.expenditureTrackingSystem.domain.organization.CostCenter;
+import pt.ist.expenditureTrackingSystem.domain.organization.Project;
+import pt.ist.expenditureTrackingSystem.domain.organization.SubProject;
+import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
+import pt.utl.ist.fenix.tools.util.StringNormalizer;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,14 +41,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.presentationTier.renderers.autoCompleteProvider.AutoCompleteProvider;
-import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
-import pt.ist.expenditureTrackingSystem.domain.organization.CostCenter;
-import pt.ist.expenditureTrackingSystem.domain.organization.Project;
-import pt.ist.expenditureTrackingSystem.domain.organization.SubProject;
-import pt.ist.expenditureTrackingSystem.domain.organization.Unit;
-import pt.utl.ist.fenix.tools.util.StringNormalizer;
-
 /**
  * 
  * @author Paulo Abrantes
@@ -48,10 +48,10 @@ import pt.utl.ist.fenix.tools.util.StringNormalizer;
  * @author Susana Fernandes
  * 
  */
-public class ActiveUnitAutoCompleteProvider implements AutoCompleteProvider {
+public class ActiveUnitAutoCompleteProvider implements AutoCompleteProvider<Unit> {
 
     @Override
-    public Collection getSearchResults(Map<String, String> argsMap, String value, int maxCount) {
+    public Collection<Unit> getSearchResults(Map<String, String> argsMap, String value, int maxCount) {
         final List<Unit> units = new ArrayList<Unit>();
 
         final String trimmedValue = value.trim();

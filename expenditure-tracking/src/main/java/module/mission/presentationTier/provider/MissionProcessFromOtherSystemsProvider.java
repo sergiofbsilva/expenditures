@@ -1,5 +1,7 @@
 package module.mission.presentationTier.provider;
 
+import pt.ist.bennu.core.presentationTier.renderers.autoCompleteProvider.AutoCompleteProvider;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,9 +13,7 @@ import module.mission.domain.MissionSystem;
 
 import org.apache.commons.lang.StringUtils;
 
-import pt.ist.bennu.core.presentationTier.renderers.autoCompleteProvider.AutoCompleteProvider;
-
-public class MissionProcessFromOtherSystemsProvider implements AutoCompleteProvider {
+public class MissionProcessFromOtherSystemsProvider implements AutoCompleteProvider<MissionProcess> {
 
     @Override
     public Collection getSearchResults(Map<String, String> argsMap, String value, int maxCount) {

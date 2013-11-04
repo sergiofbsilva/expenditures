@@ -24,16 +24,18 @@
  */
 package pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact;
 
+import pt.ist.bennu.core.util.legacy.ClassNameBundle;
+import pt.ist.expenditureTrackingSystem.domain.acquisitions.Invoice;
+import pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact.fileBeans.AfterTheFactInvoiceBean;
+
+import pt.ist.fenixframework.Atomic;
+
 import module.workflow.domain.ProcessDocumentMetaDataResolver;
 import module.workflow.domain.ProcessFile;
 import module.workflow.domain.ProcessFileValidationException;
 import module.workflow.domain.WorkflowProcess;
 import module.workflow.util.FileUploadBeanResolver;
 import module.workflow.util.WorkflowFileUploadBean;
-import pt.ist.bennu.core.util.legacy.ClassNameBundle;
-import pt.ist.expenditureTrackingSystem.domain.acquisitions.Invoice;
-import pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact.fileBeans.AfterTheFactInvoiceBean;
-import pt.ist.fenixframework.Atomic;
 
 @ClassNameBundle(bundle = "resources/AcquisitionResources")
 /**
@@ -52,8 +54,8 @@ public class AfterTheFactInvoice extends AfterTheFactInvoice_Base {
         init(displayName, filename, content);
     }
 
-    public AfterTheFactInvoice(final AfterTheFactAcquisitionProcess process) {
-        super();
+    public AfterTheFactInvoice(String displayName, String filename, byte[] content, final AfterTheFactAcquisitionProcess process) {
+        this(displayName, filename, content);
         process.addFiles(this);
     }
 

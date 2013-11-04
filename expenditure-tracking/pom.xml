@@ -17,7 +17,6 @@
 	<properties>
 		<version.pt.ist.bennu.bennu.legacy>2.0.0-SNAPSHOT</version.pt.ist.bennu.bennu.legacy>
 		<version.pt.ist.bennu.bennu.core>2.0.0-SNAPSHOT</version.pt.ist.bennu.bennu.core>
-		<version.pt.ist.bennu.bennu.email>2.0.0-SNAPSHOT</version.pt.ist.bennu.bennu.email>
 		<version.pt.ist.bennu.vaadin>1.2.1-SNAPSHOT</version.pt.ist.bennu.vaadin>
 		<version.pt.ist.bennu.bennu.scheduler>2.0.0-SNAPSHOT</version.pt.ist.bennu.bennu.scheduler>
 		<version.pt.ist.bennu.bennu.io>2.0.0-SNAPSHOT</version.pt.ist.bennu.bennu.io>
@@ -61,11 +60,6 @@
 			<groupId>pt.ist.bennu</groupId>
 			<artifactId>bennu-core</artifactId>
 			<version>${version.pt.ist.bennu.bennu.core}</version>
-		</dependency>
-		<dependency>
-			<groupId>pt.ist.bennu</groupId>
-			<artifactId>bennu-email</artifactId>
-			<version>${version.pt.ist.bennu.bennu.email}</version>
 		</dependency>
 		<dependency>
 			<groupId>pt.ist</groupId>

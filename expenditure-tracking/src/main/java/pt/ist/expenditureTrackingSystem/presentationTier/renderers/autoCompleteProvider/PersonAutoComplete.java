@@ -24,15 +24,15 @@
  */
 package pt.ist.expenditureTrackingSystem.presentationTier.renderers.autoCompleteProvider;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.presentationTier.renderers.autoCompleteProvider.AutoCompleteProvider;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.utl.ist.fenix.tools.util.StringNormalizer;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -40,7 +40,7 @@ import pt.utl.ist.fenix.tools.util.StringNormalizer;
  * @author Luis Cruz
  * 
  */
-public class PersonAutoComplete implements AutoCompleteProvider {
+public class PersonAutoComplete implements AutoCompleteProvider<Person> {
 
     @Override
     public Collection getSearchResults(Map<String, String> argsMap, String value, int maxCount) {

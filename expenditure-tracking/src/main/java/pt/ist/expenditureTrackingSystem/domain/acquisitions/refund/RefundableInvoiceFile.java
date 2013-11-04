@@ -24,16 +24,6 @@
  */
 package pt.ist.expenditureTrackingSystem.domain.acquisitions.refund;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Map;
-
-import module.workflow.domain.ProcessDocumentMetaDataResolver;
-import module.workflow.domain.ProcessFile;
-
-import org.joda.time.LocalDate;
-
 import pt.ist.bennu.core.domain.util.Money;
 import pt.ist.bennu.core.util.legacy.ClassNameBundle;
 import pt.ist.expenditureTrackingSystem.domain.ExpenditureTrackingSystem;
@@ -43,6 +33,16 @@ import pt.ist.expenditureTrackingSystem.domain.acquisitions.RequestItem;
 import pt.ist.expenditureTrackingSystem.domain.acquisitions.RequestWithPayment;
 import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Map;
+
+import module.workflow.domain.ProcessDocumentMetaDataResolver;
+import module.workflow.domain.ProcessFile;
+
+import org.joda.time.LocalDate;
 
 @ClassNameBundle(bundle = "resources/AcquisitionResources")
 /**
@@ -65,8 +65,6 @@ public class RefundableInvoiceFile extends RefundableInvoiceFile_Base {
         this.setRefundableValue(refundableValue);
         this.addRequestItems(item);
         this.setSupplier(supplier);
-        this.setFilename(filename);
-        this.setContent(invoiceFile);
         init(filename, filename, invoiceFile);
     }
 

@@ -42,8 +42,6 @@ public class WorkingCapitalAcquisitionSubmissionDocument extends WorkingCapitalA
             final byte[] contents, final String fileName, WorkflowProcess process) {
         super();
         setTransaction(submissionTransaction);
-        setContent(contents);
-        setFilename(fileName);
         init(fileName, fileName, contents);
         process.addFiles(this);
     }

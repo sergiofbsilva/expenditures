@@ -25,6 +25,7 @@
 package pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact;
 
 import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
+
 import pt.ist.fenixframework.Atomic;
 
 /**
@@ -37,8 +38,7 @@ public class ImportFile extends ImportFile_Base {
 
     public ImportFile(byte[] bytes, String displayName) {
         super();
-        setContent(bytes);
-        setDisplayName(displayName);
+        init(displayName, displayName, bytes);
         setActive(Boolean.TRUE);
     }
 

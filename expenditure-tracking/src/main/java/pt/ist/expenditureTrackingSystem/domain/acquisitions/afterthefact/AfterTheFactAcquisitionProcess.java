@@ -24,20 +24,6 @@
  */
 package pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import module.workflow.activities.ActivityInformation;
-import module.workflow.activities.WorkflowActivity;
-import module.workflow.domain.LabelLog;
-import module.workflow.domain.ProcessFile;
-import module.workflow.domain.WorkflowProcess;
-
-import org.joda.time.LocalDate;
-
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.util.Money;
 import pt.ist.bennu.core.i18n.BundleUtil;
@@ -52,7 +38,22 @@ import pt.ist.expenditureTrackingSystem.domain.acquisitions.afterthefact.activit
 import pt.ist.expenditureTrackingSystem.domain.exceptions.ExpenditureTrackingDomainException;
 import pt.ist.expenditureTrackingSystem.domain.organization.Person;
 import pt.ist.expenditureTrackingSystem.domain.organization.Supplier;
+
 import pt.ist.fenixframework.Atomic;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import module.workflow.activities.ActivityInformation;
+import module.workflow.activities.WorkflowActivity;
+import module.workflow.domain.LabelLog;
+import module.workflow.domain.ProcessFile;
+import module.workflow.domain.WorkflowProcess;
+
+import org.joda.time.LocalDate;
 
 @ClassNameBundle(bundle = "resources/ExpenditureResources", key = "label.process.afterTheFactAcquisition")
 /**
@@ -161,9 +162,8 @@ public class AfterTheFactAcquisitionProcess extends AfterTheFactAcquisitionProce
 
     public AfterTheFactInvoice receiveInvoice(String filename, byte[] bytes, String invoiceNumber, LocalDate invoiceDate) {
 
-        final AfterTheFactInvoice invoice = hasInvoice() ? getInvoice() : new AfterTheFactInvoice(this);
-        invoice.setFilename(filename);
-        invoice.setContent(bytes);
+        final AfterTheFactInvoice invoice =
+                hasInvoice() ? getInvoice() : new AfterTheFactInvoice(filename, filename, bytes, this);
         invoice.setInvoiceNumber(invoiceNumber);
         invoice.setInvoiceDate(invoiceDate);
 
